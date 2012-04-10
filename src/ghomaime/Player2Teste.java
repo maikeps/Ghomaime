@@ -4,7 +4,7 @@
  */
 package ghomaime;
 
-import Personagens.Megaman;
+import Personagens.*;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -25,32 +25,26 @@ import Personagens.Personagem;
 public class Player2Teste extends GameObject {
 
     Personagem personagem;
-    
-    
-    
-    
-   // ObjetoComGravidade personagem;
+    // ObjetoComGravidade personagem;
     int vida;
     protected int velocidade = 1;
     protected int velocidadeInicial = 1;
-
-    Direcao ultimaDirecao;
     protected Imagem imagemAtual;
     protected int cooldownAtaque;
 
-    public Player2Teste() {
+    public Player2Teste(Personagem personagem) {
 
         this.personagem = new Megaman();
 
         this.x = 200;
         this.y = 500;
-        
+
     }
 
     public void step(long timeElapsed) {
 
         personagem.step(timeElapsed);
-        
+
         if (this.y > 525) {
             this.personagem.chegouChao();
             this.y = 533 - 32;
@@ -71,24 +65,15 @@ public class Player2Teste extends GameObject {
 
 
 
-        if (this.personagem.tocaParedeEsquerda()) {
-            this.x = 5;
-            this.velocidade = this.velocidadeInicial;
-        }
 
-        if (this.personagem.tocaParedeDireita()) {
-            this.x = 795 - this.personagem.imagemAtual.pegaLargura();
-            this.velocidade = this.velocidadeInicial;
-        }
 
     }
 
     public void draw(Graphics g) {
         personagem.draw(g);
-       // this.personagem.imagemAtual.draw(g, this.x, this.y);
     }
-    
-        public void setCooldownAtaque(int num) {
+
+    public void setCooldownAtaque(int num) {
         this.cooldownAtaque = num;
     }
 
@@ -97,17 +82,11 @@ public class Player2Teste extends GameObject {
     }
 
     public Direcao getDirecao() {
-        return ultimaDirecao;
-    }
-
-    public void setDirecao(Direcao ultimaDirecao) {
-        this.ultimaDirecao = ultimaDirecao;
+        return this.personagem.getDirecao();
     }
 
     public Rectangle getRetangulo(Rectangle retangulo) {
         return new Rectangle(this.x, this.y, this.personagem.imagemAtual.pegaLargura(), this.imagemAtual.pegaAltura());
     }
-
-
-    }
-
+    
+}

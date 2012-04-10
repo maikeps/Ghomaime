@@ -4,7 +4,7 @@
  */
 package ghomaime;
 
-import Personagens.Megaman;
+import Personagens.*;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -24,23 +24,28 @@ import Personagens.Personagem;
  */
 public class Player1Teste extends GameObject {
 
+    
+//    por algum motivo, o metodo para nao funciona corretamente na classe Personagem
+//    coloquei esses metodos nas classes dos personagens(mario, megaman...) e funcionaram.
+//    o problema é que anteriormente quando os personagens paravam, a velocidade nao 
+//    resetava, assim os personagens permaneciam na velocidade maxima assim que chegavam nela.
+//    
+//    talvez seja so algum metodo igual em alguma classe, nessa classe mesmo, talvez.
+//    verificar direitihno onde esta o erro e colocar o metodo de volta na classe abstrata.
+    
+    
+    
+    
     Personagem personagem;
-    
-    
-    
-    
-   // ObjetoComGravidade personagem;
     int vida;
     protected int velocidade = 1;
     protected int velocidadeInicial = 1;
-
-    Direcao ultimaDirecao;
     protected Imagem imagemAtual;
     protected int cooldownAtaque;
 
-    public Player1Teste() {
+    public Player1Teste(Personagem personagem) {
 
-        this.personagem = new Megaman();
+        this.personagem = new Mario();
 
         this.x = 500;
         this.y = 500;
@@ -69,24 +74,15 @@ public class Player1Teste extends GameObject {
 
 
 
-        if (this.personagem.tocaParedeEsquerda()) {
-            this.x = 5;
-            this.velocidade = this.velocidadeInicial;
-        }
 
-        if (this.personagem.tocaParedeDireita()) {
-            this.x = 795 - this.personagem.imagemAtual.pegaLargura();
-            this.velocidade = this.velocidadeInicial;
-        }
 
     }
 
     public void draw(Graphics g) {
         personagem.draw(g);
-       // this.personagem.imagemAtual.draw(g, this.x, this.y);
     }
-    
-        public void setCooldownAtaque(int num) {
+
+    public void setCooldownAtaque(int num) {
         this.cooldownAtaque = num;
     }
 
@@ -95,11 +91,7 @@ public class Player1Teste extends GameObject {
     }
 
     public Direcao getDirecao() {
-        return ultimaDirecao;
-    }
-
-    public void setDirecao(Direcao ultimaDirecao) {
-        this.ultimaDirecao = ultimaDirecao;
+        return this.personagem.getDirecao();
     }
 
     public Rectangle getRetangulo(Rectangle retangulo) {

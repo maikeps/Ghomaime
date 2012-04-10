@@ -5,7 +5,7 @@
 package ghomaime;
 
 import ClassesUteis.Util;
-import Personagens.Megaman;
+import Personagens.*;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import javaPlay.GameEngine;
@@ -19,6 +19,9 @@ import javaPlay.Keyboard;
 
 public class Fase1 implements GameStateController {
 
+    Megaman megaman;
+    Mario mario;
+    
     protected ArrayList<TiroNormal> ataque;
     protected ArrayList<TiroVerde> tiroVerde;
     protected ArrayList<Tiro3> ataque3;
@@ -31,8 +34,8 @@ public class Fase1 implements GameStateController {
         this.ataque = new ArrayList<TiroNormal>();
         this.tiroVerde = new ArrayList<TiroVerde>();
         this.ataque3 = new ArrayList<Tiro3>();
-        this.player2 = new Player2Teste();
-        this.player1 = new Player1Teste();
+        this.player2 = new Player2Teste(this.mario);
+        this.player1 = new Player1Teste(this.megaman);
 
     }
 

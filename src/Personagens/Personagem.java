@@ -22,7 +22,7 @@ import javax.swing.JOptionPane;
  *
  * @author ariel_silveira
  */
-public class Personagem extends ObjetoComGravidade {
+public abstract class Personagem extends ObjetoComGravidade {
 
     ObjetoComGravidade personagem;
     int vida;
@@ -44,6 +44,7 @@ public class Personagem extends ObjetoComGravidade {
 
     public Personagem() {
 
+        this.estado = this.estado.NORMAL;
 
         this.x = 500;
         this.y = 508;
@@ -57,9 +58,10 @@ public class Personagem extends ObjetoComGravidade {
         if (this.y > 532) {
             this.chegouChao();
             this.y = 540 - 32;
+            this.estado = this.estado.NORMAL;
         }
 
-
+        
 
 
         if (this.tocaParedeEsquerda()) {
@@ -90,11 +92,12 @@ public class Personagem extends ObjetoComGravidade {
     }
 
     public void pula() {
-        if (this.estaSubindo() || this.estaDescendo()) {
+        if (this.estaSubindo() || this.estaDescendo() || this.estado == this.estado.PULANDO) {
             return;
         }
 
         this.imagemAtual = this.puloDireita;
+        this.estado = this.estado.PULANDO;
         this.impulso(this.forcaPulo);
     }
 
@@ -102,42 +105,10 @@ public class Personagem extends ObjetoComGravidade {
         return new Rectangle(this.x, this.y, this.imagemAtual.pegaLargura(), this.imagemAtual.pegaAltura());
     }
 
-    public void moveDireita() {
-        this.x += (this.velocidade / 2);
-        if (this.velocidade < 30) {
-            this.velocidade++;
-        }
-        if (this.velocidade < 25) {
+    public void moveEsquerda(){}
+    public void moveDireita(){}
 
-            this.imagemAtual = moveDireita;
-        } else {
-            this.imagemAtual = moveFastDireita;
-        }
-        this.ultimaDirecao = Direcao.DIREITA;
-    }
-
-    public void moveEsquerda() {
-        this.x -= (this.velocidade / 2);
-        if (this.velocidade < 30) {
-            this.velocidade++;
-        }
-
-        if (this.velocidade < 25) {
-            this.imagemAtual = moveEsquerda;
-        } else {
-            this.imagemAtual = moveFastEsquerda;
-        }
-        this.ultimaDirecao = Direcao.ESQUERDA;
-    }
-
-    public void para() {
-        this.velocidade = 0;
-        if (this.ultimaDirecao == Direcao.ESQUERDA) {
-            this.imagemAtual = paradoEsquerda;
-        } else {
-            this.imagemAtual = paradoDireita;
-        }
-    }
+    public void para() {}
 
     public Direcao getDirecao() {
         return this.ultimaDirecao;
