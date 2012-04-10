@@ -1,55 +1,52 @@
-
 package ghomaime;
 
+import java.awt.Rectangle;
 import javaPlay.GameObject;
 
 public abstract class ObjetoComGravidade extends GameObject {
 
-  public static int GRAVIDADE = 5;
-  public static int yCHAO = 460;
+    public static int GRAVIDADE = 5;
 
-  protected int altura;
-  protected int yVelocidade = 0;
-  protected boolean pulo = false;
-  protected int impulso = 0;
+    protected int yVelocidade = 0;
+    protected boolean estaNoChao = false;
 
-  public void step(long timeEllapsed){      
-      this.controlePulo();
-  }
-
-  public void setAltura(int altura){
-      this.altura = altura;
-  }
-
-  public void posicionaNoChao(){
-        /**
-         * Imagens tem alturas diferentes, logo, para que os p�s
-         * do personagem pare�am enconstar o ch�o � preciso garantir que
-         * a posi��o y + a altura da imagem sejam igual ao Ch�o.
-         * Invertendo a equea��o fica y = yCHAO - altura
-         */
-      this.y = yCHAO - this.altura;
+    public void step(long timeEllapsed) {
+        this.controlePulo();
     }
 
-  public boolean estaPulando(){
-      return this.pulo;
-  }
-
-  public void impulso(int forca){
-      this.yVelocidade = forca;
-  }
-
-  private void controlePulo(){
-    this.y -= this.yVelocidade;
-    if( (this.y+this.altura) < yCHAO){
-      this.yVelocidade -= GRAVIDADE;
-      this.pulo = true;
+    public void impulso(int forca) {
+        this.yVelocidade = forca;
+        this.estaNoChao = false;
+        
     }
 
-    if((this.y+this.altura) > yCHAO) {
-      this.posicionaNoChao();
-      this.yVelocidade = 0;
-      this.pulo = false;
+    public void paraSubida() {
+        if (this.yVelocidade > 0) {
+            this.yVelocidade = 0;
+        }
     }
-  }
+
+    private void controlePulo() {
+        if (!this.estaNoChao) {
+            this.y -= this.yVelocidade;
+            this.yVelocidade -= GRAVIDADE;
+        }
+    }
+
+    public void chegouChao() {
+        this.estaNoChao = true;
+        this.yVelocidade = 0;
+    }
+
+    public void saiuChao() {
+        this.estaNoChao = false;        
+    }       
+
+    public boolean estaDescendo() {
+        return (this.yVelocidade < 0);
+    }
+
+    public boolean estaSubindo() {
+        return (this.yVelocidade > 0);
+    }
 }

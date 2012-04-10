@@ -4,6 +4,7 @@
  */
 package ghomaime;
 
+import Personagens.Megaman;
 import java.awt.Graphics;
 import javaPlay.GameStateController;
 
@@ -13,13 +14,13 @@ import javaPlay.GameStateController;
  */
 public class Fase1 implements GameStateController{
     
-    
     protected Player1 player1;
     protected Player2 player2;
     
     public void load(){
         this.player2 = new Player2();
         this.player1 = new Player1();
+        
         
     }
     public void step(long timeElapsed){

@@ -13,92 +13,118 @@ import javaPlay.GameEngine;
 import javaPlay.GameObject;
 import javaPlay.Keyboard;
 import javaPlay.Sprite;
+import javaPlay2.Imagem;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author ariel_silveira
  */
-public class Player2 extends ObjetoComGravidade{
+public class Player2 extends ObjetoComGravidadeRuim {
+
+    ObjetoComGravidadeRuim personagem;
     
     int vida;
     protected int velocidade = 1;
     protected int velocidadeInicial = 1;
-    
     protected EstadoPersonagem estado;
     protected int forcaPulo = 38;
+    protected int contadorApanhando = 0;
     
-    protected int contadorApanhando = 0;  
+    protected Imagem moveDireita;
+    protected Imagem moveEsquerda;
+    protected Imagem moveFastDireita;
+    protected Imagem moveFastEsquerda;
+    protected Imagem paradoDireita;
+    protected Imagem paradoEsquerda;
     
-    public Player2(){
+    protected Imagem imagemAtual;
+    
+    String ultimaDirecao;
+
+    public Player2() {
+
+
         this.x = 200;
         this.y = 500;
-        //Megaman megaman = new Megaman();
-        
-    }
-    
-    public void step(long timeElapsed){
-        Keyboard teclado = GameEngine.getInstance().getKeyboard();                   
-
-                
-
-
-
-        if( teclado.keyDown( Keys.D ) ){
-            this.x += this.velocidade;
-            if(this.velocidade < 20){
-                this.velocidade ++;
-            }
-
-        } else if( teclado.keyDown( Keys.A ) ){
-            this.x -= this.velocidade;
-            if(this.velocidade < 20){
-                this.velocidade ++;
-            }
+        try {
+            this.moveDireita = new Imagem("resources/Personagens/Megaman/moveDireita.gif");
+            this.moveEsquerda = new Imagem("resources/Personagens/Megaman/moveEsquerda.gif");
+            this.moveFastDireita = new Imagem("resources/Personagens/Megaman/moveFastDireita.png");
+            this.moveFastEsquerda = new Imagem("resources/Personagens/Megaman/moveFastEsquerda.png");
+            this.paradoDireita = new Imagem("resources/Personagens/Megaman/paradoDireita.png");
+            this.paradoEsquerda = new Imagem("resources/Personagens/Megaman/paradoEsquerda.png");
+            this.imagemAtual = this.moveDireita;
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Recurso não disponível: " + ex.getMessage());
         }
-        
-        
-        
-        if(this.tocaParedeEsquerda()){
+        //Megaman megaman = new Megaman();
+
+
+    }
+
+    public void step(long timeElapsed) {
+        Keyboard teclado = GameEngine.getInstance().getKeyboard();
+
+        if (teclado.keyDown(Keys.D)) {
+            this.x += (this.velocidade/2);
+            if (this.velocidade < 30) {
+                this.velocidade++;
+            }
+            if(this.velocidade < 25){
+                this.imagemAtual = moveDireita;
+            } else {
+                this.imagemAtual = moveFastDireita;
+            }
+            this.ultimaDirecao = "Direita";
+
+        } else if (teclado.keyDown(Keys.A)) {
+            this.x -= (this.velocidade/2);
+            if (this.velocidade < 30) {
+                this.velocidade++;
+            }
+            if(this.velocidade < 25){
+                this.imagemAtual = moveEsquerda;
+            } else {
+                this.imagemAtual = moveFastEsquerda;
+            }
+            this.ultimaDirecao = "Esquerda";
+            
+        } else {
+            this.velocidade = 0;
+            if(this.ultimaDirecao == "Esquerda"){
+                this.imagemAtual = paradoEsquerda;
+            } else {
+                this.imagemAtual = paradoDireita;
+            }
+            
+        }
+
+        if (this.tocaParedeEsquerda()) {
             this.x = 5;
             this.velocidade = this.velocidadeInicial;
         }
-        
-        if(this.tocaParedeDireita()){
-            this.x = 775;
+
+        if (this.tocaParedeDireita()) {
+            this.x = 795 - this.imagemAtual.pegaLargura();
             this.velocidade = this.velocidadeInicial;
         }
-        
-        
-        /* else if( teclado.keyDown( Keys.CIMA ) ){
-            this.spriteAtua l = spriteUp;
-            this.moveCima(5);
 
-        } else if( teclado.keyDown( Keys.BAIXO ) ){
-            this.spriteAtual = spriteDown;
-            this.moveBaixo(5);
-*/
-        }
-    
-    
-    public void draw(Graphics g){
-        g.setColor(Color.blue);
-        g.fillOval(this.x, this.y, 20, 20);
+
+
     }
-    
-    
-    
-    public boolean tocaParedeEsquerda(){
-        return (this.x <= 5);
+
+    public void draw(Graphics g) {
+        //g.setColor(Color.yellow);
+        //g.fillOval(this.x, this.y, 20, 20);
+        this.imagemAtual.draw(g, this.x, this.y);
     }
-    
-    public boolean tocaParedeDireita(){
-        return (this.x >= 775);
+
+    public boolean tocaParedeEsquerda() {
+        return (this.x <= 4);
     }
-    
-    
-    
-    
-    
+
+    public boolean tocaParedeDireita() {
+        return (this.x >= 796 - this.imagemAtual.pegaLargura());
+    }
 }
-
