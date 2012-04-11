@@ -24,17 +24,14 @@ import ClassesUteis.Util;
 public class Player2 extends ObjetoComGravidadeRuim {
 
     ObjetoComGravidadeRuim personagem;
-    
     int vida;
     protected int velocidade = 1;
     protected int velocidadeInicial = 1;
     protected EstadoPersonagem estado;
     protected int forcaPulo = 38;
     protected int contadorApanhando = 0;
-
-    
+    protected int contadorAtirando = 0;
     protected int cooldownAtaque;
-    
     protected Imagem moveDireita;
     protected Imagem moveEsquerda;
     protected Imagem moveFastDireita;
@@ -43,9 +40,7 @@ public class Player2 extends ObjetoComGravidadeRuim {
     protected Imagem paradoEsquerda;
     protected Imagem tiroDireita;
     protected Imagem tiroEsquerda;
-    
     protected Imagem imagemAtual;
-    
     Direcao ultimaDirecao;
 
     public Player2() {
@@ -69,14 +64,15 @@ public class Player2 extends ObjetoComGravidadeRuim {
         //Megaman megaman = new Megaman();
     }
 
-  
-
     public void step(long timeElapsed) {
-        if(this.cooldownAtaque >= 0){
-            this.cooldownAtaque --;
+        if (this.cooldownAtaque >= 0) {
+            this.cooldownAtaque--;
         }
-        
-        
+
+        //if (this.contadorAtirando >= 0) {
+            this.contadorAtirando--;
+       // }
+
         Keyboard teclado = GameEngine.getInstance().getKeyboard();
 
         if (teclado.keyDown(Keys.D)) {
@@ -110,56 +106,69 @@ public class Player2 extends ObjetoComGravidadeRuim {
     public boolean tocaParedeDireita() {
         return (this.x >= 796 - this.imagemAtual.pegaLargura());
     }
-    
-    public void moveEsquerda(){
-        this.x -= (this.velocidade/2);
-            if (this.velocidade < 30) {
-                this.velocidade++;
-            }
-            if(this.velocidade < 25){
-                this.imagemAtual = moveEsquerda;
-            } else {
-                this.imagemAtual = moveFastEsquerda;
-            }
-            this.ultimaDirecao = Direcao.ESQUERDA;
+
+    public void moveEsquerda() {
+        this.x -= (this.velocidade / 2);
+        if (this.velocidade < 30) {
+            this.velocidade++;
+        }
+        if (this.velocidade < 25) {
+            this.imagemAtual = moveEsquerda;
+        } else {
+            this.imagemAtual = moveFastEsquerda;
+        }
+        this.ultimaDirecao = Direcao.ESQUERDA;
     }
-    
-    public void moveDireita(){
-        this.x += (this.velocidade/2);
-            if (this.velocidade < 30) {
-                this.velocidade++;
-            }
-            if(this.velocidade < 25){
-                this.imagemAtual = moveDireita;
-            } else {
-                this.imagemAtual = moveFastDireita;
-            }
-            this.ultimaDirecao = Direcao.DIREITA;
+
+    public void moveDireita() {
+        this.x += (this.velocidade / 2);
+        if (this.velocidade < 30) {
+            this.velocidade++;
+        }
+        if (this.velocidade < 25) {
+            this.imagemAtual = moveDireita;
+        } else {
+            this.imagemAtual = moveFastDireita;
+        }
+        this.ultimaDirecao = Direcao.DIREITA;
     }
-    
-    public void para(){
+
+    public void para() {
         this.velocidade = 0;
-            if(this.ultimaDirecao == Direcao.ESQUERDA){
-                this.imagemAtual = paradoEsquerda;
-            } else {
-                this.imagemAtual = paradoDireita;
-            }
+        if (this.ultimaDirecao == Direcao.ESQUERDA) {
+            this.imagemAtual = paradoEsquerda;
+        } else {
+            this.imagemAtual = paradoDireita;
+        }
     }
-    
-    public void setCooldownAtaque(int num){
+
+    public void setCooldownAtaque(int num) {
         this.cooldownAtaque = num;
     }
-    
-    public boolean podeAtacar(){
+
+    public boolean podeAtacar() {
         return (this.cooldownAtaque <= 0);
     }
 
-    public Direcao getDirecao(){
+    public Direcao getDirecao() {
         return this.ultimaDirecao;
     }
-    
-    public void setSpriteAtual(Imagem sprite){
-        this.imagemAtual = sprite;
 
+    public void setImagemAtirando() {
+        this.contadorAtirando = 10;
+        if (this.ultimaDirecao == Direcao.DIREITA) {
+            if (this.contadorAtirando <= 0) {
+                this.imagemAtual = tiroDireita;
+            }
+        }
+        if (this.ultimaDirecao == Direcao.ESQUERDA) {
+            if (this.contadorAtirando <= 0) {
+                this.imagemAtual = tiroEsquerda;
+            }
+        }
+    }
+
+    public Rectangle getRetangulo(Rectangle retangulo) {
+        return new Rectangle(this.x, this.y, this.imagemAtual.pegaLargura(), this.imagemAtual.pegaAltura());
     }
 }
