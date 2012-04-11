@@ -21,15 +21,15 @@ import ClassesUteis.Util;
  *
  * @author ariel_silveira
  */
-public class Player2 extends ObjetoComGravidadeRuim {
+public class Player2 extends ObjetoComGravidade {
 
-    ObjetoComGravidadeRuim personagem;
+    ObjetoComGravidade personagem;
     
     int vida;
     protected int velocidade = 1;
     protected int velocidadeInicial = 1;
     protected EstadoPersonagem estado;
-    protected int forcaPulo = 38;
+    protected int forcaPulo = 15;
     protected int contadorApanhando = 0;
 
     
@@ -72,6 +72,13 @@ public class Player2 extends ObjetoComGravidadeRuim {
   
 
     public void step(long timeElapsed) {
+        super.step(timeElapsed);
+        
+        if(this.y > 500){
+            this.chegouChao();
+            this.y = 500-32;
+        }
+        
         if(this.cooldownAtaque >= 0){
             this.cooldownAtaque --;
         }
@@ -83,9 +90,13 @@ public class Player2 extends ObjetoComGravidadeRuim {
             this.moveDireita();
         } else if (teclado.keyDown(Keys.A)) {
             this.moveEsquerda();
-        } else {
-            this.para();
-        }
+        } else if (teclado.keyDown(Keys.W)) {
+            this.pula();;
+        }else{
+                this.para();
+            } 
+        
+        
 
         if (this.tocaParedeEsquerda()) {
             this.x = 5;
@@ -158,6 +169,16 @@ public class Player2 extends ObjetoComGravidadeRuim {
         return this.ultimaDirecao;
     }
     
+    public void pula() {        
+        if(this.estaSubindo() || this.estaDescendo()){
+            return;
+         }
+        // this.imagemAtual  = this.puloDireita;    
+        this.impulso(this.forcaPulo);
+    }
+       
+   
+        
     public void setSpriteAtual(Imagem sprite){
         this.imagemAtual = sprite;
 

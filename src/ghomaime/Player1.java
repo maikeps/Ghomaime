@@ -4,7 +4,7 @@
  */
 package ghomaime;
 
-import Personagens.Megaman;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -22,13 +22,13 @@ import javax.swing.JOptionPane;
  */
 public class Player1 extends ObjetoComGravidade {
 
-    ObjetoComGravidadeRuim personagem;
+    ObjetoComGravidade personagem;
     
     int vida;
     protected int velocidade = 1;
     protected int velocidadeInicial = 1;
     protected EstadoPersonagem estado;
-    protected int forcaPulo = 38;
+    protected int forcaPulo = 15;
     protected int contadorApanhando = 0;
     
     protected Imagem moveDireita;
@@ -68,6 +68,13 @@ public class Player1 extends ObjetoComGravidade {
     }
 
     public void step(long timeElapsed) {
+        super.step(timeElapsed);
+        
+        if(this.y > 500){
+            this.chegouChao();
+            this.y = 508-32;
+        }
+        
         Keyboard teclado = GameEngine.getInstance().getKeyboard();
 
         if (teclado.keyDown(Keys.DIREITA)) {

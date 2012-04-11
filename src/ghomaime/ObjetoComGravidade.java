@@ -5,7 +5,7 @@ import javaPlay.GameObject;
 
 public abstract class ObjetoComGravidade extends GameObject {
 
-    public static int GRAVIDADE = 5;
+    public static int GRAVIDADE = 1;
 
     protected int yVelocidade = 0;
     protected boolean estaNoChao = false;
