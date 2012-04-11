@@ -45,7 +45,7 @@ public class TiroVerde extends GameObject {
             this.direita = new Imagem("resources/Personagens/Megaman/Ataques/Tiro2Direita parte 2.png");
             this.esquerda = new Imagem("resources/Personagens/Megaman/Ataques/Tiro2Esquerda parte 2.png");
             this.efeitoDireita = new Sprite("resources/Personagens/Megaman/Ataques/Tiro2Direita parte 1.png", 5, 23, 62);
-            this.efeitoEsquerda = new Sprite("resources/Personagens/Megaman/Ataques/Tiro2Esquerda parte 1.gif", 1, 62, 23);
+            this.efeitoEsquerda = new Sprite("resources/Personagens/Megaman/Ataques/Tiro2Esquerda parte 1.png", 5, 23, 62);
 
             this.efeitoAtual = efeitoDireita;
             this.spriteAtual = direita;
@@ -69,7 +69,7 @@ public class TiroVerde extends GameObject {
                 break;
             case ESQUERDA:
                 this.moveEsquerda(this.velocidade);
-                this.spriteAtual = this.direita;
+                this.spriteAtual = this.esquerda;
                 this.efeitoAtual = this.efeitoEsquerda;
                 break;
 
@@ -97,10 +97,14 @@ public class TiroVerde extends GameObject {
         // g.setColor(Color.YELLOW);
         // g.fillOval(this.x, this.y, 20, 20);
 
-
-        this.spriteAtual.draw(g, this.x + 30, this.y + 10);
-        this.efeitoAtual.draw(g, this.xPersonagem + 25, this.yPersonagem - 40);
-
+        if(this.spriteAtual == direita){
+            this.spriteAtual.draw(g, this.x + 30, this.y + 10);
+            this.efeitoAtual.draw(g, this.xPersonagem + 25, this.yPersonagem - 40);
+        } else {
+            this.spriteAtual.draw(g, this.x, this.y + 10);
+            this.efeitoAtual.draw(g, this.xPersonagem - 20, this.yPersonagem - 40);
+        }
+        
     }
 
     public Rectangle getRetangulo() {
