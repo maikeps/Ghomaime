@@ -31,6 +31,7 @@ public class Player2 extends ObjetoComGravidadeRuim {
     protected EstadoPersonagem estado;
     protected int forcaPulo = 38;
     protected int contadorApanhando = 0;
+
     
     protected int cooldownAtaque;
     
@@ -66,9 +67,9 @@ public class Player2 extends ObjetoComGravidadeRuim {
             JOptionPane.showMessageDialog(null, "Recurso não disponível: " + ex.getMessage());
         }
         //Megaman megaman = new Megaman();
-
-
     }
+
+  
 
     public void step(long timeElapsed) {
         if(this.cooldownAtaque >= 0){
@@ -90,6 +91,7 @@ public class Player2 extends ObjetoComGravidadeRuim {
             this.x = 5;
             this.velocidade = this.velocidadeInicial;
         }
+
         if (this.tocaParedeDireita()) {
             this.x = 795 - this.imagemAtual.pegaLargura();
             this.velocidade = this.velocidadeInicial;
@@ -158,5 +160,6 @@ public class Player2 extends ObjetoComGravidadeRuim {
     
     public void setSpriteAtual(Imagem sprite){
         this.imagemAtual = sprite;
+
     }
 }

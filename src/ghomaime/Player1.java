@@ -75,7 +75,8 @@ public class Player1 extends ObjetoComGravidade {
             if (this.velocidade < 30) {
                 this.velocidade++;
             }
-            if(this.velocidade < 15){
+            if(this.velocidade < 25){
+
                 this.imagemAtual = moveDireita;
             } else {
                 this.imagemAtual = moveFastDireita;
@@ -87,7 +88,8 @@ public class Player1 extends ObjetoComGravidade {
             if (this.velocidade < 30) {
                 this.velocidade++;
             }
-            if(this.velocidade < 15){
+
+            if(this.velocidade < 25){
                 this.imagemAtual = moveEsquerda;
             } else {
                 this.imagemAtual = moveFastEsquerda;

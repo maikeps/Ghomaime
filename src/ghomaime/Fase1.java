@@ -16,10 +16,12 @@ import javaPlay.Keyboard;
  *
  * @author ariel_silveira
  */
+
 public class Fase1 implements GameStateController {
 
     protected ArrayList<TiroNormal> ataque;
     protected ArrayList<TiroVerde> tiroVerde;
+
     protected Player1 player1;
     protected Player2 player2;
 
@@ -28,7 +30,6 @@ public class Fase1 implements GameStateController {
         this.tiroVerde = new ArrayList<TiroVerde>();
         this.player2 = new Player2();
         this.player1 = new Player1();
-
 
     }
 
