@@ -81,22 +81,29 @@ public abstract class Personagem extends ObjetoComGravidade {
             this.velocidade = this.velocidadeInicial;
         }
 
-        if(this.estado == this.estado.ATACANDO && this.ultimaDirecao == this.ultimaDirecao.DIREITA){
+        if (this.estado == this.estado.ATACANDO && this.ultimaDirecao == this.ultimaDirecao.DIREITA) {
             this.imagemAtual = this.atacandoDireita;
-            this.contadorAtirando ++;
+            this.contadorAtirando++;
         }
-        if(this.estado == this.estado.ATACANDO && this.ultimaDirecao == this.ultimaDirecao.ESQUERDA){
+        if (this.estado == this.estado.ATACANDO && this.ultimaDirecao == this.ultimaDirecao.ESQUERDA) {
             this.imagemAtual = this.atacandoDireita;
-            this.contadorAtirando ++;
+            this.contadorAtirando++;
         }
-        
-        if(this.estado == this.estado.NORMAL && this.ultimaDirecao == this.ultimaDirecao.DIREITA && this.contadorAtirando > 100){
+
+        if (this.estado == this.estado.NORMAL && this.ultimaDirecao == this.ultimaDirecao.DIREITA && this.contadorAtirando > 100) {
             this.imagemAtual = this.paradoDireita;
         }
-        if(this.estado == this.estado.NORMAL && this.ultimaDirecao == this.ultimaDirecao.ESQUERDA && this.contadorAtirando > 100){
+        if (this.estado == this.estado.NORMAL && this.ultimaDirecao == this.ultimaDirecao.ESQUERDA && this.contadorAtirando > 100) {
             this.imagemAtual = this.paradoEsquerda;
         }
-        
+
+        if (this.estaPulando() == true && this.estado == this.estado.PULANDO && this.ultimaDirecao == this.ultimaDirecao.DIREITA && this.contadorAtirando > 100) {
+            this.imagemAtual = this.puloDireita;
+        }
+        if (this.estaPulando() == true && this.estado == this.estado.PULANDO && this.ultimaDirecao == this.ultimaDirecao.ESQUERDA && this.contadorAtirando > 100) {
+            this.imagemAtual = this.puloEsquerda;
+        }
+
     }
 
     public void draw(Graphics g) {
@@ -138,13 +145,16 @@ public abstract class Personagem extends ObjetoComGravidade {
 
     public void para() {
         this.velocidade = 0;
-        if (this.ultimaDirecao == Direcao.ESQUERDA) {
-            this.imagemAtual = paradoEsquerda;
-        } else {
-            this.imagemAtual = paradoDireita;
+        if (this.yVelocidade == 0) {
+            if (this.ultimaDirecao == Direcao.ESQUERDA) {
+                this.imagemAtual = paradoEsquerda;
+            } else {
+                this.imagemAtual = paradoDireita;
+            }
         }
+
     }
-    
+
     public void moveDireita() {
         this.x += (this.velocidade / 2);
         if (this.velocidade < 30) {
@@ -212,4 +222,7 @@ public abstract class Personagem extends ObjetoComGravidade {
         this.imagemAtual = i;
     }
 
+    public boolean estaPulando() {
+        return (this.yVelocidade != 0);
+    }
 }

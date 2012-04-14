@@ -76,8 +76,11 @@ public class AtkMegaman1 extends Ataque{
         
         
         
-        this.spriteAtual.draw(g, this.x + 30, this.y + 15);
-        
+        if(this.direcao == Direcao.DIREITA){
+            this.spriteAtual.draw(g, this.x + 30, this.y + 15);
+        } else {
+            this.spriteAtual.draw(g, this.x, this.y + 15);
+        }
         
     }
     

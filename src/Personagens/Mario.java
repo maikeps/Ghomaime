@@ -25,11 +25,8 @@ import javax.swing.JOptionPane;
  */
 public class Mario extends Personagem {
 
-   
-    
     Imagem ataque3Direita;
     Imagem ataque3Esquerda;
-    
 
     public Mario() {
 
@@ -42,10 +39,10 @@ public class Mario extends Personagem {
             this.paradoEsquerda = new Imagem("resources/Personagens/Mario/paradoEsquerda.gif");
             this.puloDireita = new Imagem("resources/Personagens/Mario/puloDireita.png");
             this.puloEsquerda = new Imagem("resources/Personagens/Mario/puloEsquerda.png");
-            
+
             this.ataque3Direita = new Imagem("resources/Personagens/Mario/Ataques/marteladaDireita.gif");
             this.ataque3Esquerda = new Imagem("resources/Personagens/Mario/Ataques/marteladaEsquerda.gif");
-            
+
             this.imagemAtual = this.paradoDireita;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Recurso não disponível: " + ex.getMessage());
@@ -66,13 +63,13 @@ public class Mario extends Personagem {
         //if (this.contadorAtirando >= 0) {
         this.contadorAtirando--;
         // }
-        
 
 
-        
 
-if(this.estado == EstadoPersonagem.ATACANDO){
-            switch(this.ultimaDirecao){
+
+
+        if (this.estado == EstadoPersonagem.ATACANDO) {
+            switch (this.ultimaDirecao) {
                 case DIREITA:
                     this.imagemAtual = this.ataque3Direita;
                 case ESQUERDA:
@@ -83,11 +80,6 @@ if(this.estado == EstadoPersonagem.ATACANDO){
 
     }
 
-    
-    
-    
-    
-    
     public void draw(Graphics g) {
         this.imagemAtual.draw(g, this.x, this.y);
     }
@@ -101,8 +93,7 @@ if(this.estado == EstadoPersonagem.ATACANDO){
     }
 
     public void setImagemAtirando() {
-             this.estado = this.estado.ATACANDO;   
-        
-    }
+        this.estado = this.estado.ATACANDO;
 
+    }
 }

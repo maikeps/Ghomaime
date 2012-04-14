@@ -15,6 +15,7 @@ import javaPlay2.Imagem;
 public abstract class Ataque extends GameObject{
     
     Imagem spriteAtual;
+    Imagem vazio;
     boolean desativado;
     
     public Rectangle getRetangulo(){
