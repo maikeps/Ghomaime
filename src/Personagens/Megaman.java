@@ -37,7 +37,7 @@ public class Megaman extends Personagem {
             this.paradoEsquerda = new Imagem("resources/Personagens/Megaman/paradoEsquerda.png");
             this.puloDireita = new Imagem("resources/Personagens/Megaman/puloDireita.png");
             this.puloEsquerda = new Imagem("resources/Personagens/Megaman/puloEsquerda.png");
-            this.atacandoDireita = new Imagem("resources/Personagens/Megaman/atiraDireita.gif");
+            this.atacandoDireita = new Imagem("resources/Personagens/Megaman/atiraDireita.png");
             this.atacandoEsquerda = new Imagem("resources/Personagens/Megaman/atiraEsquerda.gif");
             this.imagemAtual = this.moveDireita;
         } catch (Exception ex) {
@@ -47,12 +47,14 @@ public class Megaman extends Personagem {
     }
 
     public void step(long timeElapsed) {
-
+        
+        this.setImagemAtirando();
+        
         super.step(timeElapsed);
-        if (this.y > 525) {
-            this.chegouChao();
-            this.y = 533 - 32;
-        }
+//        if (this.y > 525) {
+//            this.chegouChao();
+//            this.y = 533 - 32;
+//        }
 
 
         if (this.contadorAtirando >= 35) {
@@ -64,24 +66,39 @@ public class Megaman extends Personagem {
     }
 
     public void draw(Graphics g) {
-        if (this.estado == estado.ATACANDO) {
-            this.atacandoDireita.draw(g, this.x, this.y);
-        } else {
+        g.drawRect(this.x, this.y, this.imagemAtual.pegaLargura(), this.imagemAtual.pegaAltura());
+        //if (this.estado == estado.ATACANDO) {
+        //    this.atacandoDireita.draw(g, this.x, this.y);
+            //this.imagemAtual = this.atacandoDireita;
+       // } else {
             this.imagemAtual.draw(g, this.x, this.y);
-        }
+       // }
     }
 
     public void setImagemAtirando() {
-        this.contadorAtirando = 10;
-        if (this.ultimaDirecao == Direcao.DIREITA) {
-            if (this.contadorAtirando <= 0) {
-                //this.imagemAtual = tiroDireita;
+//        this.contadorAtirando = 10;
+//        if (this.ultimaDirecao == Direcao.DIREITA) {
+//            if (this.contadorAtirando <= 0) {
+//                //this.imagemAtual = tiroDireita;
+//            }
+//        }
+//        if (this.ultimaDirecao == Direcao.ESQUERDA) {
+//            if (this.contadorAtirando <= 0) {
+//                //this.imagemAtual = tiroEsquerda;
+//            }
+//        }
+        
+        if(this.contadorAtirando > 25){
+            this.estado = EstadoPersonagem.NORMAL;
+        } else {
+            while(this.contadorAtirando <= 25){
+                this.imagemAtual = this.atacandoDireita;
+                this.contadorAtirando ++;
             }
+            
         }
-        if (this.ultimaDirecao == Direcao.ESQUERDA) {
-            if (this.contadorAtirando <= 0) {
-                //this.imagemAtual = tiroEsquerda;
-            }
-        }
+        
+        
+        
     }
 }

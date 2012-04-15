@@ -60,9 +60,9 @@ public abstract class Personagem extends ObjetoComGravidade {
 
         super.step(timeElapsed);
 
-        if (this.y > 532) {
+        if (this.y > 550 - this.imagemAtual.pegaAltura()) {
             this.chegouChao();
-            this.y = 540 - 32;
+            this.y = 550 - this.imagemAtual.pegaAltura();
             if(this.estado != estado.ATACANDO){
                 this.estado = this.estado.NORMAL;
             }
@@ -148,7 +148,8 @@ public abstract class Personagem extends ObjetoComGravidade {
 
     public void para() {
         this.velocidade = 0;
-        if (this.yVelocidade == 0) {
+        if(this.y + this.imagemAtual.pegaAltura() > 575){
+        //if(this.yVelocidade == 0){
             if (this.ultimaDirecao == Direcao.ESQUERDA) {
                 this.imagemAtual = paradoEsquerda;
             } else {
@@ -186,6 +187,10 @@ public abstract class Personagem extends ObjetoComGravidade {
 
     public Direcao getDirecao() {
         return this.ultimaDirecao;
+    }
+    
+    public void setDirecao(Direcao direcao){
+        this.ultimaDirecao = direcao;
     }
 
     public void setSpriteAtual(Imagem sprite) {
@@ -230,6 +235,6 @@ public abstract class Personagem extends ObjetoComGravidade {
     }
 
     public boolean estaPulando() {
-        return (this.yVelocidade != 0);
+        return (this.y > 575 + this.imagemAtual.pegaAltura());
     }
 }

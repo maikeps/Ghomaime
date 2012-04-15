@@ -51,10 +51,10 @@ public class Ichigo extends Personagem {
     public void step(long timeElapsed) {
 
         super.step(timeElapsed);
-        if (this.y > 528) {
-            this.chegouChao();
-            this.y = 596 - 32;
-        }
+//        if (this.y > 528) {
+//            this.chegouChao();
+//            this.y = 596 - 32;
+//        }
 
 
         //if (this.contadorAtirando >= 0) {

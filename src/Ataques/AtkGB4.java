@@ -4,6 +4,7 @@
  */
 package Ataques;
 
+import ClassesUteis.Util;
 import ghomaime.Direcao;
 import ghomaime.GameObject;
 import java.awt.Color;
@@ -18,27 +19,29 @@ import javax.swing.JOptionPane;
  *
  * @author Maike
  */
-public class AtkMegaman1 extends Ataque{
+public class AtkGB4 extends Ataque{
     
     Direcao direcao = Direcao.DIREITA;
     int velocidade;
-    Imagem direita;
-    Imagem esquerda;
+    Imagem imagem;
+   
     int dano;
+
     
-    public AtkMegaman1(int x, int y, Direcao direcao){
+    public AtkGB4(){
         
-        this.setDano(2);
+        this.setDano(5);
         
         this.desativado = false;
+        int x = Util.random(762);
         this.x = x;
-        this.y = y;
-        this.direcao = direcao;
-        this.velocidade = 18;
+        int y = Util.random(500);
+        this.y = y * (-1);
+
+
+        this.velocidade = 20;
         try {
-            this.direita = new Imagem("resources/Personagens/Megaman/Ataques/Tiro1Direita.gif");
-            this.esquerda = new Imagem("resources/Personagens/Megaman/Ataques/Tiro1Esquerda.gif");
-            this.spriteAtual = direita;
+            this.imagem = new Imagem("resources/Personagens/ghostbuster/Ataques/Ataque4Direita.gif");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Recurso não encontrado: " + ex.getMessage());
             System.exit(1);
@@ -51,41 +54,26 @@ public class AtkMegaman1 extends Ataque{
         if(this.desativado){
             return;
         }
-        
-        switch(this.direcao){
-            case DIREITA:
-                this.moveDireita( this.velocidade );
-                this.spriteAtual = this.direita;
-                break;
-            case ESQUERDA:
-                this.moveEsquerda( this.velocidade );
-                this.spriteAtual = this.direita;
-                break;
-        }
-        
-         
-        
+
+        this.y += this.velocidade;
+
     }
 
     public void draw(Graphics g) {
         if(this.desativado){
             return;
         }
-        //g.setColor(Color.YELLOW);
-        //g.fillOval(this.x, this.y, 20, 20);
+
+        this.imagem.draw(g, this.x, this.y);
+
         
-        
-        if(this.direcao == Direcao.DIREITA){
-            this.spriteAtual.draw(g, this.x + 30, this.y + 15);
-        } else {
-            this.spriteAtual.draw(g, this.x, this.y + 15);
-        }
         
     }
     
     public Rectangle getRetangulo(){
-        return new Rectangle(this.x, this.y-3, this.spriteAtual.pegaLargura(), this.spriteAtual.pegaAltura()+4);
+        return new Rectangle(this.x, this.y, this.imagem.pegaLargura(), this.imagem.pegaAltura());
     }
+
     
     public boolean temColisao(Rectangle retangulo){
         if(this.desativado){
@@ -93,19 +81,11 @@ public class AtkMegaman1 extends Ataque{
         }
         
         if(this.getRetangulo().intersects(retangulo)){
-           // AudioPlayer.play("resources/sounds/Sound 2.wav");
             this.desativado = true;
             return true;            
         } else {
             return false;
         }
-    }
-    
-    public void moveEsquerda(int num){
-        this.x -= num;
-    }
-    public void moveDireita(int num){
-        this.x += num;
     }
 
     public int getDano() {

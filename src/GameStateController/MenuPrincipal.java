@@ -1,5 +1,5 @@
 
-package ghomaime;
+package GameStateController;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -12,6 +12,7 @@ import javaPlay.GameStateController;
 import javaPlay.Keyboard;
 import javaPlay.Sprite;
 import javax.swing.JOptionPane;
+import ghomaime.Keys;
 import ghomaime.Keys;
 import javaPlayExtras.AudioPlayer;
 

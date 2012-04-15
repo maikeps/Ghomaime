@@ -27,6 +27,7 @@ public class AtkMegaman4 extends Ataque {
     int dano;
     int frame;
     int frameElapsed;
+    int xInicial;
 
     public AtkMegaman4(int x, int y, Direcao direcao) {
 
@@ -34,11 +35,12 @@ public class AtkMegaman4 extends Ataque {
         this.direcao = direcao;
         this.desativado = false;
         this.x = x;
+        this.xInicial = x;
         this.y = y;
         this.frame = 0;
         try {
             this.imagem = new Sprite("resources/Personagens/Megaman/Ataques/Atk powerBlaster.png", 3, 876, 97);
-           // this.spriteAtual = imagem;
+            // this.spriteAtual = imagem;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Recurso não encontrado: " + ex.getMessage());
             System.exit(1);
@@ -65,13 +67,17 @@ public class AtkMegaman4 extends Ataque {
 
     public void draw(Graphics g) {
 
-
+        
+        
         if (this.direcao == Direcao.DIREITA) {
-            this.imagem.draw(g, this.x + 30, this.y - 60);
-        } else {
-            this.imagem.draw(g, this.x - 876, this.y - 60);
+            this.x = this.xInicial + 30;
+            this.imagem.draw(g, this.x, this.y - 60);
+        } else if (this.direcao == Direcao.ESQUERDA) {
+            this.x = this.xInicial - 876;
+            this.imagem.draw(g, this.x, this.y - 60);
         }
-
+        g.setColor(Color.WHITE);
+        g.drawRect(this.x, this.y, 876, 97);
 
     }
 

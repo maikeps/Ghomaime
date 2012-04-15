@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import javaPlay.GameObject;
 import javaPlay.Sprite;
 import javaPlay2.Imagem;
+import javax.swing.JOptionPane;
 
 public class AtkGB2 extends Ataque {
 
@@ -26,7 +27,8 @@ public class AtkGB2 extends Ataque {
             this.spriteEsquerda = new Imagem("resources/Personagens/ghostbuster/Ataques/Ataque2Esquerda.gif");
             this.spriteAtual = this.spriteDireita;
         } catch (Exception ex) {            
-            System.out.println("Imagem não encontrada: " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Recurso não encontrado: " + ex.getMessage());
+            System.exit(1);
         }
     }
 

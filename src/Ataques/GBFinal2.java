@@ -21,7 +21,8 @@ public class GBFinal2 extends AtkGBFinal{
             this.finalDireita = new Sprite("resources/Personagens/ghostbuster/Ataques/Ataque2Direita PARTE 2.png", 3, 70, 72);
             this.finalAtual = this.finalDireita;
         } catch (Exception ex) {            
-            JOptionPane.showMessageDialog(null, "Imagem não encontrada: " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Recurso não encontrado: " + ex.getMessage());
+            System.exit(1);
         }    
     }
     

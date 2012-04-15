@@ -2,18 +2,24 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ghomaime;
+package GameStateController;
 
 import Ataques.*;
 import ClassesUteis.Util;
 import Personagens.*;
+import ghomaime.GameObject;
+import ghomaime.Player1;
+import ghomaime.Player2;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javaPlay.GameEngine;
 import javaPlay.GameStateController;
 import javaPlay.Keyboard;
+import javaPlay2.Imagem;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,6 +28,13 @@ import javax.swing.JOptionPane;
  */
 public class Fase1 implements GameStateController {
 
+    protected Imagem cenario1;
+    protected Imagem cenario2;
+    protected Imagem cenario3;
+    protected Imagem cenario4;
+    protected Imagem cenario5;
+    protected Imagem cenario6;
+    protected Imagem cenarioAtual;
     private int numExecucoesStep;
     private int tempoSec;
     Megaman megaman;
@@ -38,6 +51,7 @@ public class Fase1 implements GameStateController {
     protected ArrayList<AtkGB1> atkGB1;
     protected ArrayList<AtkGB2> atkGB2;
     protected ArrayList<AtkGB3> atkGB3;
+    protected ArrayList<AtkGB4> atkGB4;
     protected ArrayList<GBFinal1> GBFinal1;
     protected ArrayList<GBFinal2> GBFinal2;
     protected ArrayList<GBFinal3> GBFinal3;
@@ -45,15 +59,45 @@ public class Fase1 implements GameStateController {
     protected ArrayList<AtkIchigo2> atkIchigo2;
     protected ArrayList<AtkIchigo3> atkIchigo3;
     //protected ArrayList<AtkGBFinal> finalGB;
-    protected Player1Teste player1;
-    protected Player2Teste player2;
-    protected MenuPrincipal menu;
+    protected Player1 player1;
+    protected Player2 player2;
+    protected CharacterSelect CS;
 
-    public Fase1(MenuPrincipal menuDoMain){
-        this.menu = menuDoMain;        
-    }
-    
+//    public Fase1(CharacterSelect charSelect) {
+//        this.CS = charSelect;
+//    }
     public void load() {
+        try {
+            this.cenario1 = new Imagem("resources/Cenarios/cenario1.png");
+            this.cenario2 = new Imagem("resources/Cenarios/cenario2.png");
+            this.cenario3 = new Imagem("resources/Cenarios/cenario3.png");
+            this.cenario4 = new Imagem("resources/Cenarios/cenario4.png");
+            this.cenario5 = new Imagem("resources/Cenarios/cenario5.png");
+            this.cenario5 = new Imagem("resources/Cenarios/cenario6.png");
+            //this.cenarioAtual = this.cenario1;
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Recurso não encontrado: " + ex.getMessage());
+            System.exit(1);
+        }
+
+        int cenario = Util.random(6);
+        switch (cenario) {
+            case 1:
+                this.cenarioAtual = this.cenario1;
+                break;
+            case 2:
+                this.cenarioAtual = this.cenario2;
+                break;
+            case 3:
+                this.cenarioAtual = this.cenario3;
+                break;
+            case 4:
+                this.cenarioAtual = this.cenario4;
+                break;
+            case 5:
+                this.cenarioAtual = this.cenario5;
+                break;
+        }
 
         this.numExecucoesStep = 0;
 
@@ -67,6 +111,7 @@ public class Fase1 implements GameStateController {
         this.atkGB1 = new ArrayList<AtkGB1>();
         this.atkGB2 = new ArrayList<AtkGB2>();
         this.atkGB3 = new ArrayList<AtkGB3>();
+        this.atkGB4 = new ArrayList<AtkGB4>();
         this.GBFinal1 = new ArrayList<GBFinal1>();
         this.GBFinal2 = new ArrayList<GBFinal2>();
         this.GBFinal3 = new ArrayList<GBFinal3>();
@@ -78,8 +123,11 @@ public class Fase1 implements GameStateController {
         this.megaman = new Megaman();
         this.mario = new Mario();
         this.ichigo = new Ichigo();
-        this.player2 = new Player2Teste(this.megaman);
-        this.player1 = new Player1Teste(this.ghostBuster);
+//        this.player2 = new Player2(this.CS.getPlayer2());
+//        this.player1 = new Player1(this.CS.getPlayer1());
+
+        this.player1 = new Player1(ichigo);
+        this.player2 = new Player2(ghostBuster);
 
     }
 
@@ -139,6 +187,9 @@ public class Fase1 implements GameStateController {
         for (GBFinal3 atk : this.GBFinal3) {
             atk.step(timeElapsed);
         }
+        for (AtkGB4 atk : this.atkGB4) {
+            atk.step(timeElapsed);
+        }
         for (AtkIchigo1 atk : this.atkIchigo1) {
             atk.step(timeElapsed);
         }
@@ -191,7 +242,8 @@ public class Fase1 implements GameStateController {
 
     public void draw(Graphics g) {
 
-        g.fillRect(0, 0, 800, 600);
+        //g.fillRect(0, 0, 800, 600);
+        this.cenarioAtual.draw(g, 0, 0);
         this.player1.draw(g);
         this.player2.draw(g);
 
@@ -232,6 +284,9 @@ public class Fase1 implements GameStateController {
             gameObject.draw(g);
         }
         for (GameObject gameObject : this.GBFinal3) {
+            gameObject.draw(g);
+        }
+        for (GameObject gameObject : this.atkGB4) {
             gameObject.draw(g);
         }
         for (AtkIchigo1 atk : this.atkIchigo1) {
@@ -275,7 +330,7 @@ public class Fase1 implements GameStateController {
         if (this.player1.personagem == this.ghostBuster) {
             if (this.player1.atacou == true) {
                 if (this.player1.podeAtacar()) {
-                    switch (Util.random(4)) {
+                    switch (Util.random(5)) {
                         case 1:
                             this.atkGB1.add(new AtkGB1(player1.getXPersonagem(), player1.getYPersonagem(), this.player2.personagem));
                             this.player1.setCooldownAtaque(30);
@@ -286,9 +341,36 @@ public class Fase1 implements GameStateController {
                             break;
                         case 3:
                             this.atkGB3.add(new AtkGB3(player1.getXPersonagem(), player1.getYPersonagem(), this.player1.getDirecao()));
-
                             this.player1.setCooldownAtaque(30);
                             break;
+                        case 4:
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.player1.setCooldownAtaque(100);
+                            break;
+
                     }
                 }
                 this.player1.atacou = false;
@@ -297,7 +379,7 @@ public class Fase1 implements GameStateController {
         if (this.player2.personagem == this.ghostBuster) {
             if (this.player2.atacou == true) {
                 if (this.player2.podeAtacar()) {
-                    switch (Util.random(2)) {
+                    switch (Util.random(5)) {
                         case 1:
                             this.atkGB1.add(new AtkGB1(player2.getXPersonagem(), player2.getYPersonagem(), this.player1.personagem));
                             this.player2.setCooldownAtaque(30);
@@ -308,8 +390,34 @@ public class Fase1 implements GameStateController {
                             break;
                         case 3:
                             this.atkGB3.add(new AtkGB3(player2.getXPersonagem(), player2.getYPersonagem(), this.player2.getDirecao()));
-
                             this.player2.setCooldownAtaque(30);
+                            break;
+                        case 4:
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.atkGB4.add(new AtkGB4());
+                            this.player2.setCooldownAtaque(100);
                             break;
                     }
                 }
@@ -530,6 +638,14 @@ public class Fase1 implements GameStateController {
                 //this.finalGB.add( new GBFinal1(p.getX(), p.getY()));
             }
         }
+        for (AtkGB4 atk4 : this.atkGB4) {
+            if (atk4.temColisao(p.getRetangulo())) {
+                p.perdeVida(atk4.getDano());
+                // this.GBFinal4.add(new GBFinal4(p.getX(), p.getY()));
+
+                //this.finalGB.add( new GBFinal1(p.getX(), p.getY()));
+            }
+        }
     }
 
     private void verificaAtaquesIchigoAcertou(Personagem p) {
@@ -544,7 +660,6 @@ public class Fase1 implements GameStateController {
             }
         }
     }
-
 
     public void mostraBarraVida1(Graphics g) {
         g.setColor(Color.GREEN);

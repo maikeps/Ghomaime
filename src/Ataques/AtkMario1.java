@@ -32,7 +32,7 @@ public class AtkMario1 extends Ataque{
         this.desativado = false;
         this.x = x - 35;
         this.y = 100;
-        this.velocidade = 20;
+        this.velocidade = 40;
         try {
             this.imagem = new Imagem("resources/Personagens/Mario/Ataques/Thwomp.png");
             this.spriteAtual = imagem;

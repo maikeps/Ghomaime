@@ -54,10 +54,10 @@ public class Mario extends Personagem {
     public void step(long timeElapsed) {
 
         super.step(timeElapsed);
-        if (this.y > 530) {
-            this.chegouChao();
-            this.y = 538 - 32;
-        }
+//        if (this.y > 530) {
+//            this.chegouChao();
+//            this.y = 538 - 32;
+//        }
 
 
         //if (this.contadorAtirando >= 0) {
@@ -81,6 +81,7 @@ public class Mario extends Personagem {
     }
 
     public void draw(Graphics g) {
+        g.drawRect(this.x, this.y, this.imagemAtual.pegaLargura(), this.imagemAtual.pegaAltura());
         this.imagemAtual.draw(g, this.x, this.y);
     }
 

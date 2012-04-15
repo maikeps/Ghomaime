@@ -4,7 +4,7 @@
  */
 package ghomaime;
 
-import Personagens.Megaman;
+import Personagens.*;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -16,201 +16,116 @@ import javaPlay.Sprite;
 import javaPlay2.Imagem;
 import javax.swing.JOptionPane;
 import ClassesUteis.Util;
+import Personagens.Personagem;
 
 /**
  *
  * @author ariel_silveira
  */
-public class Player2 extends ObjetoComGravidade {
+public class Player2 extends GameObject {
 
-    ObjetoComGravidade personagem;
-
-    int vida;
+    
+    public EstadoPersonagem estado;
+    
+    public Personagem personagem;
+    // ObjetoComGravidade personagem;
+    public int vida;
     protected int velocidade = 1;
     protected int velocidadeInicial = 1;
-    protected EstadoPersonagem estado;
-    protected int forcaPulo = 15;
-    protected int contadorApanhando = 0;
-    protected int contadorAtirando = 0;
-    protected int cooldownAtaque;
-    protected Imagem moveDireita;
-    protected Imagem moveEsquerda;
-    protected Imagem moveFastDireita;
-    protected Imagem moveFastEsquerda;
-    protected Imagem paradoDireita;
-    protected Imagem paradoEsquerda;
-    protected Imagem tiroDireita;
-    protected Imagem tiroEsquerda;
     protected Imagem imagemAtual;
-    protected Imagem puloDireita;
-    protected Imagem puloEsquerda;
-    Direcao ultimaDirecao;
+    protected int cooldownAtaque;
+    public boolean atacou;
+    public boolean pulando;
 
-    public Player2() {
+    public Player2(Personagem personagem) {
 
-        this.setCooldownAtaque(0);
-        this.x = 200;
-        this.y = 500;
-        try {
-            this.moveDireita = new Imagem("resources/Personagens/Megaman/moveDireita.gif");
-            this.moveEsquerda = new Imagem("resources/Personagens/Megaman/moveEsquerda.gif");
-            this.moveFastDireita = new Imagem("resources/Personagens/Megaman/moveFastDireita.png");
-            this.moveFastEsquerda = new Imagem("resources/Personagens/Megaman/moveFastEsquerda.png");
-            this.paradoDireita = new Imagem("resources/Personagens/Megaman/paradoDireita.png");
-            this.paradoEsquerda = new Imagem("resources/Personagens/Megaman/paradoEsquerda.png");
-            this.tiroDireita = new Imagem("resources/Personagens/Megaman/atiraDireita.gif");
-            this.tiroEsquerda = new Imagem("resources/Personagens/Megaman/atiraEsquerda.gif");
-            this.puloDireita = new Imagem("resources/Personagens/Megaman/puloDireita.png");
-            this.puloEsquerda = new Imagem("resources/Personagens/Megaman/puloEsquerda.png");
-            this.imagemAtual = this.moveDireita;
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Recurso não disponível: " + ex.getMessage());
-        }
-        //Megaman megaman = new Megaman();
+
+        this.atacou = false;
+        this.pulando = false;
+        
+        this.personagem = personagem;
+        this.personagem.setDirecao(Direcao.ESQUERDA);
+
+        this.personagem.setX(600);
+        this.personagem.setY(500);
+
+        
+        
     }
 
     public void step(long timeElapsed) {
-        
-        super.step(timeElapsed);
-        if(this.y>525){
-            this.chegouChao();
-            this.y=533-32;
-        } 
-        
-        if (this.cooldownAtaque >= 0) {
-            this.cooldownAtaque--;
-        }
 
-        //if (this.contadorAtirando >= 0) {
-            this.contadorAtirando--;
-       // }
+        personagem.step(timeElapsed);
+
+
 
         Keyboard teclado = GameEngine.getInstance().getKeyboard();
 
-        if (teclado.keyDown(Keys.D)) {
-            this.moveDireita();
-        } else if (teclado.keyDown(Keys.A)) {
-            this.moveEsquerda();
-        } else if (teclado.keyDown(Keys.W)) {
-            this.pula();
-        }else{
-                this.para();
-            } 
+        if (teclado.keyDown(Keys.DIREITA)) {
+            this.personagem.moveDireita();
+        } else
+        if (teclado.keyDown(Keys.ESQUERDA)) {
+            this.personagem.moveEsquerda();
+        } else {
+            this.personagem.para();
+        }
+        if (teclado.keyDown(Keys.P)){
+            this.atacou = true;
+        }
+
+        if (teclado.keyDown(Keys.CIMA)) {
+            if (this.personagem.getEstado() == this.estado.PULANDO) {
+                return;
+            } else {
+                this.personagem.pula();
+                this.pulando = true;
+            }
+        }
         
-      
-
-        if (this.tocaParedeEsquerda()) {
-            this.x = 5;
-            this.velocidade = this.velocidadeInicial;
-        }
-
-        if (this.tocaParedeDireita()) {
-            this.x = 795 - this.imagemAtual.pegaLargura();
-            this.velocidade = this.velocidadeInicial;
-        }
-
+        
+        
+   
     }
 
     public void draw(Graphics g) {
-        this.imagemAtual.draw(g, this.x, this.y);
-    }
-
-    public boolean tocaParedeEsquerda() {
-        return (this.x <= 4);
-    }
-
-    public boolean tocaParedeDireita() {
-        return (this.x >= 796 - this.imagemAtual.pegaLargura());
-    }
-
-    public void moveEsquerda() {
-        this.x -= (this.velocidade / 2);
-        if (this.velocidade < 30) {
-            this.velocidade++;
-        }
-        if (this.velocidade < 25) {
-            this.imagemAtual = moveEsquerda;
-        } else {
-            this.imagemAtual = moveFastEsquerda;
-        }
-        this.ultimaDirecao = Direcao.ESQUERDA;
-    }
-
-    public void moveDireita() {
-        this.x += (this.velocidade / 2);
-        if (this.velocidade < 30) {
-            this.velocidade++;
-        }
-        if (this.velocidade < 25) {
-            this.imagemAtual = moveDireita;
-        } else {
-            this.imagemAtual = moveFastDireita;
-        }
-        this.ultimaDirecao = Direcao.DIREITA;
-    }
-    
-    private void pulo() {
-        if(this.estaSubindo() || this.estaDescendo()){
-            return;
-        }
-
-        this.imagemAtual = this.puloDireita;
-        this.impulso(this.forcaPulo);
-    }
-
-    public void para() {
-        this.velocidade = 0;
-        if (this.ultimaDirecao == Direcao.ESQUERDA) {
-            this.imagemAtual = paradoEsquerda;
-        } else {
-            this.imagemAtual = paradoDireita;
-        }
+        personagem.draw(g);
     }
 
     public void setCooldownAtaque(int num) {
-        this.cooldownAtaque = num;
+        this.personagem.setCooldownAtaque(num);
     }
 
     public boolean podeAtacar() {
-        return (this.cooldownAtaque <= 0);
+        return (this.personagem.getColdownAtaque() <= 0);
     }
 
     public Direcao getDirecao() {
-        return this.ultimaDirecao;
+        return this.personagem.getDirecao();
+    }
+
+//    public Rectangle getRetangulo(Rectangle retangulo) {
+//        return new Rectangle(this.x, this.y, this.personagem.imagemAtual.pegaLargura(), this.imagemAtual.pegaAltura());
+//    }
+    
+    public Personagem getPersonagem(){
+        return this.personagem;
+    }
+    public void setPersonagem(Personagem p){
+        this.personagem = p;      
     }
 
     
-    public void pula() {        
-        if(this.estaSubindo() || this.estaDescendo()){
-            return;
-         }
-        // this.imagemAtual  = this.puloDireita;    
-        this.impulso(this.forcaPulo);
+    public int getXPersonagem(){
+        return this.personagem.getX();
     }
-       
-   
-        
-    public void setSpriteAtual(Imagem sprite){
-        this.imagemAtual = sprite;
-
+    
+    public int getYPersonagem(){
+        return this.personagem.getY();
     }
-    public void setImagemAtirando() {
-        this.contadorAtirando = 10;
-        if (this.ultimaDirecao == Direcao.DIREITA) {
-            if (this.contadorAtirando <= 0) {
-                this.imagemAtual = tiroDireita;
-            }
-        }
-        if (this.ultimaDirecao == Direcao.ESQUERDA) {
-            if (this.contadorAtirando <= 0) {
-                this.imagemAtual = tiroEsquerda;
-            }
-        }
+    
+    public int getVida(){
+        return this.personagem.getVida();
     }
-
-    public Rectangle getRetangulo(Rectangle retangulo) {
-        return new Rectangle(this.x, this.y, this.imagemAtual.pegaLargura(), this.imagemAtual.pegaAltura());
-    }
-
+    
     
 }
