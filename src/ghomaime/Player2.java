@@ -21,9 +21,9 @@ import ClassesUteis.Util;
  *
  * @author ariel_silveira
  */
-public class Player2 extends ObjetoComGravidadeRuim {
+public class Player2 extends ObjetoComGravidade {
 
-    ObjetoComGravidadeRuim personagem;
+    ObjetoComGravidade personagem;
     int vida;
     protected int velocidade = 1;
     protected int velocidadeInicial = 1;
@@ -41,6 +41,8 @@ public class Player2 extends ObjetoComGravidadeRuim {
     protected Imagem tiroDireita;
     protected Imagem tiroEsquerda;
     protected Imagem imagemAtual;
+    protected Imagem puloDireita;
+    protected Imagem puloEsquerda;
     Direcao ultimaDirecao;
 
     public Player2() {
@@ -57,6 +59,8 @@ public class Player2 extends ObjetoComGravidadeRuim {
             this.paradoEsquerda = new Imagem("resources/Personagens/Megaman/paradoEsquerda.png");
             this.tiroDireita = new Imagem("resources/Personagens/Megaman/atiraDireita.gif");
             this.tiroEsquerda = new Imagem("resources/Personagens/Megaman/atiraEsquerda.gif");
+            this.puloDireita = new Imagem("resources/Personagens/Megaman/puloDireita.png");
+            this.puloEsquerda = new Imagem("resources/Personagens/Megaman/puloEsquerda.png");
             this.imagemAtual = this.moveDireita;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Recurso não disponível: " + ex.getMessage());
@@ -65,6 +69,13 @@ public class Player2 extends ObjetoComGravidadeRuim {
     }
 
     public void step(long timeElapsed) {
+        
+        super.step(timeElapsed);
+        if(this.y>525){
+            this.chegouChao();
+            this.y=533-32;
+        } 
+        
         if (this.cooldownAtaque >= 0) {
             this.cooldownAtaque--;
         }
@@ -79,8 +90,13 @@ public class Player2 extends ObjetoComGravidadeRuim {
             this.moveDireita();
         } else if (teclado.keyDown(Keys.A)) {
             this.moveEsquerda();
-        } else {
+        }  else {
             this.para();
+        }
+        
+        if (teclado.keyDown(Keys.W)){
+            this.pulo();
+            
         }
 
         if (this.tocaParedeEsquerda()) {
@@ -132,6 +148,15 @@ public class Player2 extends ObjetoComGravidadeRuim {
         }
         this.ultimaDirecao = Direcao.DIREITA;
     }
+    
+    private void pulo() {
+        if(this.estaSubindo() || this.estaDescendo()){
+            return;
+        }
+
+        this.imagemAtual = this.puloDireita;
+        this.impulso(this.forcaPulo);
+    }
 
     public void para() {
         this.velocidade = 0;
@@ -171,4 +196,6 @@ public class Player2 extends ObjetoComGravidadeRuim {
     public Rectangle getRetangulo(Rectangle retangulo) {
         return new Rectangle(this.x, this.y, this.imagemAtual.pegaLargura(), this.imagemAtual.pegaAltura());
     }
+
+    
 }

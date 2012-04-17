@@ -4,7 +4,7 @@
  */
 package Personagens;
 
-import ghomaime.ObjetoComGravidadeRuim;
+import ghomaime.ObjetoComGravidade;
 import java.awt.Graphics;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
  *
  * @author ariel_silveira
  */
-public class Megaman extends ObjetoComGravidadeRuim {
+public class Megaman extends ObjetoComGravidade {
 
     protected Sprite moveDireita;
 

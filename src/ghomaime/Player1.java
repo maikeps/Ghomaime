@@ -22,7 +22,7 @@ import javax.swing.JOptionPane;
  */
 public class Player1 extends ObjetoComGravidade {
 
-    ObjetoComGravidadeRuim personagem;
+    ObjetoComGravidade personagem;
     
     int vida;
     protected int velocidade = 1;
@@ -68,44 +68,27 @@ public class Player1 extends ObjetoComGravidade {
     }
 
     public void step(long timeElapsed) {
+        
+        super.step(timeElapsed);
+        if(this.y>532){
+            this.chegouChao();
+            this.y=540-32;
+        } 
+        
         Keyboard teclado = GameEngine.getInstance().getKeyboard();
 
         if (teclado.keyDown(Keys.DIREITA)) {
-            this.x += (this.velocidade/2);
-            if (this.velocidade < 30) {
-                this.velocidade++;
-            }
-            if(this.velocidade < 25){
-
-                this.imagemAtual = moveDireita;
-            } else {
-                this.imagemAtual = moveFastDireita;
-            }
-            this.ultimaDirecao = "Direita";
+            this.moveDireita();
 
         } else if (teclado.keyDown(Keys.ESQUERDA)) {
-            this.x -= (this.velocidade/2);
-            if (this.velocidade < 30) {
-                this.velocidade++;
-            }
-
-            if(this.velocidade < 25){
-                this.imagemAtual = moveEsquerda;
-            } else {
-                this.imagemAtual = moveFastEsquerda;
-            }
-            this.ultimaDirecao = "Esquerda";
+            this.moveEsquerda();
             
-        } else if(teclado.keyDown(Keys.CIMA)) {
-            this.pula();
         } else {
-            this.velocidade = 0;
-            if(this.ultimaDirecao == "Esquerda"){
-                this.imagemAtual = paradoEsquerda;
-            } else {
-                this.imagemAtual = paradoDireita;
-            }
-            
+            this.para();
+        }
+        
+        if(teclado.keyDown(Keys.CIMA)) {
+            this.pula();
         }
 
         if (this.tocaParedeEsquerda()) {
@@ -149,5 +132,42 @@ public class Player1 extends ObjetoComGravidade {
     
     public Rectangle getRetangulo(Rectangle retangulo){
         return new Rectangle(this.x, this.y, this.imagemAtual.pegaLargura(), this.imagemAtual.pegaAltura());
+    }
+
+    private void moveDireita() {
+        this.x += (this.velocidade/2);
+            if (this.velocidade < 30) {
+                this.velocidade++;
+            }
+            if(this.velocidade < 25){
+
+                this.imagemAtual = moveDireita;
+            } else {
+                this.imagemAtual = moveFastDireita;
+            }
+            this.ultimaDirecao = "Direita";
+    }
+
+    private void moveEsquerda() {
+        this.x -= (this.velocidade/2);
+            if (this.velocidade < 30) {
+                this.velocidade++;
+            }
+
+            if(this.velocidade < 25){
+                this.imagemAtual = moveEsquerda;
+            } else {
+                this.imagemAtual = moveFastEsquerda;
+            }
+            this.ultimaDirecao = "Esquerda";
+    }
+
+    private void para() {
+        this.velocidade = 0;
+            if(this.ultimaDirecao == "Esquerda"){
+                this.imagemAtual = paradoEsquerda;
+            } else {
+                this.imagemAtual = paradoDireita;
+            }
     }
 }
