@@ -6,6 +6,8 @@ package Personagens;
 
 import ghomaime.ObjetoComGravidade;
 import java.awt.Graphics;
+import javaPlay2.Imagem;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,9 +15,20 @@ import java.awt.Graphics;
  */
 public class Ichigo extends ObjetoComGravidade {
 
+    protected Imagem moveDireita;
     
+    public Ichigo () {
+        this.x = x;
+        this.y = y;
+
+    
+
+
+    }
+
+ 
     public void draw(Graphics g) {
-        this.moveDireita(g, this.x, this.y);
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

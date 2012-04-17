@@ -5,7 +5,9 @@
 package Personagens;
 
 
+import ghomaime.Direcao;
 import ghomaime.EstadoPersonagem;
+import ghomaime.Keys;
 import ghomaime.ObjetoComGravidade;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -16,7 +18,6 @@ import javaPlay.GameObject;
 import javaPlay.Keyboard;
 import javaPlay.Sprite;
 import javaPlay2.Imagem;
-import javaPlay2.Keys;
 import javax.swing.JOptionPane;
 
 /**
@@ -33,7 +34,8 @@ public class Mario extends ObjetoComGravidade {
     protected EstadoPersonagem estado;
     protected int forcaPulo = 15;
     protected int contadorApanhando = 0;
-    
+    protected int contadorAtirando = 0;
+    protected int cooldownAtaque;
     protected Imagem moveDireita;
     protected Imagem moveEsquerda;
     protected Imagem moveFastDireita;
@@ -42,14 +44,12 @@ public class Mario extends ObjetoComGravidade {
     protected Imagem paradoEsquerda;
     protected Imagem puloDireita;
     protected Imagem puloEsquerda;
-    
     protected Imagem imagemAtual;
-    
-    String ultimaDirecao;
+    Direcao ultimaDirecao;
 
     public Mario() {
 
-
+       
         this.x = 500;
         this.y = 508;
         try {
@@ -61,7 +61,7 @@ public class Mario extends ObjetoComGravidade {
             this.paradoEsquerda = new Imagem("resources/Personagens/Mario/paradoEsquerda.gif");
             this.puloDireita = new Imagem("resources/Personagens/Mario/puloDireita.png");
             this.puloEsquerda = new Imagem("resources/Personagens/Mario/puloEsquerda.png");
-            this.imagemAtual = this.moveEsquerda;
+            this.imagemAtual = this.paradoDireita;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Recurso não disponível: " + ex.getMessage());
         }
@@ -71,51 +71,27 @@ public class Mario extends ObjetoComGravidade {
     }
 
     public void step(long timeElapsed) {
+
         super.step(timeElapsed);
-        
-        if(this.y > 500){
+        if(this.y>532){
             this.chegouChao();
-            this.y = 508-32;
-        }
+            this.y=540-32;
+        } 
         
         Keyboard teclado = GameEngine.getInstance().getKeyboard();
 
         if (teclado.keyDown(Keys.DIREITA)) {
-            this.x += (this.velocidade/2);
-            if (this.velocidade < 30) {
-                this.velocidade++;
-            }
-            if(this.velocidade < 25){
-
-                this.imagemAtual = moveDireita;
-            } else {
-                this.imagemAtual = moveFastDireita;
-            }
-            this.ultimaDirecao = "Direita";
+            this.moveDireita();
 
         } else if (teclado.keyDown(Keys.ESQUERDA)) {
-            this.x -= (this.velocidade/2);
-            if (this.velocidade < 30) {
-                this.velocidade++;
-            }
-
-            if(this.velocidade < 25){
-                this.imagemAtual = moveEsquerda;
-            } else {
-                this.imagemAtual = moveFastEsquerda;
-            }
-            this.ultimaDirecao = "Esquerda";
+            this.moveEsquerda();
             
-        } else if(teclado.keyDown(Keys.CIMA)) {
-            this.pula();
         } else {
-            this.velocidade = 0;
-            if(this.ultimaDirecao == "Esquerda"){
-                this.imagemAtual = paradoEsquerda;
-            } else {
-                this.imagemAtual = paradoDireita;
-            }
-            
+            this.para();
+        }
+        
+        if(teclado.keyDown(Keys.CIMA)) {
+            this.pula();
         }
 
         if (this.tocaParedeEsquerda()) {
@@ -159,5 +135,42 @@ public class Mario extends ObjetoComGravidade {
     
     public Rectangle getRetangulo(Rectangle retangulo){
         return new Rectangle(this.x, this.y, this.imagemAtual.pegaLargura(), this.imagemAtual.pegaAltura());
+    }
+
+    private void moveDireita() {
+        this.x += (this.velocidade/2);
+            if (this.velocidade < 30) {
+                this.velocidade++;
+            }
+            if(this.velocidade < 25){
+
+                this.imagemAtual = moveDireita;
+            } else {
+                this.imagemAtual = moveFastDireita;
+            }
+            this.ultimaDirecao = Direcao.DIREITA;
+    }
+
+    private void moveEsquerda() {
+        this.x -= (this.velocidade/2);
+            if (this.velocidade < 30) {
+                this.velocidade++;
+            }
+
+            if(this.velocidade < 25){
+                this.imagemAtual = moveEsquerda;
+            } else {
+                this.imagemAtual = moveFastEsquerda;
+            }
+            this.ultimaDirecao = Direcao.ESQUERDA;
+    }
+
+    private void para() {
+        this.velocidade = 0;
+            if(this.ultimaDirecao == Direcao.ESQUERDA){
+                this.imagemAtual = paradoEsquerda;
+            } else {
+                this.imagemAtual = paradoDireita;
+            }
     }
 }

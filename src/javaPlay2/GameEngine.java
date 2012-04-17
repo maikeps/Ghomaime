@@ -3,6 +3,7 @@
  */
 
 package javaPlay;
+import ghomaime.Fase2;
 
 import java.awt.Graphics;
 import java.awt.GraphicsConfiguration;
@@ -18,7 +19,7 @@ public class GameEngine
     private GameCanvas canvas;
     private Mouse mouse;
     private Keyboard keyboard;
-	//kaleu: Número de frames por segundo do jogo.
+	//kaleu: Nï¿½mero de frames por segundo do jogo.
 	private int framesPerSecond;
     private long lastTime;
     private boolean engineRunning;
@@ -120,10 +121,10 @@ public class GameEngine
         {
             currentTime = System.currentTimeMillis();
 
-			// Verifica se o tempo necessário para o próximo frame já passou.
+			// Verifica se o tempo necessï¿½rio para o prï¿½ximo frame jï¿½ passou.
 			if(!this.timeElapsedToFrame(currentTime)){
 				continue;
-				//Pula para próxima iteração.
+				//Pula para prï¿½xima iteraï¿½ï¿½o.
 			}
 
             currGameState.step(currentTime - lastTime);
@@ -158,4 +159,6 @@ public class GameEngine
 		this.lastTime = timeElapsed;
 		return true;
 	}
+
+
 }

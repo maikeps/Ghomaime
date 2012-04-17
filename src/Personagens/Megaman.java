@@ -4,7 +4,7 @@
  */
 package Personagens;
 
-
+import ghomaime.Direcao;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -15,10 +15,9 @@ import javaPlay.Keyboard;
 import javaPlay.Sprite;
 import javaPlay2.Imagem;
 import javax.swing.JOptionPane;
-import ClassesUteis.Util;
 import ghomaime.EstadoPersonagem;
+import ghomaime.Keys;
 import ghomaime.ObjetoComGravidade;
-import javaPlay2.Keys;
 
 /**
  *
@@ -27,7 +26,7 @@ import javaPlay2.Keys;
 public class Megaman extends ObjetoComGravidade {
 
     ObjetoComGravidade personagem;
-    
+
     int vida;
     protected int velocidade = 1;
     protected int velocidadeInicial = 1;
@@ -45,7 +44,9 @@ public class Megaman extends ObjetoComGravidade {
     protected Imagem tiroDireita;
     protected Imagem tiroEsquerda;
     protected Imagem imagemAtual;
-    String ultimaDirecao;
+    protected Imagem puloDireita;
+    protected Imagem puloEsquerda;
+     Direcao ultimaDirecao;
 
     public Megaman() {
 
@@ -61,6 +62,8 @@ public class Megaman extends ObjetoComGravidade {
             this.paradoEsquerda = new Imagem("resources/Personagens/Megaman/paradoEsquerda.png");
             this.tiroDireita = new Imagem("resources/Personagens/Megaman/atiraDireita.gif");
             this.tiroEsquerda = new Imagem("resources/Personagens/Megaman/atiraEsquerda.gif");
+            this.puloDireita = new Imagem("resources/Personagens/Megaman/puloDireita.png");
+            this.puloEsquerda = new Imagem("resources/Personagens/Megaman/puloEsquerda.png");
             this.imagemAtual = this.moveDireita;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Recurso não disponível: " + ex.getMessage());
@@ -69,15 +72,16 @@ public class Megaman extends ObjetoComGravidade {
     }
 
     public void step(long timeElapsed) {
+        
         super.step(timeElapsed);
-        
-        if(this.y > 500){
+        if(this.y>525){
             this.chegouChao();
-            this.y = 500-32;
-        }
+            this.y=533-32;
+        } 
         
-        if(this.cooldownAtaque >= 0){
-            this.cooldownAtaque --;
+        if (this.cooldownAtaque >= 0) {
+            this.cooldownAtaque--;
+        }
 
         //if (this.contadorAtirando >= 0) {
             this.contadorAtirando--;
@@ -90,12 +94,12 @@ public class Megaman extends ObjetoComGravidade {
         } else if (teclado.keyDown(Keys.A)) {
             this.moveEsquerda();
         } else if (teclado.keyDown(Keys.W)) {
-            this.pula();
+            this.pulo();
         }else{
                 this.para();
             } 
         
-        
+      
 
         if (this.tocaParedeEsquerda()) {
             this.x = 5;
@@ -107,7 +111,6 @@ public class Megaman extends ObjetoComGravidade {
             this.velocidade = this.velocidadeInicial;
         }
 
-        }
     }
 
     public void draw(Graphics g) {
@@ -147,6 +150,15 @@ public class Megaman extends ObjetoComGravidade {
         }
         this.ultimaDirecao = Direcao.DIREITA;
     }
+    
+    private void pulo() {
+        if(this.estaSubindo() || this.estaDescendo()){
+            return;
+        }
+
+        this.imagemAtual = this.puloDireita;
+        this.impulso(this.forcaPulo);
+    }
 
     public void para() {
         this.velocidade = 0;
@@ -170,14 +182,7 @@ public class Megaman extends ObjetoComGravidade {
     }
 
     
-    public void pula() {        
-        if(this.estaSubindo() || this.estaDescendo()){
-            return;
-         }
-        // this.imagemAtual  = this.puloDireita;    
-        this.impulso(this.forcaPulo);
-    }
-       
+     
    
         
     public void setSpriteAtual(Imagem sprite){
@@ -201,4 +206,6 @@ public class Megaman extends ObjetoComGravidade {
     public Rectangle getRetangulo(Rectangle retangulo) {
         return new Rectangle(this.x, this.y, this.imagemAtual.pegaLargura(), this.imagemAtual.pegaAltura());
     }
+
+    
 }
