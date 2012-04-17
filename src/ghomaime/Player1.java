@@ -151,4 +151,10 @@ public class Player1 extends ObjetoComGravidade {
         this.imagemAtual = this.puloDireita;
         this.impulso(this.forcaPulo);
     }
+    
+    
+    
+    public Rectangle getRetangulo(Rectangle retangulo){
+        return new Rectangle(this.x, this.y, this.imagemAtual.pegaLargura(), this.imagemAtual.pegaAltura());
+    }
 }

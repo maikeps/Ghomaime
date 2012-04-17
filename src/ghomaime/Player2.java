@@ -31,10 +31,8 @@ public class Player2 extends ObjetoComGravidade {
     protected EstadoPersonagem estado;
     protected int forcaPulo = 15;
     protected int contadorApanhando = 0;
-
-    
+    protected int contadorAtirando = 0;
     protected int cooldownAtaque;
-    
     protected Imagem moveDireita;
     protected Imagem moveEsquerda;
     protected Imagem moveFastDireita;
@@ -43,9 +41,7 @@ public class Player2 extends ObjetoComGravidade {
     protected Imagem paradoEsquerda;
     protected Imagem tiroDireita;
     protected Imagem tiroEsquerda;
-    
     protected Imagem imagemAtual;
-    
     Direcao ultimaDirecao;
 
     public Player2() {
@@ -69,8 +65,6 @@ public class Player2 extends ObjetoComGravidade {
         //Megaman megaman = new Megaman();
     }
 
-  
-
     public void step(long timeElapsed) {
         super.step(timeElapsed);
         
@@ -81,9 +75,11 @@ public class Player2 extends ObjetoComGravidade {
         
         if(this.cooldownAtaque >= 0){
             this.cooldownAtaque --;
-        }
-        
-        
+
+        //if (this.contadorAtirando >= 0) {
+            this.contadorAtirando--;
+       // }
+
         Keyboard teclado = GameEngine.getInstance().getKeyboard();
 
         if (teclado.keyDown(Keys.D)) {
@@ -91,7 +87,7 @@ public class Player2 extends ObjetoComGravidade {
         } else if (teclado.keyDown(Keys.A)) {
             this.moveEsquerda();
         } else if (teclado.keyDown(Keys.W)) {
-            this.pula();;
+            this.pula();
         }else{
                 this.para();
             } 
@@ -108,6 +104,7 @@ public class Player2 extends ObjetoComGravidade {
             this.velocidade = this.velocidadeInicial;
         }
 
+        }
     }
 
     public void draw(Graphics g) {
@@ -121,53 +118,54 @@ public class Player2 extends ObjetoComGravidade {
     public boolean tocaParedeDireita() {
         return (this.x >= 796 - this.imagemAtual.pegaLargura());
     }
-    
-    public void moveEsquerda(){
-        this.x -= (this.velocidade/2);
-            if (this.velocidade < 30) {
-                this.velocidade++;
-            }
-            if(this.velocidade < 25){
-                this.imagemAtual = moveEsquerda;
-            } else {
-                this.imagemAtual = moveFastEsquerda;
-            }
-            this.ultimaDirecao = Direcao.ESQUERDA;
+
+    public void moveEsquerda() {
+        this.x -= (this.velocidade / 2);
+        if (this.velocidade < 30) {
+            this.velocidade++;
+        }
+        if (this.velocidade < 25) {
+            this.imagemAtual = moveEsquerda;
+        } else {
+            this.imagemAtual = moveFastEsquerda;
+        }
+        this.ultimaDirecao = Direcao.ESQUERDA;
     }
-    
-    public void moveDireita(){
-        this.x += (this.velocidade/2);
-            if (this.velocidade < 30) {
-                this.velocidade++;
-            }
-            if(this.velocidade < 25){
-                this.imagemAtual = moveDireita;
-            } else {
-                this.imagemAtual = moveFastDireita;
-            }
-            this.ultimaDirecao = Direcao.DIREITA;
+
+    public void moveDireita() {
+        this.x += (this.velocidade / 2);
+        if (this.velocidade < 30) {
+            this.velocidade++;
+        }
+        if (this.velocidade < 25) {
+            this.imagemAtual = moveDireita;
+        } else {
+            this.imagemAtual = moveFastDireita;
+        }
+        this.ultimaDirecao = Direcao.DIREITA;
     }
-    
-    public void para(){
+
+    public void para() {
         this.velocidade = 0;
-            if(this.ultimaDirecao == Direcao.ESQUERDA){
-                this.imagemAtual = paradoEsquerda;
-            } else {
-                this.imagemAtual = paradoDireita;
-            }
+        if (this.ultimaDirecao == Direcao.ESQUERDA) {
+            this.imagemAtual = paradoEsquerda;
+        } else {
+            this.imagemAtual = paradoDireita;
+        }
     }
-    
-    public void setCooldownAtaque(int num){
+
+    public void setCooldownAtaque(int num) {
         this.cooldownAtaque = num;
     }
-    
-    public boolean podeAtacar(){
+
+    public boolean podeAtacar() {
         return (this.cooldownAtaque <= 0);
     }
 
-    public Direcao getDirecao(){
+    public Direcao getDirecao() {
         return this.ultimaDirecao;
     }
+
     
     public void pula() {        
         if(this.estaSubindo() || this.estaDescendo()){
@@ -182,5 +180,22 @@ public class Player2 extends ObjetoComGravidade {
     public void setSpriteAtual(Imagem sprite){
         this.imagemAtual = sprite;
 
+    }
+    public void setImagemAtirando() {
+        this.contadorAtirando = 10;
+        if (this.ultimaDirecao == Direcao.DIREITA) {
+            if (this.contadorAtirando <= 0) {
+                this.imagemAtual = tiroDireita;
+            }
+        }
+        if (this.ultimaDirecao == Direcao.ESQUERDA) {
+            if (this.contadorAtirando <= 0) {
+                this.imagemAtual = tiroEsquerda;
+            }
+        }
+    }
+
+    public Rectangle getRetangulo(Rectangle retangulo) {
+        return new Rectangle(this.x, this.y, this.imagemAtual.pegaLargura(), this.imagemAtual.pegaAltura());
     }
 }
