@@ -87,17 +87,17 @@ public class Fase1 implements GameStateController {
                 switch (Util.random(4)) {
                     case 1:
                         this.ataque.add(new TiroNormal(player2.getX(), player2.getY(), player2.getDirecao()));
-                        this.player2.setCooldownAtaque(3);
+                        this.player2.setCooldownAtaque(30);
                         this.player2.setImagemAtirando();
                         break;
                     case 2:
                         this.tiroVerde.add(new TiroVerde(player2.getX(), player2.getY(), player2.getDirecao()));
-                        this.player2.setCooldownAtaque(6);
+                        this.player2.setCooldownAtaque(60);
                         this.player2.setImagemAtirando();
                         break;
                     case 3:
                         this.ataque3.add(new Tiro3(player2.getX(), player2.getY(), player2.getDirecao()));
-                        this.player2.setCooldownAtaque(6);
+                        this.player2.setCooldownAtaque(60);
                         this.player2.setImagemAtirando();
                 }
             }
