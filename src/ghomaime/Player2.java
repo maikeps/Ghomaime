@@ -24,7 +24,7 @@ import ClassesUteis.Util;
 public class Player2 extends ObjetoComGravidade {
 
     ObjetoComGravidade personagem;
-    
+
     int vida;
     protected int velocidade = 1;
     protected int velocidadeInicial = 1;
@@ -42,6 +42,8 @@ public class Player2 extends ObjetoComGravidade {
     protected Imagem tiroDireita;
     protected Imagem tiroEsquerda;
     protected Imagem imagemAtual;
+    protected Imagem puloDireita;
+    protected Imagem puloEsquerda;
     Direcao ultimaDirecao;
 
     public Player2() {
@@ -58,6 +60,8 @@ public class Player2 extends ObjetoComGravidade {
             this.paradoEsquerda = new Imagem("resources/Personagens/Megaman/paradoEsquerda.png");
             this.tiroDireita = new Imagem("resources/Personagens/Megaman/atiraDireita.gif");
             this.tiroEsquerda = new Imagem("resources/Personagens/Megaman/atiraEsquerda.gif");
+            this.puloDireita = new Imagem("resources/Personagens/Megaman/puloDireita.png");
+            this.puloEsquerda = new Imagem("resources/Personagens/Megaman/puloEsquerda.png");
             this.imagemAtual = this.moveDireita;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Recurso não disponível: " + ex.getMessage());
@@ -66,15 +70,16 @@ public class Player2 extends ObjetoComGravidade {
     }
 
     public void step(long timeElapsed) {
+        
         super.step(timeElapsed);
-        
-        if(this.y > 500){
+        if(this.y>525){
             this.chegouChao();
-            this.y = 500-32;
-        }
+            this.y=533-32;
+        } 
         
-        if(this.cooldownAtaque >= 0){
-            this.cooldownAtaque --;
+        if (this.cooldownAtaque >= 0) {
+            this.cooldownAtaque--;
+        }
 
         //if (this.contadorAtirando >= 0) {
             this.contadorAtirando--;
@@ -92,7 +97,7 @@ public class Player2 extends ObjetoComGravidade {
                 this.para();
             } 
         
-        
+      
 
         if (this.tocaParedeEsquerda()) {
             this.x = 5;
@@ -104,7 +109,6 @@ public class Player2 extends ObjetoComGravidade {
             this.velocidade = this.velocidadeInicial;
         }
 
-        }
     }
 
     public void draw(Graphics g) {
@@ -143,6 +147,15 @@ public class Player2 extends ObjetoComGravidade {
             this.imagemAtual = moveFastDireita;
         }
         this.ultimaDirecao = Direcao.DIREITA;
+    }
+    
+    private void pulo() {
+        if(this.estaSubindo() || this.estaDescendo()){
+            return;
+        }
+
+        this.imagemAtual = this.puloDireita;
+        this.impulso(this.forcaPulo);
     }
 
     public void para() {
@@ -198,4 +211,6 @@ public class Player2 extends ObjetoComGravidade {
     public Rectangle getRetangulo(Rectangle retangulo) {
         return new Rectangle(this.x, this.y, this.imagemAtual.pegaLargura(), this.imagemAtual.pegaAltura());
     }
+
+    
 }
