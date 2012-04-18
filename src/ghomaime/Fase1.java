@@ -23,15 +23,16 @@ public class Fase1 implements GameStateController {
     protected ArrayList<TiroVerde> tiroVerde;
     protected ArrayList<Tiro3> ataque3;
 
-    protected Player1 player1;
-    protected Player2 player2;
-
+    protected Player1Teste player1;
+    protected Player2Teste player2;
+//    protected Megaman megaman;
+//    protected Megaman megaman2;
     public void load() {
         this.ataque = new ArrayList<TiroNormal>();
         this.tiroVerde = new ArrayList<TiroVerde>();
         this.ataque3 = new ArrayList<Tiro3>();
-        this.player2 = new Player2();
-        this.player1 = new Player1();
+        this.player2 = new Player2Teste();
+        this.player1 = new Player1Teste();
 
     }
 
@@ -83,13 +84,12 @@ public class Fase1 implements GameStateController {
         Keyboard teclado = GameEngine.getInstance().getKeyboard();
 
         if (teclado.keyDown(Keys.P)) {
-            if (this.player2.podeAtacar()) {
+            if (this.player1.podeAtacar()) {
                 switch (Util.random(4)) {
                     case 1:
                     case 2:
-                        this.ataque.add(new TiroNormal(player2.getX(), player2.getY(), player2.getDirecao()));
-                        this.player2.setCooldownAtaque(30);
-                        this.player2.setImagemAtirando();
+                        this.ataque.add(new TiroNormal(player1.getX(), player1.getY(), player1.getDirecao()));
+                        this.player1.setCooldownAtaque(30);
                         break;
                   /*  case 2:
                         this.tiroVerde.add(new TiroVerde(player2.getX(), player2.getY(), player2.getDirecao()));
@@ -99,9 +99,8 @@ public class Fase1 implements GameStateController {
                          
                          */
                     case 3:
-                        this.ataque3.add(new Tiro3(player2.getX(), player2.getY(), player2.getDirecao()));
+                        this.ataque3.add(new Tiro3(player1.getX(), player1.getY(), player1.getDirecao()));
                         this.player2.setCooldownAtaque(60);
-                        this.player2.setImagemAtirando();
                 }
             }
         }
