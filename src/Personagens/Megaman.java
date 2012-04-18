@@ -23,10 +23,9 @@ import ghomaime.ObjetoComGravidade;
  *
  * @author ariel_silveira
  */
-public class Megaman extends ObjetoComGravidade {
+public class Megaman extends Personagem {
 
     ObjetoComGravidade personagem;
-
     int vida;
     protected int velocidade = 1;
     protected int velocidadeInicial = 1;
@@ -35,18 +34,8 @@ public class Megaman extends ObjetoComGravidade {
     protected int contadorApanhando = 0;
     protected int contadorAtirando = 0;
     protected int cooldownAtaque;
-    protected Imagem moveDireita;
-    protected Imagem moveEsquerda;
-    protected Imagem moveFastDireita;
-    protected Imagem moveFastEsquerda;
-    protected Imagem paradoDireita;
-    protected Imagem paradoEsquerda;
-    protected Imagem tiroDireita;
-    protected Imagem tiroEsquerda;
-    protected Imagem imagemAtual;
-    protected Imagem puloDireita;
-    protected Imagem puloEsquerda;
-     Direcao ultimaDirecao;
+
+    //Direcao ultimaDirecao;
 
     public Megaman() {
 
@@ -59,9 +48,7 @@ public class Megaman extends ObjetoComGravidade {
             this.moveFastDireita = new Imagem("resources/Personagens/Megaman/moveFastDireita.png");
             this.moveFastEsquerda = new Imagem("resources/Personagens/Megaman/moveFastEsquerda.png");
             this.paradoDireita = new Imagem("resources/Personagens/Megaman/paradoDireita.png");
-            this.paradoEsquerda = new Imagem("resources/Personagens/Megaman/paradoEsquerda.png");
-            this.tiroDireita = new Imagem("resources/Personagens/Megaman/atiraDireita.gif");
-            this.tiroEsquerda = new Imagem("resources/Personagens/Megaman/atiraEsquerda.gif");
+            this.paradoEsquerda = new Imagem("resources/Personagens/Megaman/paradoEsquerda.png");        
             this.puloDireita = new Imagem("resources/Personagens/Megaman/puloDireita.png");
             this.puloEsquerda = new Imagem("resources/Personagens/Megaman/puloEsquerda.png");
             this.imagemAtual = this.moveDireita;
@@ -72,20 +59,20 @@ public class Megaman extends ObjetoComGravidade {
     }
 
     public void step(long timeElapsed) {
-        
+
         super.step(timeElapsed);
-        if(this.y>525){
+        if (this.y > 525) {
             this.chegouChao();
-            this.y=533-32;
-        } 
-        
+            this.y = 533 - 32;
+        }
+
         if (this.cooldownAtaque >= 0) {
             this.cooldownAtaque--;
         }
 
         //if (this.contadorAtirando >= 0) {
-            this.contadorAtirando--;
-       // }
+        this.contadorAtirando--;
+        // }
 
         Keyboard teclado = GameEngine.getInstance().getKeyboard();
 
@@ -94,12 +81,12 @@ public class Megaman extends ObjetoComGravidade {
         } else if (teclado.keyDown(Keys.A)) {
             this.moveEsquerda();
         } else if (teclado.keyDown(Keys.W)) {
-            this.pulo();
-        }else{
-                this.para();
-            } 
-        
-      
+            this.pula();
+        } else {
+            this.para();
+        }
+
+
 
         if (this.tocaParedeEsquerda()) {
             this.x = 5;
@@ -117,58 +104,6 @@ public class Megaman extends ObjetoComGravidade {
         this.imagemAtual.draw(g, this.x, this.y);
     }
 
-    public boolean tocaParedeEsquerda() {
-        return (this.x <= 4);
-    }
-
-    public boolean tocaParedeDireita() {
-        return (this.x >= 796 - this.imagemAtual.pegaLargura());
-    }
-
-    public void moveEsquerda() {
-        this.x -= (this.velocidade / 2);
-        if (this.velocidade < 30) {
-            this.velocidade++;
-        }
-        if (this.velocidade < 25) {
-            this.imagemAtual = moveEsquerda;
-        } else {
-            this.imagemAtual = moveFastEsquerda;
-        }
-        this.ultimaDirecao = Direcao.ESQUERDA;
-    }
-
-    public void moveDireita() {
-        this.x += (this.velocidade / 2);
-        if (this.velocidade < 30) {
-            this.velocidade++;
-        }
-        if (this.velocidade < 25) {
-            this.imagemAtual = moveDireita;
-        } else {
-            this.imagemAtual = moveFastDireita;
-        }
-        this.ultimaDirecao = Direcao.DIREITA;
-    }
-    
-    private void pulo() {
-        if(this.estaSubindo() || this.estaDescendo()){
-            return;
-        }
-
-        this.imagemAtual = this.puloDireita;
-        this.impulso(this.forcaPulo);
-    }
-
-    public void para() {
-        this.velocidade = 0;
-        if (this.ultimaDirecao == Direcao.ESQUERDA) {
-            this.imagemAtual = paradoEsquerda;
-        } else {
-            this.imagemAtual = paradoDireita;
-        }
-    }
-
     public void setCooldownAtaque(int num) {
         this.cooldownAtaque = num;
     }
@@ -177,35 +112,17 @@ public class Megaman extends ObjetoComGravidade {
         return (this.cooldownAtaque <= 0);
     }
 
-    public Direcao getDirecao() {
-        return this.ultimaDirecao;
-    }
-
-    
-     
-   
-        
-    public void setSpriteAtual(Imagem sprite){
-        this.imagemAtual = sprite;
-
-    }
     public void setImagemAtirando() {
         this.contadorAtirando = 10;
         if (this.ultimaDirecao == Direcao.DIREITA) {
             if (this.contadorAtirando <= 0) {
-                this.imagemAtual = tiroDireita;
+                //this.imagemAtual = tiroDireita;
             }
         }
         if (this.ultimaDirecao == Direcao.ESQUERDA) {
             if (this.contadorAtirando <= 0) {
-                this.imagemAtual = tiroEsquerda;
+                //this.imagemAtual = tiroEsquerda;
             }
         }
     }
-
-    public Rectangle getRetangulo(Rectangle retangulo) {
-        return new Rectangle(this.x, this.y, this.imagemAtual.pegaLargura(), this.imagemAtual.pegaAltura());
-    }
-
-    
 }

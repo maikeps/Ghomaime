@@ -6,7 +6,6 @@ package Personagens;
 
 import ghomaime.Direcao;
 import ghomaime.EstadoPersonagem;
-import ghomaime.Keys;
 import ghomaime.ObjetoComGravidade;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -23,81 +22,45 @@ import javax.swing.JOptionPane;
  *
  * @author ariel_silveira
  */
-public class Mario extends ObjetoComGravidade {
+public class Personagem extends ObjetoComGravidade {
 
     ObjetoComGravidade personagem;
     int vida;
-    protected int velocidade = 1;
-    protected int velocidadeInicial = 1;
-    protected EstadoPersonagem estado;
-    protected int forcaPulo = 15;
-    protected int contadorApanhando = 0;
-    protected int contadorAtirando = 0;
-    protected int cooldownAtaque;
-    protected Imagem moveDireita;
-    protected Imagem moveEsquerda;
-    protected Imagem moveFastDireita;
-    protected Imagem moveFastEsquerda;
-    protected Imagem paradoDireita;
-    protected Imagem paradoEsquerda;
-    protected Imagem puloDireita;
-    protected Imagem puloEsquerda;
-    protected Imagem imagemAtual;
+    int velocidade = 1;
+    int velocidadeInicial = 1;
+    EstadoPersonagem estado;
+    int forcaPulo = 15;
+    int contadorApanhando = 0;
+    Imagem moveDireita;
+    Imagem moveEsquerda;
+    Imagem moveFastDireita;
+    Imagem moveFastEsquerda;
+    Imagem paradoDireita;
+    Imagem paradoEsquerda;
+    Imagem puloDireita;
+    Imagem puloEsquerda;
+    public Imagem imagemAtual;
     Direcao ultimaDirecao;
 
-    public Mario() {
+    public Personagem() {
 
 
         this.x = 500;
         this.y = 508;
-        try {
-            this.moveDireita = new Imagem("resources/Personagens/Mario/moveDireita.gif");
-            this.moveEsquerda = new Imagem("resources/Personagens/Mario/moveEsquerda.gif");
-            this.moveFastDireita = new Imagem("resources/Personagens/Mario/moveFastDireita.gif");
-            this.moveFastEsquerda = new Imagem("resources/Personagens/Mario/moveFastEsquerda.gif");
-            this.paradoDireita = new Imagem("resources/Personagens/Mario/paradoDireita.gif");
-            this.paradoEsquerda = new Imagem("resources/Personagens/Mario/paradoEsquerda.gif");
-            this.puloDireita = new Imagem("resources/Personagens/Mario/puloDireita.png");
-            this.puloEsquerda = new Imagem("resources/Personagens/Mario/puloEsquerda.png");
-            this.imagemAtual = this.paradoDireita;
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Recurso não disponível: " + ex.getMessage());
-        }
-        //Megaman megaman = new Megaman();
-
 
     }
 
     public void step(long timeElapsed) {
 
         super.step(timeElapsed);
+
         if (this.y > 532) {
             this.chegouChao();
             this.y = 540 - 32;
         }
 
-        if (this.cooldownAtaque >= 0) {
-            this.cooldownAtaque--;
-        }
 
 
-        this.contadorAtirando--;
-
-        Keyboard teclado = GameEngine.getInstance().getKeyboard();
-
-        if (teclado.keyDown(Keys.DIREITA)) {
-            this.moveDireita();
-
-        } else if (teclado.keyDown(Keys.ESQUERDA)) {
-            this.moveEsquerda();
-
-        } else {
-            this.para();
-        }
-
-        if (teclado.keyDown(Keys.CIMA)) {
-            this.pula();
-        }
 
         if (this.tocaParedeEsquerda()) {
             this.x = 5;
@@ -114,8 +77,7 @@ public class Mario extends ObjetoComGravidade {
     }
 
     public void draw(Graphics g) {
-        //g.setColor(Color.yellow);
-        //g.fillOval(this.x, this.y, 20, 20);
+
         this.imagemAtual.draw(g, this.x, this.y);
     }
 
@@ -140,7 +102,7 @@ public class Mario extends ObjetoComGravidade {
         return new Rectangle(this.x, this.y, this.imagemAtual.pegaLargura(), this.imagemAtual.pegaAltura());
     }
 
-    private void moveDireita() {
+    public void moveDireita() {
         this.x += (this.velocidade / 2);
         if (this.velocidade < 30) {
             this.velocidade++;
@@ -154,7 +116,7 @@ public class Mario extends ObjetoComGravidade {
         this.ultimaDirecao = Direcao.DIREITA;
     }
 
-    private void moveEsquerda() {
+    public void moveEsquerda() {
         this.x -= (this.velocidade / 2);
         if (this.velocidade < 30) {
             this.velocidade++;
@@ -168,12 +130,21 @@ public class Mario extends ObjetoComGravidade {
         this.ultimaDirecao = Direcao.ESQUERDA;
     }
 
-    private void para() {
+    public void para() {
         this.velocidade = 0;
         if (this.ultimaDirecao == Direcao.ESQUERDA) {
             this.imagemAtual = paradoEsquerda;
         } else {
             this.imagemAtual = paradoDireita;
         }
+    }
+
+    public Direcao getDirecao() {
+        return this.ultimaDirecao;
+    }
+
+    public void setSpriteAtual(Imagem sprite) {
+        this.imagemAtual = sprite;
+
     }
 }

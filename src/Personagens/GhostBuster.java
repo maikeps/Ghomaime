@@ -4,7 +4,6 @@
  */
 package Personagens;
 
-
 import ghomaime.Direcao;
 import ghomaime.EstadoPersonagem;
 import ghomaime.Keys;
@@ -20,7 +19,7 @@ import javax.swing.JOptionPane;
  * @author ariel_silveira
  */
 public class GhostBuster extends ObjetoComGravidade {
-    
+
     int vida;
     protected int velocidade = 1;
     protected int velocidadeInicial = 1;
@@ -39,31 +38,36 @@ public class GhostBuster extends ObjetoComGravidade {
     protected Imagem puloEsquerda;
     protected Imagem imagemAtual;
     Direcao ultimaDirecao;
-     
-    public GhostBuster () {
-         this.x = x;
-         this.y = y;
-         try{
-             
-             this.moveDireita = new Imagem ("resources/Personagens/ghostbuster/MoveDireita.gif");
-             this.moveEsquerda = new Imagem ("resources/Personagens/ghostbuster/MoveEsquerda.gif");
-         } catch (Exception ex) {
-             JOptionPane.showMessageDialog(null, "Recurso não disponível: " + ex.getMessage());
-             
-         }
-     
+
+    public GhostBuster() {
+        this.x = x;
+        this.y = y;
+        try {
+
+            this.moveDireita = new Imagem("resources/Personagens/ghostbuster/MoveDireita.gif");
+            this.moveEsquerda = new Imagem("resources/Personagens/ghostbuster/MoveEsquerda.gif");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Recurso não disponível: " + ex.getMessage());
+
+        }
+
     }
 
- 
-  
-        public void step(long timeElapsed) {
-        
+    public void step(long timeElapsed) {
+
         super.step(timeElapsed);
-        if(this.y>525){
+        if (this.y > 525) {
             this.chegouChao();
-            this.y=533-32;
-        } 
-        
+            this.y = 533 - 32;
+        }
+
+        if (this.cooldownAtaque >= 0) {
+            this.cooldownAtaque--;
+        }
+
+
+        this.contadorAtirando--;
+
 
         Keyboard teclado = GameEngine.getInstance().getKeyboard();
 
@@ -73,29 +77,28 @@ public class GhostBuster extends ObjetoComGravidade {
             this.moveEsquerda();
         } else if (teclado.keyDown(Keys.W)) {
             this.pulo();
-        }else{
-                this.para();
-            } 
-        
-      
+        } else {
+            this.para();
+        }
+
+
         if (this.tocaParedeEsquerda()) {
             this.x = 5;
             this.velocidade = this.velocidadeInicial;
         }
 
         if (this.tocaParedeDireita()) {
-           this.x = 795 - this.imagemAtual.pegaLargura();
-          this.velocidade = this.velocidadeInicial;
-       }
-        
+            this.x = 795 - this.imagemAtual.pegaLargura();
+            this.velocidade = this.velocidadeInicial;
+        }
+
 
     }
-    
-     
+
     public void draw(Graphics g) {
         this.moveDireita.draw(g, this.x, this.y);
     }
-    
+
     public boolean tocaParedeEsquerda() {
         return (this.x <= 4);
     }
@@ -116,7 +119,7 @@ public class GhostBuster extends ObjetoComGravidade {
         }
         this.ultimaDirecao = Direcao.ESQUERDA;
     }
-    
+
     public void moveDireita() {
         this.x += (this.velocidade / 2);
         if (this.velocidade < 30) {
@@ -129,9 +132,9 @@ public class GhostBuster extends ObjetoComGravidade {
         }
         this.ultimaDirecao = Direcao.DIREITA;
     }
-    
+
     private void pulo() {
-        if(this.estaSubindo() || this.estaDescendo()){
+        if (this.estaSubindo() || this.estaDescendo()) {
             return;
         }
 
@@ -147,5 +150,4 @@ public class GhostBuster extends ObjetoComGravidade {
             this.imagemAtual = paradoDireita;
         }
     }
-    
 }
