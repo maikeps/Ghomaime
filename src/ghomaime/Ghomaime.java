@@ -19,7 +19,7 @@ public class Ghomaime {
         
        GameEngine.getInstance().addGameStateController(100, new Fase1());
        GameEngine.getInstance().addGameStateController(200, new Fase2());
-        GameEngine.getInstance().setStartingGameStateController(200);
+        GameEngine.getInstance().setStartingGameStateController(100);
         GameEngine.getInstance().setFramesPerSecond(60);
         GameEngine.getInstance().run();
         
