@@ -2,8 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ghomaime;
+package Ataques;
 
+import ghomaime.Direcao;
+import ghomaime.GameObject;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -16,14 +18,12 @@ import javax.swing.JOptionPane;
  *
  * @author Maike
  */
-public class TiroNormal extends GameObject{
+public class TiroNormal extends Ataque{
     
-    boolean desativado;
     Direcao direcao = Direcao.DIREITA;
     int velocidade;
     Imagem direita;
     Imagem esquerda;
-    Imagem spriteAtual;
     
     
     
@@ -32,13 +32,14 @@ public class TiroNormal extends GameObject{
         this.x = x;
         this.y = y;
         this.direcao = direcao;
-        this.velocidade = 10;
+        this.velocidade = 18;
         try {
             this.direita = new Imagem("resources/Personagens/Megaman/Ataques/Tiro1Direita.gif");
             this.esquerda = new Imagem("resources/Personagens/Megaman/Ataques/Tiro1Esquerda.gif");
             this.spriteAtual = direita;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Recurso não encontrado: " + ex.getMessage());
+            System.exit(1);
         }
         
         

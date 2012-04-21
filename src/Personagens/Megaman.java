@@ -37,7 +37,7 @@ public class Megaman extends Personagem {
     //Direcao ultimaDirecao;
     public Megaman() {
 
-        this.setCooldownAtaque(0);
+        //this.setCooldownAtaque(0);
 //        this.x = 200;
 //        this.y = 500;
         try {
@@ -52,6 +52,7 @@ public class Megaman extends Personagem {
             this.imagemAtual = this.moveDireita;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Recurso não disponível: " + ex.getMessage());
+            System.exit(1);
         }
         //Megaman megaman = new Megaman();
     }
@@ -64,29 +65,15 @@ public class Megaman extends Personagem {
             this.y = 533 - 32;
         }
 
-        if (this.cooldownAtaque >= 0) {
-            this.cooldownAtaque--;
-        }
+//        if (this.cooldownAtaque >= 0) {
+//            this.cooldownAtaque--;
+//        }
 
         //if (this.contadorAtirando >= 0) {
         this.contadorAtirando--;
         // }
 
-        Keyboard teclado = GameEngine.getInstance().getKeyboard();
-
-        if (teclado.keyDown(Keys.D)) {
-            this.moveDireita();
-        } else if (teclado.keyDown(Keys.A)) {
-            this.moveEsquerda();
-        } else if (teclado.keyDown(Keys.W)) {
-            if (this.estado == this.estado.PULANDO) {
-                return;
-            } else {
-                this.pula();
-            }
-        } else {
-            this.para();
-        }
+//        
 
 
 
@@ -98,13 +85,13 @@ public class Megaman extends Personagem {
         this.imagemAtual.draw(g, this.x, this.y);
     }
 
-    public void setCooldownAtaque(int num) {
-        this.cooldownAtaque = num;
-    }
-
-    public boolean podeAtacar() {
-        return (this.cooldownAtaque <= 0);
-    }
+//    public void setCooldownAtaque(int num) {
+//        this.cooldownAtaque = num;
+//    }
+//
+//    public boolean podeAtacar() {
+//        return (this.cooldownAtaque <= 0);
+//    }
 
     public void setImagemAtirando() {
         this.contadorAtirando = 10;
@@ -120,40 +107,40 @@ public class Megaman extends Personagem {
         }
     }
 
-    public void moveDireita() {
-        this.x += (this.velocidade / 2);
-        if (this.velocidade < 30) {
-            this.velocidade++;
-        }
-        if (this.velocidade < 25) {
-
-            this.imagemAtual = moveDireita;
-        } else {
-            this.imagemAtual = moveFastDireita;
-        }
-        this.ultimaDirecao = Direcao.DIREITA;
-    }
-
-    public void moveEsquerda() {
-        this.x -= (this.velocidade / 2);
-        if (this.velocidade < 30) {
-            this.velocidade++;
-        }
-
-        if (this.velocidade < 25) {
-            this.imagemAtual = moveEsquerda;
-        } else {
-            this.imagemAtual = moveFastEsquerda;
-        }
-        this.ultimaDirecao = Direcao.ESQUERDA;
-    }
+//    public void moveDireita() {
+//        this.x += (this.velocidade / 2);
+//        if (this.velocidade < 30) {
+//            this.velocidade++;
+//        }
+//        if (this.velocidade < 25) {
+//
+//            this.imagemAtual = moveDireita;
+//        } else {
+//            this.imagemAtual = moveFastDireita;
+//        }
+//        this.ultimaDirecao = Direcao.DIREITA;
+//    }
+//
+//    public void moveEsquerda() {
+//        this.x -= (this.velocidade / 2);
+//        if (this.velocidade < 30) {
+//            this.velocidade++;
+//        }
+//
+//        if (this.velocidade < 25) {
+//            this.imagemAtual = moveEsquerda;
+//        } else {
+//            this.imagemAtual = moveFastEsquerda;
+//        }
+//        this.ultimaDirecao = Direcao.ESQUERDA;
+//    }
     
-    public void para() {
-        this.velocidade = 0;
-        if (this.ultimaDirecao == Direcao.ESQUERDA) {
-            this.imagemAtual = paradoEsquerda;
-        } else {
-            this.imagemAtual = paradoDireita;
-        }
-    }
+//    public void para() {
+//        this.velocidade = 0;
+//        if (this.ultimaDirecao == Direcao.ESQUERDA) {
+//            this.imagemAtual = paradoEsquerda;
+//        } else {
+//            this.imagemAtual = paradoDireita;
+//        }
+//    }
 }

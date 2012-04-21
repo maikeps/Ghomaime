@@ -4,8 +4,13 @@
  */
 package ghomaime;
 
+import Ataques.TiroVerde;
+import Ataques.Tiro3;
+import Ataques.TiroNormal;
 import ClassesUteis.Util;
 import Personagens.*;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import javaPlay.GameEngine;
@@ -16,26 +21,26 @@ import javaPlay.Keyboard;
  *
  * @author ariel_silveira
  */
-
 public class Fase1 implements GameStateController {
 
     Megaman megaman;
     Mario mario;
-    
     protected ArrayList<TiroNormal> ataque;
     protected ArrayList<TiroVerde> tiroVerde;
     protected ArrayList<Tiro3> ataque3;
-
     protected Player1Teste player1;
     protected Player2Teste player2;
 //    protected Megaman megaman;
 //    protected Megaman megaman2;
+
     public void load() {
         this.ataque = new ArrayList<TiroNormal>();
         this.tiroVerde = new ArrayList<TiroVerde>();
         this.ataque3 = new ArrayList<Tiro3>();
-        this.player2 = new Player2Teste(this.mario);
-        this.player1 = new Player1Teste(this.megaman);
+        this.megaman = new Megaman();
+        this.mario = new Mario();
+        this.player2 = new Player2Teste(this.megaman);
+        this.player1 = new Player1Teste(this.mario);
 
     }
 
@@ -53,11 +58,12 @@ public class Fase1 implements GameStateController {
             gameObject.step(timeElapsed);
         }
 
-        this.atacaPlayer1();
+        this.atacaPlayer2();
 
     }
 
     public void draw(Graphics g) {
+
         g.fillRect(0, 0, 800, 600);
         this.player1.draw(g);
         this.player2.draw(g);
@@ -71,7 +77,7 @@ public class Fase1 implements GameStateController {
         for (GameObject gameObject : this.ataque3) {
             gameObject.draw(g);
         }
-        
+
     }
 
     public void unload() {
@@ -83,27 +89,25 @@ public class Fase1 implements GameStateController {
     public void stop() {
     }
 
-    public void atacaPlayer1() {
+    public void atacaPlayer2() {
         Keyboard teclado = GameEngine.getInstance().getKeyboard();
 
         if (teclado.keyDown(Keys.P)) {
-            if (this.player1.podeAtacar()) {
-                switch (Util.random(4)) {
+            if (this.player2.podeAtacar()) {
+                switch (Util.random(5)) {
                     case 1:
                     case 2:
-                        this.ataque.add(new TiroNormal(player1.getX(), player1.getY(), player1.getDirecao()));
-                        this.player1.setCooldownAtaque(30);
+                        this.ataque.add(new TiroNormal(player2.getXPersonagem(), player2.getYPersonagem(), player2.getDirecao()));
+                        this.player2.setCooldownAtaque(30);
                         break;
-                  /*  case 2:
-                        this.tiroVerde.add(new TiroVerde(player2.getX(), player2.getY(), player2.getDirecao()));
-                        this.player2.setCooldownAtaque(60);
-                        this.player2.setImagemAtirando();
-                        break;
-                         
-                         */
                     case 3:
-                        this.ataque3.add(new Tiro3(player1.getX(), player1.getY(), player1.getDirecao()));
+                        this.tiroVerde.add(new TiroVerde(player2.getXPersonagem(), player2.getYPersonagem(), player2.getDirecao()));
                         this.player2.setCooldownAtaque(60);
+                        break;
+                    case 4:
+                        this.ataque3.add(new Tiro3(player2.getXPersonagem(), player2.getYPersonagem(), player2.getDirecao()));
+                        this.player2.setCooldownAtaque(60);
+                        break;
                 }
             }
         }

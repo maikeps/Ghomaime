@@ -34,7 +34,7 @@ public class Player1Teste extends GameObject {
 //    verificar direitihno onde esta o erro e colocar o metodo de volta na classe abstrata.
     
     
-    
+    EstadoPersonagem estado;
     
     Personagem personagem;
     int vida;
@@ -45,7 +45,7 @@ public class Player1Teste extends GameObject {
 
     public Player1Teste(Personagem personagem) {
 
-        this.personagem = new Mario();
+        this.personagem = personagem;
 
         this.x = 500;
         this.y = 500;
@@ -66,13 +66,18 @@ public class Player1Teste extends GameObject {
             this.personagem.moveDireita();
         } else if (teclado.keyDown(Keys.ESQUERDA)) {
             this.personagem.moveEsquerda();
-        } else if (teclado.keyDown(Keys.CIMA)) {
-            this.personagem.pula();
+        
         } else {
             this.personagem.para();
         }
 
-
+        if (teclado.keyDown(Keys.CIMA)) {
+            if (this.personagem.getEstado() == this.estado.PULANDO) {
+                return;
+            } else {
+                this.personagem.pula();
+            }
+        }
 
 
 

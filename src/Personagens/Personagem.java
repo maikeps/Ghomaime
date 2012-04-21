@@ -24,6 +24,9 @@ import javax.swing.JOptionPane;
  */
 public abstract class Personagem extends ObjetoComGravidade {
 
+    
+    int cooldownAtaque;
+    
     ObjetoComGravidade personagem;
     int vida;
     int velocidade = 1;
@@ -46,8 +49,8 @@ public abstract class Personagem extends ObjetoComGravidade {
 
         this.estado = this.estado.NORMAL;
 
-        this.x = 500;
-        this.y = 508;
+        //this.x = 500;
+        //this.y = 508;
 
     }
 
@@ -61,7 +64,9 @@ public abstract class Personagem extends ObjetoComGravidade {
             this.estado = this.estado.NORMAL;
         }
 
-        
+        if (this.cooldownAtaque >= 0) {
+            this.cooldownAtaque--;
+        }
 
 
         if (this.tocaParedeEsquerda()) {
@@ -105,10 +110,46 @@ public abstract class Personagem extends ObjetoComGravidade {
         return new Rectangle(this.x, this.y, this.imagemAtual.pegaLargura(), this.imagemAtual.pegaAltura());
     }
 
-    public void moveEsquerda(){}
-    public void moveDireita(){}
+//    public void moveEsquerda(){}
+//    public void moveDireita(){}
+    //public void para() {}
+    
+    public void para() {
+        this.velocidade = 0;
+        if (this.ultimaDirecao == Direcao.ESQUERDA) {
+            this.imagemAtual = paradoEsquerda;
+        } else {
+            this.imagemAtual = paradoDireita;
+        }
+    }
+    
+    public void moveDireita() {
+        this.x += (this.velocidade / 2);
+        if (this.velocidade < 30) {
+            this.velocidade++;
+        }
+        if (this.velocidade < 25) {
 
-    public void para() {}
+            this.imagemAtual = moveDireita;
+        } else {
+            this.imagemAtual = moveFastDireita;
+        }
+        this.ultimaDirecao = Direcao.DIREITA;
+    }
+
+    public void moveEsquerda() {
+        this.x -= (this.velocidade / 2);
+        if (this.velocidade < 30) {
+            this.velocidade++;
+        }
+
+        if (this.velocidade < 25) {
+            this.imagemAtual = moveEsquerda;
+        } else {
+            this.imagemAtual = moveFastEsquerda;
+        }
+        this.ultimaDirecao = Direcao.ESQUERDA;
+    }
 
     public Direcao getDirecao() {
         return this.ultimaDirecao;
@@ -117,5 +158,17 @@ public abstract class Personagem extends ObjetoComGravidade {
     public void setSpriteAtual(Imagem sprite) {
         this.imagemAtual = sprite;
 
+    }
+    
+    public EstadoPersonagem getEstado(){
+        return this.estado;
+    }
+    
+    public int getColdownAtaque(){
+        return this.cooldownAtaque;
+    }
+    
+    public void setCooldownAtaque(int n){
+        this.cooldownAtaque = n;
     }
 }

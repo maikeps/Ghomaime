@@ -48,7 +48,7 @@ public class GhostBuster extends ObjetoComGravidade {
             this.moveEsquerda = new Imagem("resources/Personagens/ghostbuster/MoveEsquerda.gif");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Recurso não disponível: " + ex.getMessage());
-
+            System.exit(1);
         }
 
     }

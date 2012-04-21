@@ -24,6 +24,9 @@ import Personagens.Personagem;
  */
 public class Player2Teste extends GameObject {
 
+    
+    EstadoPersonagem estado;
+    
     Personagem personagem;
     // ObjetoComGravidade personagem;
     int vida;
@@ -34,11 +37,13 @@ public class Player2Teste extends GameObject {
 
     public Player2Teste(Personagem personagem) {
 
-        this.personagem = new Megaman();
+        this.personagem = personagem;
 
         this.x = 200;
         this.y = 500;
 
+        
+        
     }
 
     public void step(long timeElapsed) {
@@ -57,15 +62,17 @@ public class Player2Teste extends GameObject {
             this.personagem.moveDireita();
         } else if (teclado.keyDown(Keys.A)) {
             this.personagem.moveEsquerda();
-        } else if (teclado.keyDown(Keys.W)) {
-            this.personagem.pula();
         } else {
             this.personagem.para();
         }
 
-
-
-
+        if (teclado.keyDown(Keys.W)) {
+            if (this.personagem.getEstado() == this.estado.PULANDO) {
+                return;
+            } else {
+                this.personagem.pula();
+            }
+        }
 
     }
 
@@ -74,11 +81,11 @@ public class Player2Teste extends GameObject {
     }
 
     public void setCooldownAtaque(int num) {
-        this.cooldownAtaque = num;
+        this.personagem.setCooldownAtaque(num);
     }
 
     public boolean podeAtacar() {
-        return (this.cooldownAtaque <= 0);
+        return (this.personagem.getColdownAtaque() <= 0);
     }
 
     public Direcao getDirecao() {
@@ -88,5 +95,15 @@ public class Player2Teste extends GameObject {
     public Rectangle getRetangulo(Rectangle retangulo) {
         return new Rectangle(this.x, this.y, this.personagem.imagemAtual.pegaLargura(), this.imagemAtual.pegaAltura());
     }
+    
+    public int getXPersonagem(){
+        return this.personagem.getX();
+    }
+    
+    public int getYPersonagem(){
+        return this.personagem.getY();
+    }
+    
+    
     
 }

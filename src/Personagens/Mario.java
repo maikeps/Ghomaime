@@ -34,7 +34,6 @@ public class Mario extends Personagem {
     protected int contadorApanhando = 0;
     protected int contadorAtirando = 0;
     protected int cooldownAtaque;
-
     Direcao ultimaDirecao;
 
     public Mario() {
@@ -54,13 +53,14 @@ public class Mario extends Personagem {
             this.imagemAtual = this.paradoDireita;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Recurso não disponível: " + ex.getMessage());
+            System.exit(1);
         }
         //Megaman megaman = new Megaman();
 
 
     }
 
-   public void step(long timeElapsed) {
+    public void step(long timeElapsed) {
 
         super.step(timeElapsed);
         if (this.y > 525) {
@@ -76,21 +76,7 @@ public class Mario extends Personagem {
         this.contadorAtirando--;
         // }
 
-        Keyboard teclado = GameEngine.getInstance().getKeyboard();
-
-        if (teclado.keyDown(Keys.DIREITA)) {
-            this.moveDireita();
-        } else if (teclado.keyDown(Keys.ESQUERDA)) {
-            this.moveEsquerda();
-        } else if (teclado.keyDown(Keys.CIMA)) {
-            if (this.estado == this.estado.PULANDO) {
-                return;
-            } else {
-                this.pula();
-            }
-        } else {
-            this.para();
-        }
+        
 
 
 
@@ -122,7 +108,7 @@ public class Mario extends Personagem {
             }
         }
     }
-    
+
     public void moveDireita() {
         this.x += (this.velocidade / 2);
         if (this.velocidade < 30) {
@@ -150,9 +136,7 @@ public class Mario extends Personagem {
         }
         this.ultimaDirecao = Direcao.ESQUERDA;
     }
-    
-    
-    
+
     public void para() {
         this.velocidade = 0;
         if (this.ultimaDirecao == Direcao.ESQUERDA) {
@@ -161,5 +145,4 @@ public class Mario extends Personagem {
             this.imagemAtual = paradoDireita;
         }
     }
-    
 }
