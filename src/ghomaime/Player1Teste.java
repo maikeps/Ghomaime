@@ -34,7 +34,7 @@ public class Player1Teste extends GameObject {
 //    verificar direitihno onde esta o erro e colocar o metodo de volta na classe abstrata.
     
     
-    
+    EstadoPersonagem estado;
     
     Personagem personagem;
     int vida;
@@ -42,38 +42,54 @@ public class Player1Teste extends GameObject {
     protected int velocidadeInicial = 1;
     protected Imagem imagemAtual;
     protected int cooldownAtaque;
+    boolean atacou;
 
     public Player1Teste(Personagem personagem) {
 
-        this.personagem = new Mario();
+       // this.personagem.setImagemInicial(imagemAtual);
+        
+        this.atacou = false;
+        
+        this.personagem = personagem;
 
-        this.x = 500;
-        this.y = 500;
+        
+        this.personagem.setX(200);
+        this.personagem.setY(500);
+        
+
     }
 
     public void step(long timeElapsed) {
 
         personagem.step(timeElapsed);
-        if (this.y > 525) {
-            this.personagem.chegouChao();
-            this.y = 533 - 32;
-        }
+//        if (this.y > 525) {
+//            this.personagem.chegouChao();
+//            this.y = 533 - 32;
+//        }
 
 
         Keyboard teclado = GameEngine.getInstance().getKeyboard();
 
-        if (teclado.keyDown(Keys.DIREITA)) {
+        
+        if (teclado.keyDown(Keys.D)) {
             this.personagem.moveDireita();
-        } else if (teclado.keyDown(Keys.ESQUERDA)) {
+        } else if (teclado.keyDown(Keys.A)) {
             this.personagem.moveEsquerda();
-        } else if (teclado.keyDown(Keys.CIMA)) {
-            this.personagem.pula();
         } else {
             this.personagem.para();
         }
 
+        if (teclado.keyDown(Keys.W)) {
+            if (this.personagem.getEstado() == this.estado.PULANDO) {
+                return;
+            } else {
+                this.personagem.pula();
+            }
+        }
 
-
+        if (teclado.keyDown(Keys.V)){
+            this.atacou = true;
+        }
 
 
     }
@@ -83,18 +99,34 @@ public class Player1Teste extends GameObject {
     }
 
     public void setCooldownAtaque(int num) {
-        this.cooldownAtaque = num;
+        this.personagem.setCooldownAtaque(num);
     }
 
     public boolean podeAtacar() {
-        return (this.cooldownAtaque <= 0);
+        return (this.personagem.getColdownAtaque() <= 0);
     }
 
     public Direcao getDirecao() {
         return this.personagem.getDirecao();
     }
 
-    public Rectangle getRetangulo(Rectangle retangulo) {
-        return new Rectangle(this.x, this.y, this.personagem.imagemAtual.pegaLargura(), this.imagemAtual.pegaAltura());
+//    
+    
+    public Personagem getPersonagem(){
+        return this.personagem;
     }
+    
+    
+    public int getXPersonagem(){
+        return this.personagem.getX();
+    }
+    
+    public int getYPersonagem(){
+        return this.personagem.getY();
+    }
+    
+    public int getVida(){
+        return this.personagem.getVida();
+    }
+    
 }

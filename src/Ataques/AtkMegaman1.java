@@ -2,8 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ghomaime;
+package Ataques;
 
+import ghomaime.Direcao;
+import ghomaime.GameObject;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -16,29 +18,30 @@ import javax.swing.JOptionPane;
  *
  * @author Maike
  */
-public class TiroNormal extends GameObject{
+public class AtkMegaman1 extends Ataque{
     
-    boolean desativado;
     Direcao direcao = Direcao.DIREITA;
     int velocidade;
     Imagem direita;
     Imagem esquerda;
-    Imagem spriteAtual;
+    int dano;
     
-    
-    
-    public TiroNormal(int x, int y, Direcao direcao){
+    public AtkMegaman1(int x, int y, Direcao direcao){
+        
+        this.setDano(2);
+        
         this.desativado = false;
         this.x = x;
         this.y = y;
         this.direcao = direcao;
-        this.velocidade = 10;
+        this.velocidade = 18;
         try {
             this.direita = new Imagem("resources/Personagens/Megaman/Ataques/Tiro1Direita.gif");
             this.esquerda = new Imagem("resources/Personagens/Megaman/Ataques/Tiro1Esquerda.gif");
             this.spriteAtual = direita;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Recurso não encontrado: " + ex.getMessage());
+            System.exit(1);
         }
         
         
@@ -79,9 +82,7 @@ public class TiroNormal extends GameObject{
     }
     
     public Rectangle getRetangulo(){
-        return new Rectangle(this.x, this.y, 60, 60);
-        //get height, get width, Imagem ao inves de Sprite
-        //return new Rectangle(this.x, this.y, this.spriteAtual.pegaLargura(), this.spriteAtual.pegaAltura());
+        return new Rectangle(this.x, this.y-1, this.spriteAtual.pegaLargura(), this.spriteAtual.pegaAltura()+2);
     }
     
     public boolean temColisao(Rectangle retangulo){
@@ -104,4 +105,14 @@ public class TiroNormal extends GameObject{
     public void moveDireita(int num){
         this.x += num;
     }
+
+    public int getDano() {
+        return dano;
+    }
+
+    public void setDano(int dano) {
+        this.dano = dano;
+    }
+    
+    
 }

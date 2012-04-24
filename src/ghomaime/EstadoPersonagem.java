@@ -4,6 +4,7 @@ package ghomaime;
 public enum EstadoPersonagem {
 
     PULANDO,
-    NORMAL
+    NORMAL,
+    ATACANDO
             
 }

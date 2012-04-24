@@ -25,23 +25,15 @@ import javax.swing.JOptionPane;
  */
 public class Mario extends Personagem {
 
-    ObjetoComGravidade personagem;
-    int vida;
-    protected int velocidade = 1;
-    protected int velocidadeInicial = 1;
-    protected EstadoPersonagem estado;
-    protected int forcaPulo = 15;
-    protected int contadorApanhando = 0;
+   
     protected int contadorAtirando = 0;
-    protected int cooldownAtaque;
-
-    Direcao ultimaDirecao;
+    
+    Imagem ataque3Direita;
+    Imagem ataque3Esquerda;
+    
 
     public Mario() {
 
-//
-//        this.x = 500;
-//        this.y = 508;
         try {
             this.moveDireita = new Imagem("resources/Personagens/Mario/moveDireita.gif");
             this.moveEsquerda = new Imagem("resources/Personagens/Mario/moveEsquerda.gif");
@@ -51,52 +43,53 @@ public class Mario extends Personagem {
             this.paradoEsquerda = new Imagem("resources/Personagens/Mario/paradoEsquerda.gif");
             this.puloDireita = new Imagem("resources/Personagens/Mario/puloDireita.png");
             this.puloEsquerda = new Imagem("resources/Personagens/Mario/puloEsquerda.png");
+            
+            this.ataque3Direita = new Imagem("resources/Personagens/Mario/Ataques/marteladaDireita.gif");
+            this.ataque3Esquerda = new Imagem("resources/Personagens/Mario/Ataques/marteladaEsquerda.gif");
+            
             this.imagemAtual = this.paradoDireita;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Recurso não disponível: " + ex.getMessage());
+            System.exit(1);
         }
-        //Megaman megaman = new Megaman();
-
 
     }
 
-   public void step(long timeElapsed) {
+    public void step(long timeElapsed) {
 
         super.step(timeElapsed);
-        if (this.y > 525) {
+        if (this.y > 530) {
             this.chegouChao();
-            this.y = 533 - 32;
+            this.y = 538 - 32;
         }
 
-        if (this.cooldownAtaque >= 0) {
-            this.cooldownAtaque--;
-        }
 
         //if (this.contadorAtirando >= 0) {
         this.contadorAtirando--;
         // }
+        
+        
+//        if(this.estado == EstadoPersonagem.ATACANDO){
+//            switch(this.ultimaDirecao){
+//                case DIREITA:
+//                    this.imagemAtual = this.ataque3Direita;
+//                case ESQUERDA:
+//                    this.imagemAtual = this.ataque3Esquerda;
+//            }
+//        }
 
-        Keyboard teclado = GameEngine.getInstance().getKeyboard();
-
-        if (teclado.keyDown(Keys.DIREITA)) {
-            this.moveDireita();
-        } else if (teclado.keyDown(Keys.ESQUERDA)) {
-            this.moveEsquerda();
-        } else if (teclado.keyDown(Keys.CIMA)) {
-            if (this.estado == this.estado.PULANDO) {
-                return;
-            } else {
-                this.pula();
-            }
-        } else {
-            this.para();
-        }
+        
 
 
 
 
     }
 
+    
+    
+    
+    
+    
     public void draw(Graphics g) {
         this.imagemAtual.draw(g, this.x, this.y);
     }
@@ -122,44 +115,5 @@ public class Mario extends Personagem {
             }
         }
     }
-    
-    public void moveDireita() {
-        this.x += (this.velocidade / 2);
-        if (this.velocidade < 30) {
-            this.velocidade++;
-        }
-        if (this.velocidade < 25) {
 
-            this.imagemAtual = moveDireita;
-        } else {
-            this.imagemAtual = moveFastDireita;
-        }
-        this.ultimaDirecao = Direcao.DIREITA;
-    }
-
-    public void moveEsquerda() {
-        this.x -= (this.velocidade / 2);
-        if (this.velocidade < 30) {
-            this.velocidade++;
-        }
-
-        if (this.velocidade < 25) {
-            this.imagemAtual = moveEsquerda;
-        } else {
-            this.imagemAtual = moveFastEsquerda;
-        }
-        this.ultimaDirecao = Direcao.ESQUERDA;
-    }
-    
-    
-    
-    public void para() {
-        this.velocidade = 0;
-        if (this.ultimaDirecao == Direcao.ESQUERDA) {
-            this.imagemAtual = paradoEsquerda;
-        } else {
-            this.imagemAtual = paradoDireita;
-        }
-    }
-    
 }

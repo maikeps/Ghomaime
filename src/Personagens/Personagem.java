@@ -24,13 +24,16 @@ import javax.swing.JOptionPane;
  */
 public abstract class Personagem extends ObjetoComGravidade {
 
+    int cooldownAtaque;
     ObjetoComGravidade personagem;
     int vida;
+    int maxVida;
     int velocidade = 1;
     int velocidadeInicial = 1;
     EstadoPersonagem estado;
     int forcaPulo = 15;
     int contadorApanhando = 0;
+    int contadorAtirando = 0;
     Imagem moveDireita;
     Imagem moveEsquerda;
     Imagem moveFastDireita;
@@ -39,6 +42,8 @@ public abstract class Personagem extends ObjetoComGravidade {
     Imagem paradoEsquerda;
     Imagem puloDireita;
     Imagem puloEsquerda;
+    Imagem atacandoDireita;
+    Imagem atacandoEsquerda;
     public Imagem imagemAtual;
     Direcao ultimaDirecao;
 
@@ -46,8 +51,8 @@ public abstract class Personagem extends ObjetoComGravidade {
 
         this.estado = this.estado.NORMAL;
 
-        this.x = 500;
-        this.y = 508;
+        this.vida = 200;
+        this.maxVida = 200;
 
     }
 
@@ -61,7 +66,9 @@ public abstract class Personagem extends ObjetoComGravidade {
             this.estado = this.estado.NORMAL;
         }
 
-        
+        if (this.cooldownAtaque >= 0) {
+            this.cooldownAtaque--;
+        }
 
 
         if (this.tocaParedeEsquerda()) {
@@ -74,8 +81,22 @@ public abstract class Personagem extends ObjetoComGravidade {
             this.velocidade = this.velocidadeInicial;
         }
 
-
-
+        if(this.estado == this.estado.ATACANDO && this.ultimaDirecao == this.ultimaDirecao.DIREITA){
+            this.imagemAtual = this.atacandoDireita;
+            this.contadorAtirando ++;
+        }
+        if(this.estado == this.estado.ATACANDO && this.ultimaDirecao == this.ultimaDirecao.ESQUERDA){
+            this.imagemAtual = this.atacandoDireita;
+            this.contadorAtirando ++;
+        }
+        
+        if(this.estado == this.estado.NORMAL && this.ultimaDirecao == this.ultimaDirecao.DIREITA && this.contadorAtirando > 100){
+            this.imagemAtual = this.paradoDireita;
+        }
+        if(this.estado == this.estado.NORMAL && this.ultimaDirecao == this.ultimaDirecao.ESQUERDA && this.contadorAtirando > 100){
+            this.imagemAtual = this.paradoEsquerda;
+        }
+        
     }
 
     public void draw(Graphics g) {
@@ -91,24 +112,66 @@ public abstract class Personagem extends ObjetoComGravidade {
         return (this.x >= 796 - this.imagemAtual.pegaLargura());
     }
 
+    public Rectangle getRetangulo() {
+        return new Rectangle(this.x, this.y, this.imagemAtual.pegaLargura(), this.imagemAtual.pegaAltura());
+    }
+
+    //colisao ta acontecendo muitos pixels abaixo do que deveria
+    public boolean temColisao(Personagem player) {
+        return this.getRetangulo().intersects(player.getRetangulo());
+    }
+
     public void pula() {
         if (this.estaSubindo() || this.estaDescendo() || this.estado == this.estado.PULANDO) {
             return;
         }
 
-        this.imagemAtual = this.puloDireita;
+        if (this.ultimaDirecao == Direcao.ESQUERDA) {
+            this.imagemAtual = this.puloDireita;
+        } else {
+            this.imagemAtual = this.puloDireita;
+        }
+
         this.estado = this.estado.PULANDO;
         this.impulso(this.forcaPulo);
     }
 
-    public Rectangle getRetangulo(Rectangle retangulo) {
-        return new Rectangle(this.x, this.y, this.imagemAtual.pegaLargura(), this.imagemAtual.pegaAltura());
+    public void para() {
+        this.velocidade = 0;
+        if (this.ultimaDirecao == Direcao.ESQUERDA) {
+            this.imagemAtual = paradoEsquerda;
+        } else {
+            this.imagemAtual = paradoDireita;
+        }
     }
 
-    public void moveEsquerda(){}
-    public void moveDireita(){}
+    public void moveDireita() {
+        this.x += (this.velocidade / 2);
+        if (this.velocidade < 30) {
+            this.velocidade++;
+        }
+        if (this.velocidade < 25) {
 
-    public void para() {}
+            this.imagemAtual = moveDireita;
+        } else {
+            this.imagemAtual = moveFastDireita;
+        }
+        this.ultimaDirecao = Direcao.DIREITA;
+    }
+
+    public void moveEsquerda() {
+        this.x -= (this.velocidade / 2);
+        if (this.velocidade < 30) {
+            this.velocidade++;
+        }
+
+        if (this.velocidade < 25) {
+            this.imagemAtual = moveEsquerda;
+        } else {
+            this.imagemAtual = moveFastEsquerda;
+        }
+        this.ultimaDirecao = Direcao.ESQUERDA;
+    }
 
     public Direcao getDirecao() {
         return this.ultimaDirecao;
@@ -117,5 +180,37 @@ public abstract class Personagem extends ObjetoComGravidade {
     public void setSpriteAtual(Imagem sprite) {
         this.imagemAtual = sprite;
 
+    }
+
+    public EstadoPersonagem getEstado() {
+        return this.estado;
+    }
+
+    public int getColdownAtaque() {
+        return this.cooldownAtaque;
+    }
+
+    public void setCooldownAtaque(int n) {
+        this.cooldownAtaque = n;
+    }
+
+    public boolean estaMorto() {
+        return (this.vida <= 0);
+    }
+
+    public void perdeVida(int numPontos) {
+        this.vida -= numPontos;
+    }
+
+    public int getVida() {
+        return this.vida;
+    }
+
+    public void setVida(int vida) {
+        this.vida = vida;
+    }
+
+    public void setImagemInicial(Imagem i) {
+        this.imagemAtual = i;
     }
 }

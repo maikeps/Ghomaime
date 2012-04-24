@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ghomaime;
+package Ataques;
 
+import ghomaime.Direcao;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -17,40 +18,46 @@ import javax.swing.JOptionPane;
  *
  * @author Maike
  */
-public class TiroVerde extends GameObject {
+public class AtkMegaman3 extends Ataque {
 
-    boolean desativado;
+    
     Direcao direcao = Direcao.DIREITA;
     int velocidade;
     Imagem direita;
     Imagem esquerda;
     Sprite efeitoDireita;
     Sprite efeitoEsquerda;
-    Imagem spriteAtual;
+    
     Sprite efeitoAtual;
     int xPersonagem;
     int yPersonagem;
     int frame;
     int frameElapsed;
 
-    public TiroVerde(int x, int y, Direcao direcao) {
+    int dano;
+    
+    public AtkMegaman3(int x, int y, Direcao direcao) {
+        
+        this.setDano(5);
+        
         this.desativado = false;
         this.x = x;
         this.y = y;
         this.xPersonagem = x;
         this.yPersonagem = y;
         this.direcao = direcao;
-        this.velocidade = 10;
+        this.velocidade = 18;
         try {
-            this.direita = new Imagem("resources/Personagens/Megaman/Ataques/Tiro2Direita parte 2.png");
-            this.esquerda = new Imagem("resources/Personagens/Megaman/Ataques/Tiro2Esquerda parte 2.png");
-            this.efeitoDireita = new Sprite("resources/Personagens/Megaman/Ataques/Tiro2Direita parte 1.png", 5, 23, 62);
-            this.efeitoEsquerda = new Sprite("resources/Personagens/Megaman/Ataques/Tiro2Esquerda parte 1.png", 5, 23, 62);
+            this.direita = new Imagem("resources/Personagens/Megaman/Ataques/Tiro3Direita parte 2.png");
+            this.esquerda = new Imagem("resources/Personagens/Megaman/Ataques/Tiro3Esquerda parte 2.png");
+            this.efeitoDireita = new Sprite("resources/Personagens/Megaman/Ataques/Tiro3Direita parte 1.png", 5, 22, 50);
+            this.efeitoEsquerda = new Sprite("resources/Personagens/Megaman/Ataques/Tiro3Esquerda parte 1.png", 5, 22, 50);
 
             this.efeitoAtual = efeitoDireita;
             this.spriteAtual = direita;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Recurso não encontrado: " + ex.getMessage());
+            System.exit(1);
         }
 
 
@@ -99,10 +106,10 @@ public class TiroVerde extends GameObject {
 
         if(this.spriteAtual == direita){
             this.spriteAtual.draw(g, this.x + 30, this.y + 10);
-            this.efeitoAtual.draw(g, this.xPersonagem + 25, this.yPersonagem - 40);
+            this.efeitoAtual.draw(g, this.xPersonagem + 25, this.yPersonagem - 30);
         } else {
             this.spriteAtual.draw(g, this.x, this.y + 10);
-            this.efeitoAtual.draw(g, this.xPersonagem - 20, this.yPersonagem - 40);
+            this.efeitoAtual.draw(g, this.xPersonagem - 25, this.yPersonagem - 30);
         }
         
     }
@@ -133,5 +140,13 @@ public class TiroVerde extends GameObject {
 
     public void moveDireita(int num) {
         this.x += num;
+    }
+    
+    public int getDano() {
+        return dano;
+    }
+
+    public void setDano(int dano) {
+        this.dano = dano;
     }
 }
