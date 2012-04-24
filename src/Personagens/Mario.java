@@ -26,7 +26,6 @@ import javax.swing.JOptionPane;
 public class Mario extends Personagem {
 
    
-    protected int contadorAtirando = 0;
     
     Imagem ataque3Direita;
     Imagem ataque3Esquerda;
@@ -68,19 +67,18 @@ public class Mario extends Personagem {
         this.contadorAtirando--;
         // }
         
-        
-//        if(this.estado == EstadoPersonagem.ATACANDO){
-//            switch(this.ultimaDirecao){
-//                case DIREITA:
-//                    this.imagemAtual = this.ataque3Direita;
-//                case ESQUERDA:
-//                    this.imagemAtual = this.ataque3Esquerda;
-//            }
-//        }
+
 
         
 
-
+if(this.estado == EstadoPersonagem.ATACANDO){
+            switch(this.ultimaDirecao){
+                case DIREITA:
+                    this.imagemAtual = this.ataque3Direita;
+                case ESQUERDA:
+                    this.imagemAtual = this.ataque3Esquerda;
+            }
+        }
 
 
     }
@@ -103,17 +101,8 @@ public class Mario extends Personagem {
     }
 
     public void setImagemAtirando() {
-        this.contadorAtirando = 10;
-        if (this.ultimaDirecao == Direcao.DIREITA) {
-            if (this.contadorAtirando <= 0) {
-                //this.imagemAtual = tiroDireita;
-            }
-        }
-        if (this.ultimaDirecao == Direcao.ESQUERDA) {
-            if (this.contadorAtirando <= 0) {
-                //this.imagemAtual = tiroEsquerda;
-            }
-        }
+             this.estado = this.estado.ATACANDO;   
+        
     }
 
 }

@@ -39,6 +39,7 @@ public class Player2Teste extends GameObject {
 
     public Player2Teste(Personagem personagem) {
 
+
         this.atacou = false;
         this.pulando = false;
         
@@ -63,10 +64,10 @@ public class Player2Teste extends GameObject {
             this.personagem.moveDireita();
         } else if (teclado.keyDown(Keys.ESQUERDA)) {
             this.personagem.moveEsquerda();
-        
         } else {
             this.personagem.para();
         }
+
 
         if (teclado.keyDown(Keys.CIMA)) {
             if (this.personagem.getEstado() == this.estado.PULANDO) {
@@ -81,8 +82,7 @@ public class Player2Teste extends GameObject {
             this.atacou = true;
         }
         
-        
-
+   
     }
 
     public void draw(Graphics g) {
@@ -120,7 +120,6 @@ public class Player2Teste extends GameObject {
     public int getVida(){
         return this.personagem.getVida();
     }
-    
     
     
 }

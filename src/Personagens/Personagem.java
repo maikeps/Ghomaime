@@ -144,14 +144,13 @@ public abstract class Personagem extends ObjetoComGravidade {
             this.imagemAtual = paradoDireita;
         }
     }
-
+    
     public void moveDireita() {
         this.x += (this.velocidade / 2);
         if (this.velocidade < 30) {
             this.velocidade++;
         }
         if (this.velocidade < 25) {
-
             this.imagemAtual = moveDireita;
         } else {
             this.imagemAtual = moveFastDireita;
@@ -164,7 +163,6 @@ public abstract class Personagem extends ObjetoComGravidade {
         if (this.velocidade < 30) {
             this.velocidade++;
         }
-
         if (this.velocidade < 25) {
             this.imagemAtual = moveEsquerda;
         } else {
@@ -213,4 +211,5 @@ public abstract class Personagem extends ObjetoComGravidade {
     public void setImagemInicial(Imagem i) {
         this.imagemAtual = i;
     }
+
 }

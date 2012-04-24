@@ -46,8 +46,6 @@ public class Player1Teste extends GameObject {
 
     public Player1Teste(Personagem personagem) {
 
-       // this.personagem.setImagemInicial(imagemAtual);
-        
         this.atacou = false;
         
         this.personagem = personagem;
@@ -55,7 +53,7 @@ public class Player1Teste extends GameObject {
         
         this.personagem.setX(200);
         this.personagem.setY(500);
-        
+
 
     }
 
@@ -78,8 +76,8 @@ public class Player1Teste extends GameObject {
         } else {
             this.personagem.para();
         }
-
         if (teclado.keyDown(Keys.W)) {
+
             if (this.personagem.getEstado() == this.estado.PULANDO) {
                 return;
             } else {
@@ -90,6 +88,7 @@ public class Player1Teste extends GameObject {
         if (teclado.keyDown(Keys.V)){
             this.atacou = true;
         }
+
 
 
     }

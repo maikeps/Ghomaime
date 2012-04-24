@@ -26,9 +26,9 @@ import ghomaime.ObjetoComGravidade;
 public class Megaman extends Personagem {
 
     
-    protected int contadorAtirando = 0;
 
     public Megaman() {
+
 
         try {
             this.moveDireita = new Imagem("resources/Personagens/Megaman/moveDireita.gif");
@@ -56,14 +56,16 @@ public class Megaman extends Personagem {
             this.y = 533 - 32;
         }
 
-        
+
 
         this.contadorAtirando--;
+
     }
 
     public void draw(Graphics g) {
         this.imagemAtual.draw(g, this.x, this.y);
     }
+
 
     public void setImagemAtirando() {
         this.contadorAtirando = 10;
@@ -78,5 +80,6 @@ public class Megaman extends Personagem {
             }
         }
     }
+
 
 }

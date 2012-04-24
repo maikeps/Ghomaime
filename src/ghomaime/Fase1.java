@@ -33,10 +33,9 @@ public class Fase1 implements GameStateController {
     protected ArrayList<AtkMegaman3> atkMegaman3;
     protected ArrayList<AtkMario1> atkMario1;
     protected ArrayList<AtkMario2> atkMario2;
+    protected ArrayList<AtkGB1> atkGB1;
     protected Player1Teste player1;
     protected Player2Teste player2;
-//    protected Megaman megaman;
-//    protected Megaman megaman2;
 
     public void load() {
 
@@ -47,11 +46,12 @@ public class Fase1 implements GameStateController {
         this.atkMegaman3 = new ArrayList<AtkMegaman3>();
         this.atkMario1 = new ArrayList<AtkMario1>();
         this.atkMario2 = new ArrayList<AtkMario2>();
+        this.atkGB1 = new ArrayList<AtkGB1>();
         this.ghostBuster = new GhostBuster();
         this.megaman = new Megaman();
         this.mario = new Mario();
         this.ichigo = new Ichigo();
-        this.player2 = new Player2Teste(this.megaman);
+        this.player2 = new Player2Teste(this.ghostBuster);
         this.player1 = new Player1Teste(this.mario);
 
     }
@@ -91,9 +91,13 @@ public class Fase1 implements GameStateController {
         for (GameObject gameObject : this.atkMario2) {
             gameObject.step(timeElapsed);
         }
+        for (GameObject gameObject : this.atkGB1) {
+            gameObject.step(timeElapsed);
+        }
 
         this.atacaMegaman();
         this.atacaMario();
+        this.atacaGhostBuster();
 
     }
 
@@ -116,6 +120,9 @@ public class Fase1 implements GameStateController {
             gameObject.draw(g);
         }
         for (GameObject gameObject : this.atkMario2) {
+            gameObject.draw(g);
+        }
+        for (GameObject gameObject : this.atkGB1) {
             gameObject.draw(g);
         }
 
@@ -145,46 +152,116 @@ public class Fase1 implements GameStateController {
     public void stop() {
     }
 
-    public void atacaMegaman() {
-
-        if (this.player2.atacou == true) {
-            if (this.player2.podeAtacar()) {
-                switch (Util.random(4)) {
-                    case 1:
-                        this.atkMegaman1.add(new AtkMegaman1(player2.getXPersonagem(), player2.getYPersonagem(), player2.getDirecao()));
-                        this.player2.setCooldownAtaque(30);
-                        break;
-                    case 2:
-                        this.atkMegaman2.add(new AtkMegaman2(player2.getXPersonagem(), player2.getYPersonagem(), player2.getDirecao()));
-                        this.player2.setCooldownAtaque(60);
-                        break;
-                    case 3:
-                        this.atkMegaman3.add(new AtkMegaman3(player2.getXPersonagem(), player2.getYPersonagem(), player2.getDirecao()));
-                        this.player2.setCooldownAtaque(60);
-                        break;
+    public void atacaGhostBuster() {
+        if (this.player1.personagem == this.ghostBuster) {
+            if (this.player1.atacou == true) {
+                if (this.player1.podeAtacar()) {
+                    switch (Util.random(2)) {
+                        case 1:
+                            this.atkGB1.add(new AtkGB1(player1.getXPersonagem(), player1.getYPersonagem(), this.player2.personagem ));
+                            this.player1.setCooldownAtaque(30);
+                            break;
+                    }
                 }
+                this.player1.atacou = false;
             }
-            this.player2.atacou = false;
+        }
+        if (this.player2.personagem == this.ghostBuster) {
+            if (this.player2.atacou == true) {
+                if (this.player2.podeAtacar()) {
+                    switch (Util.random(2)) {
+                        case 1:
+                            this.atkGB1.add(new AtkGB1(player2.getXPersonagem(), player2.getYPersonagem(), this.player1.personagem ));
+                            this.player2.setCooldownAtaque(30);
+                            break;
+                    }
+                }
+                this.player2.atacou = false;
+            }
         }
 
     }
 
+    public void atacaMegaman() {
+        if (this.player2.personagem == this.megaman) {
+            if (this.player2.atacou == true) {
+                if (this.player2.podeAtacar()) {
+                    switch (Util.random(4)) {
+                        case 1:
+                            this.atkMegaman1.add(new AtkMegaman1(player2.getXPersonagem(), player2.getYPersonagem(), player2.getDirecao()));
+                            this.player2.setCooldownAtaque(30);
+                            break;
+                        case 2:
+                            this.atkMegaman2.add(new AtkMegaman2(player2.getXPersonagem(), player2.getYPersonagem(), player2.getDirecao()));
+                            this.player2.setCooldownAtaque(60);
+                            break;
+                        case 3:
+                            this.atkMegaman3.add(new AtkMegaman3(player2.getXPersonagem(), player2.getYPersonagem(), player2.getDirecao()));
+                            this.player2.setCooldownAtaque(60);
+                            break;
+                    }
+                }
+                this.player2.atacou = false;
+            }
+        }
+        if (this.player1.personagem == this.megaman) {
+            if (this.player1.atacou == true) {
+                if (this.player1.podeAtacar()) {
+                    switch (Util.random(4)) {
+                        case 1:
+                            this.atkMegaman1.add(new AtkMegaman1(player1.getXPersonagem(), player1.getYPersonagem(), player1.getDirecao()));
+                            this.player1.setCooldownAtaque(30);
+                            break;
+                        case 2:
+                            this.atkMegaman2.add(new AtkMegaman2(player1.getXPersonagem(), player1.getYPersonagem(), player1.getDirecao()));
+                            this.player1.setCooldownAtaque(60);
+                            break;
+                        case 3:
+                            this.atkMegaman3.add(new AtkMegaman3(player1.getXPersonagem(), player1.getYPersonagem(), player1.getDirecao()));
+                            this.player1.setCooldownAtaque(60);
+                            break;
+                    }
+                }
+                this.player1.atacou = false;
+            }
+        }
+    }
+
     public void atacaMario() {
 
-        if (this.player1.atacou == true) {
-            if (this.player1.podeAtacar()) {
-                switch (Util.random(3)) {
-                    case 1:
-                        this.atkMario1.add(new AtkMario1(player2.getXPersonagem()));
-                        this.player1.setCooldownAtaque(120);
-                        break;
-                    case 2:
-                        this.atkMario2.add(new AtkMario2(player1.getXPersonagem(), player1.getYPersonagem(), player1.getDirecao()));
-                        this.player1.setCooldownAtaque(80);
-                        break;
+        if (this.player1.personagem == this.mario) {
+            if (this.player1.atacou == true) {
+                if (this.player1.podeAtacar()) {
+                    switch (Util.random(3)) {
+                        case 1:
+                            this.atkMario1.add(new AtkMario1(player2.getXPersonagem()));
+                            this.player1.setCooldownAtaque(120);
+                            break;
+                        case 2:
+                            this.atkMario2.add(new AtkMario2(player1.getXPersonagem(), player1.getYPersonagem(), player1.getDirecao()));
+                            this.player1.setCooldownAtaque(80);
+                            break;
+                    }
                 }
+                this.player1.atacou = false;
             }
-            this.player1.atacou = false;
+        }
+        if (this.player2.personagem == this.mario) {
+            if (this.player2.atacou == true) {
+                if (this.player2.podeAtacar()) {
+                    switch (Util.random(3)) {
+                        case 1:
+                            this.atkMario1.add(new AtkMario1(player1.getXPersonagem()));
+                            this.player2.setCooldownAtaque(120);
+                            break;
+                        case 2:
+                            this.atkMario2.add(new AtkMario2(player1.getXPersonagem(), player1.getYPersonagem(), player1.getDirecao()));
+                            this.player2.setCooldownAtaque(80);
+                            break;
+                    }
+                }
+                this.player2.atacou = false;
+            }
         }
     }
 
