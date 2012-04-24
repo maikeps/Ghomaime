@@ -22,10 +22,10 @@ public class AtkGB1 extends Ataque {
         this.x = x;
         this.y = y;
         try {
-            this.spriteDireita = new Imagem("resources/Personagens/ghostbuster/Ataque1Direita.png");
-            this.spriteEsquerda = new Imagem("resources/Personagens/ghostbuster/Ataque1Esquerda.png");
+            this.spriteDireita = new Imagem("resources/Personagens/ghostbuster/Ataques/Ataque1Direita.png");
+            this.spriteEsquerda = new Imagem("resources/Personagens/ghostbuster/Ataques/Ataque1Esquerda.png");
             this.spriteAtual = this.spriteDireita;
-        } catch (Exception ex) {
+        } catch (Exception ex) {            
             System.out.println("Imagem não encontrada: " + ex.getMessage());
         }
     }
