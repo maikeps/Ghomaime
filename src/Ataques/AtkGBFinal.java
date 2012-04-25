@@ -26,7 +26,7 @@ public class AtkGBFinal extends Ataque{
     }
 
     public void step(long timeElapsed) {
-        if(this.frameElapsed >= 4){
+        if(this.frame >= 4){
             return;
         }
         
@@ -40,7 +40,7 @@ public class AtkGBFinal extends Ataque{
     }
 
     public void draw(Graphics g) {
-        this.spriteAtual.draw(g, this.x, this.y);
+        this.finalAtual.draw(g, this.x - 20, this.y - 40);
     }
 
     
