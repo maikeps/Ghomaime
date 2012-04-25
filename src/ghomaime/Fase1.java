@@ -34,6 +34,7 @@ public class Fase1 implements GameStateController {
     protected ArrayList<AtkMario1> atkMario1;
     protected ArrayList<AtkMario2> atkMario2;
     protected ArrayList<AtkGB1> atkGB1;
+    protected ArrayList<AtkGBFinal> finalGB;
     protected Player1Teste player1;
     protected Player2Teste player2;
 
@@ -51,8 +52,8 @@ public class Fase1 implements GameStateController {
         this.megaman = new Megaman();
         this.mario = new Mario();
         this.ichigo = new Ichigo();
-        this.player2 = new Player2Teste(this.ghostBuster);
-        this.player1 = new Player1Teste(this.mario);
+        this.player2 = new Player2Teste(this.mario);
+        this.player1 = new Player1Teste(this.ghostBuster);
 
     }
 
@@ -73,9 +74,6 @@ public class Fase1 implements GameStateController {
         this.player2.step(timeElapsed);
         this.player1.step(timeElapsed);
 
-        this.verificaAtaquesMegamanAcertou(player1.getPersonagem());
-        this.verificaAtaquesMarioAcertou(player2.getPersonagem());
-
         for (GameObject gameObject : this.atkMegaman1) {
             gameObject.step(timeElapsed);
         }
@@ -91,13 +89,40 @@ public class Fase1 implements GameStateController {
         for (GameObject gameObject : this.atkMario2) {
             gameObject.step(timeElapsed);
         }
-        for (GameObject gameObject : this.atkGB1) {
-            gameObject.step(timeElapsed);
+        for (AtkGB1 atk : this.atkGB1) {
+            atk.persegue();
         }
+        for (AtkGBFinal finalGB : this.finalGB) {
+            finalGB.step(timeElapsed);
+        }
+        
 
         this.atacaMegaman();
         this.atacaMario();
         this.atacaGhostBuster();
+        
+        if (this.player1.personagem == this.ghostBuster) {
+            this.verificaAtaquesGhostBusterAcertou(player2.getPersonagem());
+        }
+        if (this.player2.personagem == this.ghostBuster) {
+            this.verificaAtaquesGhostBusterAcertou(player1.getPersonagem());
+        }
+        
+        if (this.player1.personagem == this.megaman) {
+            this.verificaAtaquesMegamanAcertou(player2.getPersonagem());
+        }
+        if (this.player2.personagem == this.megaman) {
+            this.verificaAtaquesMegamanAcertou(player1.getPersonagem());
+        }
+        
+        if (this.player1.personagem == this.mario) {
+            this.verificaAtaquesMarioAcertou(player2.getPersonagem());
+        }
+        if (this.player2.personagem == this.mario) {
+            this.verificaAtaquesMarioAcertou(player1.getPersonagem());
+        }
+
+        
 
     }
 
@@ -124,6 +149,9 @@ public class Fase1 implements GameStateController {
         }
         for (GameObject gameObject : this.atkGB1) {
             gameObject.draw(g);
+        }
+        for (AtkGBFinal finalGB : this.finalGB) {
+            finalGB.draw(g);
         }
 
         this.mostraBarraVida1(g);
@@ -255,7 +283,7 @@ public class Fase1 implements GameStateController {
                             this.player2.setCooldownAtaque(120);
                             break;
                         case 2:
-                            this.atkMario2.add(new AtkMario2(player1.getXPersonagem(), player1.getYPersonagem(), player1.getDirecao()));
+                            this.atkMario2.add(new AtkMario2(player2.getXPersonagem(), player2.getYPersonagem(), player2.getDirecao()));
                             this.player2.setCooldownAtaque(80);
                             break;
                     }
@@ -296,6 +324,15 @@ public class Fase1 implements GameStateController {
         }
 
     }
+    
+    private void verificaAtaquesGhostBusterAcertou(Personagem p) {
+        for (AtkGB1 atk1 : this.atkGB1) {
+            if (atk1.temColisao(p.getRetangulo())) {
+                p.perdeVida(atk1.getDano());
+                this.finalGB.add( new );
+            }
+        }
+        }
 
     public void mostraBarraVida1(Graphics g) {
         g.setColor(Color.GREEN);
