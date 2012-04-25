@@ -38,7 +38,12 @@ public class Fase1 implements GameStateController {
     //protected ArrayList<AtkGBFinal> finalGB;
     protected Player1Teste player1;
     protected Player2Teste player2;
+    protected MenuPrincipal menu;
 
+    public Fase1(MenuPrincipal menuDoMain){
+        this.menu = menuDoMain;        
+    }
+    
     public void load() {
 
         this.numExecucoesStep = 0;
@@ -55,6 +60,8 @@ public class Fase1 implements GameStateController {
         this.megaman = new Megaman();
         this.mario = new Mario();
         this.ichigo = new Ichigo();
+        
+
         this.player2 = new Player2Teste(this.ghostBuster);
         this.player1 = new Player1Teste(this.ichigo);
 

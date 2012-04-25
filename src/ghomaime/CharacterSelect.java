@@ -63,7 +63,7 @@ public class CharacterSelect implements GameStateController{
                   this.player2 = "Ichigo";
               }
         }
-        if(teclado.keyDown(Keys.P)) {
+        if(teclado.keyDown(Keys.W)) {
 //              AudioPlayer.play( "resources/sounds/comeon.wav" );
               if(this.player1 == null){
                   this.player1 = "GhostBuster";
@@ -72,7 +72,7 @@ public class CharacterSelect implements GameStateController{
                   this.player2 = "GhostBuster";
               }
         }
-        if(teclado.keyDown(Keys.B)) {
+        if(teclado.keyDown(Keys.E)) {
 //              AudioPlayer.play( "resources/sounds/comeon.wav" );
               if(this.player1 == null){
                   this.player1 = "Mario";
@@ -82,7 +82,7 @@ public class CharacterSelect implements GameStateController{
               }
         }
         
-                if(teclado.keyDown(Keys.W)) {
+                if(teclado.keyDown(Keys.R)) {
 //              AudioPlayer.play( "resources/sounds/comeon.wav" );
               if(this.player1 == null){
                   this.player1 = "Megaman";
