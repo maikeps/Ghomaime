@@ -329,7 +329,7 @@ public class Fase1 implements GameStateController {
         for (AtkGB1 atk1 : this.atkGB1) {
             if (atk1.temColisao(p.getRetangulo())) {
                 p.perdeVida(atk1.getDano());
-                this.finalGB.add( new );
+                this.finalGB.add( new  );
             }
         }
         }
