@@ -23,7 +23,7 @@ public class AtkGB1 extends Ataque {
     int frame;
 
     public AtkGB1(int x, int y, GameObject o) {
-        this.setDano(5);
+        this.setDano(1);
         this.perseguido = o;
         this.desativado = false;
 
