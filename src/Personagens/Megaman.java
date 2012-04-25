@@ -25,37 +25,27 @@ import ghomaime.ObjetoComGravidade;
  */
 public class Megaman extends Personagem {
 
-    ObjetoComGravidade personagem;
-    int vida;
-    protected int velocidade = 1;
-    protected int velocidadeInicial = 1;
-    protected EstadoPersonagem estado;
-    protected int forcaPulo = 15;
-    protected int contadorApanhando = 0;
-    protected int contadorAtirando = 0;
-    protected int cooldownAtaque;
-
-    //Direcao ultimaDirecao;
+    
 
     public Megaman() {
 
-        this.setCooldownAtaque(0);
-        this.x = 200;
-        this.y = 500;
+
         try {
             this.moveDireita = new Imagem("resources/Personagens/Megaman/moveDireita.gif");
             this.moveEsquerda = new Imagem("resources/Personagens/Megaman/moveEsquerda.gif");
             this.moveFastDireita = new Imagem("resources/Personagens/Megaman/moveFastDireita.png");
             this.moveFastEsquerda = new Imagem("resources/Personagens/Megaman/moveFastEsquerda.png");
             this.paradoDireita = new Imagem("resources/Personagens/Megaman/paradoDireita.png");
-            this.paradoEsquerda = new Imagem("resources/Personagens/Megaman/paradoEsquerda.png");        
+            this.paradoEsquerda = new Imagem("resources/Personagens/Megaman/paradoEsquerda.png");
             this.puloDireita = new Imagem("resources/Personagens/Megaman/puloDireita.png");
             this.puloEsquerda = new Imagem("resources/Personagens/Megaman/puloEsquerda.png");
+            this.atacandoDireita = new Imagem("resources/Personagens/Megaman/atiraDireita.gif");
+            this.atacandoEsquerda = new Imagem("resources/Personagens/Megaman/atiraEsquerda.gif");
             this.imagemAtual = this.moveDireita;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Recurso não disponível: " + ex.getMessage());
+            System.exit(1);
         }
-        //Megaman megaman = new Megaman();
     }
 
     public void step(long timeElapsed) {
@@ -66,37 +56,9 @@ public class Megaman extends Personagem {
             this.y = 533 - 32;
         }
 
-        if (this.cooldownAtaque >= 0) {
-            this.cooldownAtaque--;
-        }
 
-        //if (this.contadorAtirando >= 0) {
+
         this.contadorAtirando--;
-        // }
-
-        Keyboard teclado = GameEngine.getInstance().getKeyboard();
-
-        if (teclado.keyDown(Keys.D)) {
-            this.moveDireita();
-        } else if (teclado.keyDown(Keys.A)) {
-            this.moveEsquerda();
-        } else if (teclado.keyDown(Keys.W)) {
-            this.pula();
-        } else {
-            this.para();
-        }
-
-
-
-        if (this.tocaParedeEsquerda()) {
-            this.x = 5;
-            this.velocidade = this.velocidadeInicial;
-        }
-
-        if (this.tocaParedeDireita()) {
-            this.x = 795 - this.imagemAtual.pegaLargura();
-            this.velocidade = this.velocidadeInicial;
-        }
 
     }
 
@@ -104,13 +66,6 @@ public class Megaman extends Personagem {
         this.imagemAtual.draw(g, this.x, this.y);
     }
 
-    public void setCooldownAtaque(int num) {
-        this.cooldownAtaque = num;
-    }
-
-    public boolean podeAtacar() {
-        return (this.cooldownAtaque <= 0);
-    }
 
     public void setImagemAtirando() {
         this.contadorAtirando = 10;
@@ -125,4 +80,6 @@ public class Megaman extends Personagem {
             }
         }
     }
+
+
 }

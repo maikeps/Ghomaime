@@ -16,13 +16,12 @@ public class Ghomaime {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
-       GameEngine.getInstance().addGameStateController(100, new Fase1());
-       GameEngine.getInstance().addGameStateController(200, new Fase2());
+
+        GameEngine.getInstance().addGameStateController(100, new Fase1());
         GameEngine.getInstance().setStartingGameStateController(100);
         GameEngine.getInstance().setFramesPerSecond(60);
         GameEngine.getInstance().run();
-        
-        
+
+
     }
 }

@@ -3,10 +3,8 @@ package ghomaime;
 
 public enum EstadoPersonagem {
 
-    SOCO,
-    CHUTE,
-    APANHANDO,
+    PULANDO,
     NORMAL,
-    CUTUVELADA
+    ATACANDO
             
 }

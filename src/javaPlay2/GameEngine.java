@@ -3,7 +3,6 @@
  */
 
 package javaPlay;
-import ghomaime.Fase2;
 
 import java.awt.Graphics;
 import java.awt.GraphicsConfiguration;
