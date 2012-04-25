@@ -34,7 +34,8 @@ public class Fase1 implements GameStateController {
     protected ArrayList<AtkMario1> atkMario1;
     protected ArrayList<AtkMario2> atkMario2;
     protected ArrayList<AtkGB1> atkGB1;
-    protected ArrayList<AtkGBFinal> finalGB;
+    protected ArrayList<GBFinal1> GBFinal1;
+    //protected ArrayList<AtkGBFinal> finalGB;
     protected Player1Teste player1;
     protected Player2Teste player2;
 
@@ -48,6 +49,8 @@ public class Fase1 implements GameStateController {
         this.atkMario1 = new ArrayList<AtkMario1>();
         this.atkMario2 = new ArrayList<AtkMario2>();
         this.atkGB1 = new ArrayList<AtkGB1>();
+        this.GBFinal1 = new ArrayList<GBFinal1>();
+        //this.finalGB = new ArrayList<AtkGBFinal>();
         this.ghostBuster = new GhostBuster();
         this.megaman = new Megaman();
         this.mario = new Mario();
@@ -92,9 +95,12 @@ public class Fase1 implements GameStateController {
         for (AtkGB1 atk : this.atkGB1) {
             atk.persegue();
         }
-        for (AtkGBFinal finalGB : this.finalGB) {
-            finalGB.step(timeElapsed);
+        for (GBFinal1 atk : this.GBFinal1) {
+            atk.step(timeElapsed);
         }
+//        for (AtkGBFinal finalGB : this.finalGB) {
+//            finalGB.step(timeElapsed);
+//        }
         
 
         this.atacaMegaman();
@@ -150,9 +156,12 @@ public class Fase1 implements GameStateController {
         for (GameObject gameObject : this.atkGB1) {
             gameObject.draw(g);
         }
-        for (AtkGBFinal finalGB : this.finalGB) {
-            finalGB.draw(g);
+        for (GameObject gameObject : this.GBFinal1) {
+            gameObject.draw(g);
         }
+//        for (AtkGBFinal finalGB : this.finalGB) {
+//            finalGB.draw(g);
+//        }
 
         this.mostraBarraVida1(g);
         this.mostraBarraVida2(g);
@@ -329,7 +338,8 @@ public class Fase1 implements GameStateController {
         for (AtkGB1 atk1 : this.atkGB1) {
             if (atk1.temColisao(p.getRetangulo())) {
                 p.perdeVida(atk1.getDano());
-                this.finalGB.add( new );
+                this.GBFinal1.add( new GBFinal1(p.getX(), p.getY()));
+                //this.finalGB.add( new GBFinal1(p.getX(), p.getY()));
             }
         }
         }
