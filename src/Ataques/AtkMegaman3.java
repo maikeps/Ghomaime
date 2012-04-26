@@ -52,9 +52,9 @@ public class AtkMegaman3 extends Ataque {
             this.esquerda = new Imagem("resources/Personagens/Megaman/Ataques/Tiro3Esquerda parte 2.png");
             this.efeitoDireita = new Sprite("resources/Personagens/Megaman/Ataques/Tiro3Direita parte 1.png", 5, 22, 50);
             this.efeitoEsquerda = new Sprite("resources/Personagens/Megaman/Ataques/Tiro3Esquerda parte 1.png", 5, 22, 50);
-
+            this.vazio = new Imagem("resources/vazio.png");
             this.efeitoAtual = efeitoDireita;
-            this.spriteAtual = direita;
+            this.spriteAtual = vazio;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Recurso não encontrado: " + ex.getMessage());
             System.exit(1);

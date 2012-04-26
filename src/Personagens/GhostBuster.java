@@ -51,7 +51,7 @@ public class GhostBuster extends Personagem {
     public void step(long timeElapsed) {
 
         super.step(timeElapsed);
-        if (this.y > 518) {
+        if (this.y > 532) {
             this.chegouChao();
             this.y = 526 - 32;
         }

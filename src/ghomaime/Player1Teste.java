@@ -24,18 +24,7 @@ import Personagens.Personagem;
  */
 public class Player1Teste extends GameObject {
 
-    
-//    por algum motivo, o metodo para nao funciona corretamente na classe Personagem
-//    coloquei esses metodos nas classes dos personagens(mario, megaman...) e funcionaram.
-//    o problema é que anteriormente quando os personagens paravam, a velocidade nao 
-//    resetava, assim os personagens permaneciam na velocidade maxima assim que chegavam nela.
-//    
-//    talvez seja so algum metodo igual em alguma classe, nessa classe mesmo, talvez.
-//    verificar direitihno onde esta o erro e colocar o metodo de volta na classe abstrata.
-    
-    
     EstadoPersonagem estado;
-    
     Personagem personagem;
     int vida;
     protected int velocidade = 1;
@@ -47,10 +36,10 @@ public class Player1Teste extends GameObject {
     public Player1Teste(Personagem personagem) {
 
         this.atacou = false;
-        
+
         this.personagem = personagem;
 
-        
+
         this.personagem.setX(200);
         this.personagem.setY(500);
 
@@ -60,15 +49,12 @@ public class Player1Teste extends GameObject {
     public void step(long timeElapsed) {
 
         personagem.step(timeElapsed);
-//        if (this.y > 525) {
-//            this.personagem.chegouChao();
-//            this.y = 533 - 32;
-//        }
+
 
 
         Keyboard teclado = GameEngine.getInstance().getKeyboard();
 
-        
+
         if (teclado.keyDown(Keys.D)) {
             this.personagem.moveDireita();
         } else if (teclado.keyDown(Keys.A)) {
@@ -85,8 +71,15 @@ public class Player1Teste extends GameObject {
             }
         }
 
-        if (teclado.keyDown(Keys.V)){
+        if (teclado.keyDown(Keys.V)) {
             this.atacou = true;
+            if (this.podeAtacar()) {
+                // this.personagem.ataca();
+                this.personagem.setEstado(estado.ATACANDO);
+            }
+        }
+        if(teclado.keyDown(Keys.Z)){
+            this.personagem.setEstado(EstadoPersonagem.NORMAL);
         }
 
 
@@ -110,22 +103,19 @@ public class Player1Teste extends GameObject {
     }
 
 //    
-    
-    public Personagem getPersonagem(){
+    public Personagem getPersonagem() {
         return this.personagem;
     }
-    
-    
-    public int getXPersonagem(){
+
+    public int getXPersonagem() {
         return this.personagem.getX();
     }
-    
-    public int getYPersonagem(){
+
+    public int getYPersonagem() {
         return this.personagem.getY();
     }
-    
-    public int getVida(){
+
+    public int getVida() {
         return this.personagem.getVida();
     }
-    
 }

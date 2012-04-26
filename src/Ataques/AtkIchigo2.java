@@ -18,28 +18,36 @@ import javax.swing.JOptionPane;
  *
  * @author Maike
  */
-public class AtkMario2 extends Ataque{
+public class AtkIchigo2 extends Ataque{
     
     Direcao direcao = Direcao.DIREITA;
     int velocidade;
     Imagem direita;
     Imagem esquerda;
+    Imagem cima;
     int dano;
+
     
-    public AtkMario2(int x, int y, Direcao direcao){
+    int xDireita;
+    int xEsquerda;
+    int yCima;
+    
+    public AtkIchigo2(int x, int y){
         
-        this.setDano(5);
+        this.setDano(10);
         
         this.desativado = false;
         this.x = x;
         this.y = y;
-        this.direcao = direcao;
+        this.xDireita = this.x;
+        this.xEsquerda = this.x;
+        this.yCima = this.y;
         this.velocidade = 20;
         try {
-            this.direita = new Imagem("resources/Personagens/Mario/Ataques/CascoDireita parte 2.png");
-            this.esquerda = new Imagem("resources/Personagens/Mario/Ataques/CascoEsquerda parte 2.png");
-            this.vazio = new Imagem("resources/vazio.png");
-            this.spriteAtual = this.vazio;
+            this.direita = new Imagem("resources/Personagens/Ichigo/Ataque/ataqueDireita1 PARTE 2.png");
+            this.esquerda = new Imagem("resources/Personagens/Ichigo/Ataque/ataqueEsquerda1 PARTE 2.png");
+            this.cima = new Imagem("resources/Personagens/Ichigo/Ataque/Atk UP.png");
+            //this.spriteAtual = direita;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Recurso não encontrado: " + ex.getMessage());
             System.exit(1);
@@ -53,28 +61,11 @@ public class AtkMario2 extends Ataque{
             return;
         }
         
-//        switch(this.direcao){
-//            case DIREITA:
-//                this.moveDireita( this.velocidade );
-//                this.spriteAtual = this.direita;
-//                break;
-//            case ESQUERDA:
-//                this.moveEsquerda( this.velocidade );
-//                this.spriteAtual = this.esquerda;
-//                break;
-//        }
         
-        if(this.direcao == Direcao.DIREITA){
-                this.moveDireita( this.velocidade );
-                this.spriteAtual = this.direita;
+        this.xDireita += this.velocidade;
+        this.xEsquerda -= this.velocidade;
+        this.yCima -= this.velocidade;
 
-        } else {
-            this.moveEsquerda( this.velocidade );
-                this.spriteAtual = this.esquerda;
-        }
-        
-         
-        
     }
 
     public void draw(Graphics g) {
@@ -86,13 +77,21 @@ public class AtkMario2 extends Ataque{
         
         
         
-        this.spriteAtual.draw(g, this.x + 30, this.y + 20);
+        this.direita.draw(g, this.xDireita + 30, this.y - 20);
+        this.esquerda.draw(g, this.xEsquerda, this.y - 20);
+        this.cima.draw(g, this.x - 5, this.yCima);
         
         
     }
     
-    public Rectangle getRetangulo(){
-        return new Rectangle(this.x, this.y-4, this.spriteAtual.pegaLargura(), this.spriteAtual.pegaAltura()+4);
+    public Rectangle getRetanguloDireita(){
+        return new Rectangle(this.xDireita, this.y, this.direita.pegaLargura(), this.direita.pegaAltura());
+    }
+    public Rectangle getRetanguloEsquerda(){
+        return new Rectangle(this.xEsquerda, this.y, this.esquerda.pegaLargura(), this.esquerda.pegaAltura());
+    }
+    public Rectangle getRetanguloCima(){
+        return new Rectangle(this.yCima, this.y, this.cima.pegaLargura(), this.cima.pegaAltura());
     }
     
     public boolean temColisao(Rectangle retangulo){
@@ -100,20 +99,12 @@ public class AtkMario2 extends Ataque{
             return false;
         }
         
-        if(this.getRetangulo().intersects(retangulo)){
-           // AudioPlayer.play("resources/sounds/Sound 2.wav");
+        if(this.getRetanguloDireita().intersects(retangulo) || this.getRetanguloEsquerda().intersects(retangulo) || this.getRetanguloCima().intersects(retangulo)){
             this.desativado = true;
             return true;            
         } else {
             return false;
         }
-    }
-    
-    public void moveEsquerda(int num){
-        this.x -= num;
-    }
-    public void moveDireita(int num){
-        this.x += num;
     }
 
     public int getDano() {

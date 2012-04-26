@@ -62,12 +62,15 @@ public class Player2Teste extends GameObject {
 
         if (teclado.keyDown(Keys.DIREITA)) {
             this.personagem.moveDireita();
-        } else if (teclado.keyDown(Keys.ESQUERDA)) {
+        } else
+        if (teclado.keyDown(Keys.ESQUERDA)) {
             this.personagem.moveEsquerda();
         } else {
             this.personagem.para();
         }
-
+        if (teclado.keyDown(Keys.P)){
+            this.atacou = true;
+        }
 
         if (teclado.keyDown(Keys.CIMA)) {
             if (this.personagem.getEstado() == this.estado.PULANDO) {
@@ -78,9 +81,7 @@ public class Player2Teste extends GameObject {
             }
         }
         
-        if (teclado.keyDown(Keys.P)){
-            this.atacou = true;
-        }
+        
         
    
     }

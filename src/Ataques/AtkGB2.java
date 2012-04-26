@@ -15,15 +15,15 @@ public class AtkGB2 extends Ataque {
     GameObject perseguido;
 
     public AtkGB2(int x, int y, GameObject o) {
-        this.setDano(5);
+        this.setDano(2);
         this.perseguido = o;
         this.desativado = false;
 
         this.x = x;
         this.y = y;
         try {
-            this.spriteDireita = new Imagem("resources/Personagens/ghostbuster/Ataques/Ataque1Direita.png");
-            this.spriteEsquerda = new Imagem("resources/Personagens/ghostbuster/Ataques/Ataque1Esquerda.png");
+            this.spriteDireita = new Imagem("resources/Personagens/ghostbuster/Ataques/Ataque2Direita.gif");
+            this.spriteEsquerda = new Imagem("resources/Personagens/ghostbuster/Ataques/Ataque2Esquerda.gif");
             this.spriteAtual = this.spriteDireita;
         } catch (Exception ex) {            
             System.out.println("Imagem não encontrada: " + ex.getMessage());
@@ -50,6 +50,14 @@ public class AtkGB2 extends Ataque {
         int xPerseguido = this.perseguido.getX();
         int yPerseguido = this.perseguido.getY();
 
+        
+        if (this.perseguido.getX() < this.x) {
+            this.spriteAtual = this.spriteEsquerda;
+            //this.direcao = Direcao.ESQUERDA;
+        } else {
+            this.spriteAtual = this.spriteDireita;
+            //this.direcao = Direcao.DIREITA;
+        }
 
         if (this.x < xPerseguido) {
             this.x += this.velocidade;
