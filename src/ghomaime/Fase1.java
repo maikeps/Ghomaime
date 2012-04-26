@@ -47,7 +47,12 @@ public class Fase1 implements GameStateController {
     //protected ArrayList<AtkGBFinal> finalGB;
     protected Player1Teste player1;
     protected Player2Teste player2;
+    protected MenuPrincipal menu;
 
+    public Fase1(MenuPrincipal menuDoMain){
+        this.menu = menuDoMain;        
+    }
+    
     public void load() {
 
         this.numExecucoesStep = 0;
@@ -146,11 +151,11 @@ public class Fase1 implements GameStateController {
 
 
 
-
         this.atacaMegaman();
         this.atacaMario();
         this.atacaGhostBuster();
         this.atacaIchigo();
+
 
         if (this.player1.personagem == this.ghostBuster) {
             this.verificaAtaquesGhostBusterAcertou(player2.getPersonagem());
@@ -281,6 +286,7 @@ public class Fase1 implements GameStateController {
                             break;
                         case 3:
                             this.atkGB3.add(new AtkGB3(player1.getXPersonagem(), player1.getYPersonagem(), this.player1.getDirecao()));
+
                             this.player1.setCooldownAtaque(30);
                             break;
                     }
@@ -302,6 +308,7 @@ public class Fase1 implements GameStateController {
                             break;
                         case 3:
                             this.atkGB3.add(new AtkGB3(player2.getXPersonagem(), player2.getYPersonagem(), this.player2.getDirecao()));
+
                             this.player2.setCooldownAtaque(30);
                             break;
                     }
@@ -519,6 +526,7 @@ public class Fase1 implements GameStateController {
             if (atk3.temColisao(p.getRetangulo())) {
                 p.perdeVida(atk3.getDano());
                 this.GBFinal3.add(new GBFinal3(p.getX(), p.getY()));
+
                 //this.finalGB.add( new GBFinal1(p.getX(), p.getY()));
             }
         }
@@ -536,6 +544,7 @@ public class Fase1 implements GameStateController {
             }
         }
     }
+
 
     public void mostraBarraVida1(Graphics g) {
         g.setColor(Color.GREEN);
