@@ -73,6 +73,13 @@ public class Player1Teste extends GameObject {
 
         if (teclado.keyDown(Keys.V)) {
             this.atacou = true;
+            if (this.podeAtacar()) {
+                // this.personagem.ataca();
+                this.personagem.setEstado(estado.ATACANDO);
+            }
+        }
+        if(teclado.keyDown(Keys.Z)){
+            this.personagem.setEstado(EstadoPersonagem.NORMAL);
         }
 
 

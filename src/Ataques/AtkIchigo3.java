@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  *
  * @author Maike
  */
-public class AtkMario3 extends Ataque{
+public class AtkIchigo3 extends Ataque{
     
     Direcao direcao = Direcao.DIREITA;
     int velocidade;
@@ -26,18 +26,18 @@ public class AtkMario3 extends Ataque{
     Imagem esquerda;
     int dano;
     
-    public AtkMario3(int x, int y, Direcao direcao){
+    public AtkIchigo3(int x, int y, Direcao direcao){
         
-        this.setDano(2);
+        this.setDano(10);
         
         this.desativado = false;
         this.x = x;
         this.y = y;
         this.direcao = direcao;
-        this.velocidade = 18;
+        this.velocidade = 20;
         try {
-            this.direita = new Imagem("resources/Personagens/Mario/Ataques/Martelinho direita.gif");
-            this.esquerda = new Imagem("resources/Personagens/Mario/Ataques/Martelinho esquerda.gif");
+            this.direita = new Imagem("resources/Personagens/Ichigo/Ataque/ataqueDireita1 PARTE 2.png");
+            this.esquerda = new Imagem("resources/Personagens/Ichigo/Ataque/ataqueEsquerda1 PARTE 2.png");
             this.spriteAtual = direita;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Recurso não encontrado: " + ex.getMessage());
@@ -52,15 +52,13 @@ public class AtkMario3 extends Ataque{
             return;
         }
         
-        switch(this.direcao){
-            case DIREITA:
+       if(this.direcao == Direcao.DIREITA){
                 this.moveDireita( this.velocidade );
                 this.spriteAtual = this.direita;
-                break;
-            case ESQUERDA:
-                this.moveEsquerda( this.velocidade );
-                this.spriteAtual = this.direita;
-                break;
+
+        } else {
+            this.moveEsquerda( this.velocidade );
+                this.spriteAtual = this.esquerda;
         }
         
          
@@ -71,18 +69,18 @@ public class AtkMario3 extends Ataque{
         if(this.desativado){
             return;
         }
-
+        //g.setColor(Color.YELLOW);
+        //g.fillOval(this.x, this.y, 20, 20);
         
-        if(this.direcao == Direcao.DIREITA){
-            this.spriteAtual.draw(g, this.x + 30, this.y);
-        } else {
-            this.spriteAtual.draw(g, this.x, this.y);
-        }
+        
+        
+        this.spriteAtual.draw(g, this.x + 30, this.y - 20);
+        
         
     }
     
     public Rectangle getRetangulo(){
-        return new Rectangle(this.x, this.y-1, this.spriteAtual.pegaLargura(), this.spriteAtual.pegaAltura()+2);
+        return new Rectangle(this.x, this.y-4, this.spriteAtual.pegaLargura(), this.spriteAtual.pegaAltura()+4);
     }
     
     public boolean temColisao(Rectangle retangulo){

@@ -25,8 +25,6 @@ import ghomaime.ObjetoComGravidade;
  */
 public class Megaman extends Personagem {
 
-    
-
     public Megaman() {
 
 
@@ -57,15 +55,21 @@ public class Megaman extends Personagem {
         }
 
 
+        if (this.contadorAtirando >= 35) {
+            this.estado = EstadoPersonagem.NORMAL;
+        }
 
         this.contadorAtirando--;
 
     }
 
     public void draw(Graphics g) {
-        this.imagemAtual.draw(g, this.x, this.y);
+        if (this.estado == estado.ATACANDO) {
+            this.atacandoDireita.draw(g, this.x, this.y);
+        } else {
+            this.imagemAtual.draw(g, this.x, this.y);
+        }
     }
-
 
     public void setImagemAtirando() {
         this.contadorAtirando = 10;
@@ -80,6 +84,4 @@ public class Megaman extends Personagem {
             }
         }
     }
-
-
 }

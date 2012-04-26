@@ -63,7 +63,9 @@ public abstract class Personagem extends ObjetoComGravidade {
         if (this.y > 532) {
             this.chegouChao();
             this.y = 540 - 32;
-            this.estado = this.estado.NORMAL;
+            if(this.estado != estado.ATACANDO){
+                this.estado = this.estado.NORMAL;
+            }
         }
 
         if (this.cooldownAtaque >= 0) {
@@ -86,28 +88,29 @@ public abstract class Personagem extends ObjetoComGravidade {
             this.contadorAtirando++;
         }
         if (this.estado == this.estado.ATACANDO && this.ultimaDirecao == this.ultimaDirecao.ESQUERDA) {
-            this.imagemAtual = this.atacandoDireita;
+            this.imagemAtual = this.atacandoEsquerda;
             this.contadorAtirando++;
         }
 
-        if (this.estado == this.estado.NORMAL && this.ultimaDirecao == this.ultimaDirecao.DIREITA && this.contadorAtirando > 100) {
+        if (this.estado == this.estado.NORMAL && this.ultimaDirecao == this.ultimaDirecao.DIREITA) {
             this.imagemAtual = this.paradoDireita;
         }
-        if (this.estado == this.estado.NORMAL && this.ultimaDirecao == this.ultimaDirecao.ESQUERDA && this.contadorAtirando > 100) {
+        if (this.estado == this.estado.NORMAL && this.ultimaDirecao == this.ultimaDirecao.ESQUERDA) {
             this.imagemAtual = this.paradoEsquerda;
         }
 
-        if (this.estaPulando() == true && this.estado == this.estado.PULANDO && this.ultimaDirecao == this.ultimaDirecao.DIREITA && this.contadorAtirando > 100) {
+        if (this.estaPulando() == true && this.estado == this.estado.PULANDO && this.ultimaDirecao == this.ultimaDirecao.DIREITA) {
             this.imagemAtual = this.puloDireita;
         }
         if (this.estaPulando() == true && this.estado == this.estado.PULANDO && this.ultimaDirecao == this.ultimaDirecao.ESQUERDA && this.contadorAtirando > 100) {
             this.imagemAtual = this.puloEsquerda;
         }
 
+
     }
 
     public void draw(Graphics g) {
-
+        
         this.imagemAtual.draw(g, this.x, this.y);
     }
 
@@ -134,7 +137,7 @@ public abstract class Personagem extends ObjetoComGravidade {
         }
 
         if (this.ultimaDirecao == Direcao.ESQUERDA) {
-            this.imagemAtual = this.puloDireita;
+            this.imagemAtual = this.puloEsquerda;
         } else {
             this.imagemAtual = this.puloDireita;
         }
@@ -192,6 +195,10 @@ public abstract class Personagem extends ObjetoComGravidade {
 
     public EstadoPersonagem getEstado() {
         return this.estado;
+    }
+
+    public void setEstado(EstadoPersonagem estado) {
+        this.estado = estado;
     }
 
     public int getColdownAtaque() {
