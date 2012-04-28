@@ -1,3 +1,4 @@
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -39,9 +40,10 @@ public class Mario extends Personagem {
             this.paradoEsquerda = new Imagem("resources/Personagens/Mario/paradoEsquerda.gif");
             this.puloDireita = new Imagem("resources/Personagens/Mario/puloDireita.png");
             this.puloEsquerda = new Imagem("resources/Personagens/Mario/puloEsquerda.png");
-
-            this.ataque3Direita = new Imagem("resources/Personagens/Mario/Ataques/marteladaDireita.gif");
-            this.ataque3Esquerda = new Imagem("resources/Personagens/Mario/Ataques/marteladaEsquerda.gif");
+            this.atacandoDireita = new Imagem("resources/Personagens/Mario/atiraDireita.png");
+            this.atacandoEsquerda = new Imagem("resources/Personagens/Mario/atiraEsquerda.png");
+            this.ataque3Direita = new Imagem("resources/Personagens/Mario/Ataques/bombaMarioDireita.png");
+            this.ataque3Esquerda = new Imagem("resources/Personagens/Mario/Ataques/bombaMarioEsquerda.png");
 
             this.imagemAtual = this.paradoDireita;
         } catch (Exception ex) {
@@ -68,14 +70,14 @@ public class Mario extends Personagem {
 
 
 
-        if (this.estado == EstadoPersonagem.ATACANDO) {
-            switch (this.ultimaDirecao) {
-                case DIREITA:
-                    this.imagemAtual = this.ataque3Direita;
-                case ESQUERDA:
-                    this.imagemAtual = this.ataque3Esquerda;
-            }
-        }
+//        if (this.estado == EstadoPersonagem.ATACANDO) {
+//            switch (this.ultimaDirecao) {
+//                case DIREITA:
+//                    this.imagemAtual = this.ataque3Direita;
+//                case ESQUERDA:
+//                    this.imagemAtual = this.ataque3Esquerda;
+//            }
+//        }
 
 
     }

@@ -40,6 +40,8 @@ public class GhostBuster extends Personagem {
             this.paradoEsquerda = new Imagem("resources/Personagens/GhostBuster/paradoEsquerda.png");
             this.puloDireita = new Imagem("resources/Personagens/GhostBuster/puloDireita.png");
             this.puloEsquerda = new Imagem("resources/Personagens/GhostBuster/puloEsquerda.png");
+            this.atacandoDireita = new Imagem("resources/Personagens/GhostBuster/atiraDireita.png");
+            this.atacandoEsquerda = new Imagem("resources/Personagens/GhostBuster/atiraEsquerda.png");
             this.imagemAtual = this.paradoDireita;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Recurso não disponível: " + ex.getMessage());

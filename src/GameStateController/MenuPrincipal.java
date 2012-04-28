@@ -14,6 +14,7 @@ import javaPlay.Sprite;
 import javax.swing.JOptionPane;
 import ghomaime.Keys;
 import ghomaime.Keys;
+import javaPlay2.Imagem;
 import javaPlayExtras.AudioPlayer;
 
 /**
@@ -22,6 +23,8 @@ import javaPlayExtras.AudioPlayer;
  */
 public class MenuPrincipal implements GameStateController{
 
+    private Imagem kaleu;
+    
     private Sprite imagem;
     private String string;
     private String musica;
@@ -34,6 +37,7 @@ public class MenuPrincipal implements GameStateController{
         
         this.string = "resources/imgtitulo.png";
         try {
+            this.kaleu = new Imagem("resources/KALEU - MESTRE NINJA SUPREMO.png");
             this.imagem = new Sprite(this.string, 1, 800, 600);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Recurso não ecnontrado: "+ex.getMessage());
@@ -65,7 +69,7 @@ public class MenuPrincipal implements GameStateController{
         g.setFont(font);
         g.drawString("P R E S S       S P A C E", 315, 470);
         
-        
+        this.kaleu.draw(g, 400, 450);
         
     }
     

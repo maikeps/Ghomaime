@@ -35,13 +35,13 @@ public class Player2 extends GameObject {
     protected Imagem imagemAtual;
     protected int cooldownAtaque;
     public boolean atacou;
-    public boolean pulando;
+    //public boolean pulando;
 
     public Player2(Personagem personagem) {
 
 
         this.atacou = false;
-        this.pulando = false;
+       // this.pulando = false;
         
         this.personagem = personagem;
         this.personagem.setDirecao(Direcao.ESQUERDA);
@@ -69,16 +69,20 @@ public class Player2 extends GameObject {
         } else {
             this.personagem.para();
         }
-        if (teclado.keyDown(Keys.P)){
+        if (teclado.keyDown(Keys.P)) {
             this.atacou = true;
+            if (this.podeAtacar()) {
+                // this.personagem.ataca();
+                this.personagem.setEstado(estado.ATACANDO);
+            }
         }
 
         if (teclado.keyDown(Keys.CIMA)) {
+
             if (this.personagem.getEstado() == this.estado.PULANDO) {
                 return;
             } else {
                 this.personagem.pula();
-                this.pulando = true;
             }
         }
         

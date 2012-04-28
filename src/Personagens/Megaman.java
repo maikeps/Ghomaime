@@ -38,7 +38,7 @@ public class Megaman extends Personagem {
             this.puloDireita = new Imagem("resources/Personagens/Megaman/puloDireita.png");
             this.puloEsquerda = new Imagem("resources/Personagens/Megaman/puloEsquerda.png");
             this.atacandoDireita = new Imagem("resources/Personagens/Megaman/atiraDireita.png");
-            this.atacandoEsquerda = new Imagem("resources/Personagens/Megaman/atiraEsquerda.gif");
+            this.atacandoEsquerda = new Imagem("resources/Personagens/Megaman/atiraEsquerda.png");
             this.imagemAtual = this.moveDireita;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Recurso não disponível: " + ex.getMessage());
