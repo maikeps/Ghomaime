@@ -31,7 +31,7 @@ public class AtkMegaman4 extends Ataque {
 
     public AtkMegaman4(int x, int y, Direcao direcao) {
 
-        this.setDano(10);
+        this.setDano(15);
         this.direcao = direcao;
         this.desativado = false;
         this.x = x;
@@ -50,8 +50,6 @@ public class AtkMegaman4 extends Ataque {
     }
 
     public void step(long timeElapsed) {
-
-
         if (this.frame >= 4) {
             return;
         }
@@ -72,17 +70,18 @@ public class AtkMegaman4 extends Ataque {
         if (this.direcao == Direcao.DIREITA) {
             this.x = this.xInicial + 30;
             this.imagem.draw(g, this.x, this.y - 60);
-        } else if (this.direcao == Direcao.ESQUERDA) {
+        }
+        if (this.direcao == Direcao.ESQUERDA) {
             this.x = this.xInicial - 876;
             this.imagem.draw(g, this.x, this.y - 60);
         }
         g.setColor(Color.WHITE);
-        g.drawRect(this.x, this.y, 876, 97);
+        g.drawRect(this.x, this.y - 35, 876, 97);
 
     }
 
     public Rectangle getRetangulo() {
-        return new Rectangle(this.x, this.y, 876, 97);
+        return new Rectangle(this.x, this.y - 35, 876, 97);
     }
 
     public boolean temColisao(Rectangle retangulo) {

@@ -27,7 +27,7 @@ import javax.swing.JOptionPane;
  * @author ariel_silveira
  */
 public class Fase1 implements GameStateController {
-
+    
     protected Imagem HPDireita;
     protected Imagem HPEsquerda;
     protected Imagem cenario1;
@@ -65,11 +65,16 @@ public class Fase1 implements GameStateController {
     //protected ArrayList<AtkGBFinal> finalGB;
     protected Player1 player1;
     protected Player2 player2;
-    protected CharacterSelect CS;
+    protected CharacterSelectTeste CS;
+    protected CharacterSelect2 CS2;
+  
+    
+    public Fase1(CharacterSelectTeste charSelect, CharacterSelect2 c2) {
+        this.CS = charSelect;
+        this.CS2 = c2;
+        this.CS.setPlayer1(CS.getPlayer1());
+    }
 
-//    public Fase1(CharacterSelect charSelect) {
-//        this.CS = charSelect;
-//    }
     public void load() {
         try {
             this.HPEsquerda = new Imagem("resources/HP bar fazendo ainda menor preto ESQUERDA.png");
@@ -85,7 +90,7 @@ public class Fase1 implements GameStateController {
             JOptionPane.showMessageDialog(null, "Recurso não encontrado: " + ex.getMessage());
             System.exit(1);
         }
-
+        
         int cenario = Util.random(6);
         switch (cenario) {
             case 1:
@@ -104,9 +109,9 @@ public class Fase1 implements GameStateController {
                 this.cenarioAtual = this.cenario5;
                 break;
         }
-
+        
         this.numExecucoesStep = 0;
-
+        
         this.atkMegaman1 = new ArrayList<AtkMegaman1>();
         this.atkMegaman2 = new ArrayList<AtkMegaman2>();
         this.atkMegaman3 = new ArrayList<AtkMegaman3>();
@@ -134,13 +139,17 @@ public class Fase1 implements GameStateController {
 //        this.player2 = new Player2(this.CS.getPlayer2());
 //        this.player1 = new Player1(this.CS.getPlayer1());
 
-        this.player1 = new Player1(mario);
-        this.player2 = new Player2(megaman);
+        this.criaPlayer1();
+        this.criaPlayer2();
+
+
+        // this.player1 = new Player1(mario);
+        //this.player2 = new Player2(megaman);
 
     }
-
+    
     public void step(long timeElapsed) {
-
+        
         if (this.player1.getVida() <= 0) {
             JOptionPane.showMessageDialog(null, "Player2 Venceu.");
             System.exit(1);
@@ -149,13 +158,13 @@ public class Fase1 implements GameStateController {
             JOptionPane.showMessageDialog(null, "Player1 Venceu.");
             System.exit(1);
         }
-
+        
         this.numExecucoesStep++;
         this.tempoSec = this.numExecucoesStep / 60;
-
+        
         this.player2.step(timeElapsed);
         this.player1.step(timeElapsed);
-
+        
         for (GameObject gameObject : this.atkMegaman1) {
             gameObject.step(timeElapsed);
         }
@@ -213,57 +222,56 @@ public class Fase1 implements GameStateController {
         for (AtkIchigo3 atk : this.atkIchigo3) {
             atk.step(timeElapsed);
         }
-
-
-
+        
+        
+        
         this.atacaMegaman();
         this.atacaMario();
         this.atacaGhostBuster();
         this.atacaIchigo();
-
-
+        
+        
         if (this.player1.personagem == this.ghostBuster) {
             this.verificaAtaquesGhostBusterAcertou(player2.getPersonagem());
         }
         if (this.player2.personagem == this.ghostBuster) {
             this.verificaAtaquesGhostBusterAcertou(player1.getPersonagem());
         }
-
+        
         if (this.player1.personagem == this.megaman) {
             this.verificaAtaquesMegamanAcertou(player2.getPersonagem());
         }
         if (this.player2.personagem == this.megaman) {
             this.verificaAtaquesMegamanAcertou(player1.getPersonagem());
         }
-
+        
         if (this.player1.personagem == this.mario) {
             this.verificaAtaquesMarioAcertou(player2.getPersonagem());
         }
         if (this.player2.personagem == this.mario) {
             this.verificaAtaquesMarioAcertou(player1.getPersonagem());
         }
-
+        
         if (this.player1.personagem == this.ichigo) {
             this.verificaAtaquesIchigoAcertou(player2.getPersonagem());
         }
         if (this.player2.personagem == this.ichigo) {
             this.verificaAtaquesIchigoAcertou(player1.getPersonagem());
         }
-
-
-
+        
+        
+        
     }
-
+    
     public void draw(Graphics g) {
 
-        //g.fillRect(0, 0, 800, 600);
+        g.fillRect(0, 0, 800, 600);
         this.cenarioAtual.draw(g, 0, 0);
-
-
-
+        
+        
         this.player1.draw(g);
         this.player2.draw(g);
-
+        
         for (GameObject gameObject : this.atkMegaman1) {
             gameObject.draw(g);
         }
@@ -321,36 +329,36 @@ public class Fase1 implements GameStateController {
         for (AtkIchigo3 atk : this.atkIchigo3) {
             atk.draw(g);
         }
-
-
         
-
+        
+        
+        
         Font font = new Font("Arial", Font.BOLD, 26);
         g.setFont(font);
         g.drawString("VS", 385, 70);
         g.drawString("" + this.tempoSec, 390, 125);
-
+        
         g.setColor(Color.white);
-        g.drawRect(8, 30, 99, 57);
-        g.drawRect(692, 30, 99, 58);
-
-
-        this.HPEsquerda.draw(g, 455, 10);
-        this.HPDireita.draw(g, -15, 10);
+//        g.drawRect(8, 30, 99, 57);
+//        g.drawRect(692, 30, 99, 58);
+        
+        
+        this.HPEsquerda.draw(g, 450, 15);
+        this.HPDireita.draw(g, -10, 15);
         this.mostraBarraVida1(g);
         this.mostraBarraVida2(g);
-
+        
     }
-
+    
     public void unload() {
     }
-
+    
     public void start() {
     }
-
+    
     public void stop() {
     }
-
+    
     public void atacaGhostBuster() {
         if (this.player1.personagem == this.ghostBuster) {
             if (this.player1.atacou == true) {
@@ -395,7 +403,7 @@ public class Fase1 implements GameStateController {
                             this.atkGB4.add(new AtkGB4());
                             this.player1.setCooldownAtaque(100);
                             break;
-
+                        
                     }
                 }
                 this.player1.atacou = false;
@@ -449,9 +457,9 @@ public class Fase1 implements GameStateController {
                 this.player2.atacou = false;
             }
         }
-
+        
     }
-
+    
     public void atacaMegaman() {
         if (this.player2.personagem == this.megaman) {
             if (this.player2.atacou == true) {
@@ -504,9 +512,9 @@ public class Fase1 implements GameStateController {
             }
         }
     }
-
+    
     public void atacaMario() {
-
+        
         if (this.player1.personagem == this.mario) {
             if (this.player1.atacou == true) {
                 if (this.player1.podeAtacar()) {
@@ -558,9 +566,9 @@ public class Fase1 implements GameStateController {
             }
         }
     }
-
+    
     public void atacaIchigo() {
-
+        
         if (this.player1.personagem == this.ichigo) {
             if (this.player1.atacou == true) {
                 if (this.player1.podeAtacar()) {
@@ -603,9 +611,9 @@ public class Fase1 implements GameStateController {
                 this.player2.atacou = false;
             }
         }
-
+        
     }
-
+    
     private void verificaAtaquesMegamanAcertou(Personagem p) {
         for (AtkMegaman1 atk1 : this.atkMegaman1) {
             if (atk1.temColisao(p.getRetangulo())) {
@@ -628,7 +636,7 @@ public class Fase1 implements GameStateController {
             }
         }
     }
-
+    
     private void verificaAtaquesMarioAcertou(Personagem p) {
         for (AtkMario1 atk1 : this.atkMario1) {
             if (atk1.temColisao(p.getRetangulo())) {
@@ -646,14 +654,14 @@ public class Fase1 implements GameStateController {
             }
         }
         for (AtkMario4 atk4 : this.atkMario4) {
-            if (atk4.temColisao(p.getRetangulo())){
-               p.perdeVida(atk4.getDano()); 
+            if (atk4.temColisao(p.getRetangulo())) {
+                p.perdeVida(atk4.getDano());                
             }
-                
+            
         }
-
+        
     }
-
+    
     private void verificaAtaquesGhostBusterAcertou(Personagem p) {
         for (AtkGB1 atk1 : this.atkGB1) {
             if (atk1.temColisao(p.getRetangulo())) {
@@ -691,7 +699,7 @@ public class Fase1 implements GameStateController {
             }
         }
     }
-
+    
     private void verificaAtaquesIchigoAcertou(Personagem p) {
         for (AtkIchigo1 atk1 : this.atkIchigo1) {
             if (atk1.temColisao(p.getRetangulo())) {
@@ -704,18 +712,73 @@ public class Fase1 implements GameStateController {
             }
         }
     }
-
+    
     public void mostraBarraVida1(Graphics g) {
         g.setColor(Color.GREEN);
-        g.fillRect(124, 81, this.player1.getVida(), 27);
-        g.setColor(Color.white);
-        g.drawRect(124, 80, this.player1.getVida(), 27);
+        g.fillRect(129, 86, this.player1.getVida() + 1, 26);
+//        g.setColor(Color.white);
+//        g.drawRect(129, 85, this.player1.getVida(), 27);
     }
-
+    
     public void mostraBarraVida2(Graphics g) {
         g.setColor(Color.GREEN);
-        g.fillRect(676 - this.player2.getVida(), 719, this.player2.getVida(), 27);
-        g.setColor(Color.white);
-        g.drawRect(676 - this.player2.getVida(), 719, this.player2.getVida(), 27);
+        g.fillRect(670 - this.player2.getVida(), 86, this.player2.getVida() + 1, 26);
+//        g.setColor(Color.white);
+//        g.drawRect(671 - this.player2.getVida(), 86, this.player2.getVida(), 27);
+    }
+    
+    public void criaPlayer1() {
+        
+       // this.player1 = new Player1(this.megaman);
+        
+        
+        //quando muda de GameState do CS pra fase1, e como se resetasse para os valores que estao no main
+        //e como se toda vez que mudasse de GameState ele rodasse o main de novo, criando tudo que esta la de novo
+
+        // ou entao a variavel CS esta vazia, so vem com os valores informados no main
+        //como se fossem dois objetos diferentes, um dizendo q player um é ICHIGO,
+        //e o outro, que é esse CS dizendo que e ABC, por causa do construtor la em cima
+        //que diz que this.player1 = p1(que vem do CS do main)...
+        
+        
+        if (this.CS.player1 == "Ichigo") {
+            this.player1 = new Player1(this.ichigo);
+        }
+        if (this.CS.getPlayer1().equals("Megaman")) {
+            this.player1 = new Player1(this.megaman);
+        }
+        if (this.CS.getPlayer1().equals("Mario")) {
+            this.player1 = new Player1(this.mario);
+        }
+        if (this.CS.getPlayer1().equals("GhostBuster")) {
+            this.player1 = new Player1(this.ghostBuster);
+        } 
+        if (this.CS.getPlayer1().equals("ABC")){
+            this.player1 = new Player1(this.megaman);
+            System.out.println("A variavel player 1 na classe da fase 1 é: " + this.CS.getPlayer1());
+        }
+    }
+
+    public void criaPlayer2() {
+
+        //this.player2 = new Player2(this.ichigo);
+        
+        if (this.CS2.getPlayer2().equals("Ichigo")) {
+            
+            this.player2 = new Player2(this.ichigo);
+        }
+        if (this.CS2.getPlayer2().equals("Megaman")) {
+            this.player2 = new Player2(this.megaman);
+        }
+        if (this.CS2.getPlayer2().equals("Mario")) {
+            this.player2 = new Player2(this.mario);
+        }
+        if (this.CS2.getPlayer2().equals("GhostBuster")) {
+            this.player2 = new Player2(this.ghostBuster);
+        }
+        if (this.CS2.getPlayer2().equals("DEF")){
+            this.player2 = new Player2(this.ichigo);
+        }
+    
     }
 }

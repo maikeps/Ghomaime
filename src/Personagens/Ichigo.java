@@ -25,9 +25,7 @@ import javax.swing.JOptionPane;
  */
 public class Ichigo extends Personagem {
 
-
     protected int contadorAtirando = 0;
-
 
     public Ichigo() {
 
@@ -40,6 +38,8 @@ public class Ichigo extends Personagem {
             this.paradoEsquerda = new Imagem("resources/Personagens/Ichigo/paradoEsquerda.gif");
             this.puloDireita = new Imagem("resources/Personagens/Ichigo/puloDireita.png");
             this.puloEsquerda = new Imagem("resources/Personagens/Ichigo/puloEsquerda.png");
+            this.atacandoDireita = new Imagem("resources/Personagens/Ichigo/AtiraDireitaTeste.png");
+            this.atacandoEsquerda = new Imagem("resources/Personagens/Ichigo/AtiraEsquerdaTeste.png");
             this.imagemAtual = this.paradoDireita;
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Recurso não disponível: " + ex.getMessage());
@@ -51,28 +51,14 @@ public class Ichigo extends Personagem {
     public void step(long timeElapsed) {
 
         super.step(timeElapsed);
-//        if (this.y > 528) {
-//            this.chegouChao();
-//            this.y = 596 - 32;
-//        }
 
-
-        //if (this.contadorAtirando >= 0) {
         this.contadorAtirando--;
-        // }
-
-        
 
 
 
 
     }
 
-    
-    
-    
-    
-    
     public void draw(Graphics g) {
         this.imagemAtual.draw(g, this.x, this.y);
     }
@@ -98,6 +84,4 @@ public class Ichigo extends Personagem {
             }
         }
     }
-
-    
 }

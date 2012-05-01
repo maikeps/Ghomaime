@@ -15,11 +15,11 @@ public class Imagem {
         int count = 0;
 
         while(image.getWidth(null) == -1) {
-            Thread.sleep(1);
+            Thread.sleep(2);
             count++;
 
             if(count == MAX_COUNT) {
-                throw new Exception("Imagem \""+filename+"\" não pode ser carregada");
+                throw new Exception("Imagem \""+filename+"\" nï¿½o pode ser carregada");
             }
         }        
     }

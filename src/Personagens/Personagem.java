@@ -46,7 +46,7 @@ public abstract class Personagem extends ObjetoComGravidade {
     Imagem atacandoEsquerda;
     public Imagem imagemAtual;
     Direcao ultimaDirecao;
-    private int controleTempoImagem;
+    public int controleTempoImagem;
 
     public Personagem() {
 
